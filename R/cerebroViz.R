@@ -12,6 +12,10 @@
 #' @param legend.toggle logical indicating if the legend bar should be visible.
 #' @param custom.names logical indicating if custom naming conventions are used for the input data. If TRUE, user should complete the mapping spreadsheet.
 #' @keywords cerebroViz
+#' @import XML
+#' @import gplots
+#' @import scales
+#' @import grDevices
 #' @export
 #' @examples
 #' x = t(apply(apply(rbind(matrix((sample(c(-400:600),260)/100),nrow=26,ncol=10),matrix(NA,nrow=4,ncol=10)),2,sample),1,sample))

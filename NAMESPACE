@@ -2,3 +2,7 @@
 
 export(cerebroScale)
 export(cerebroViz)
+import(XML)
+import(gplots)
+import(grDevices)
+import(scales)
