@@ -17,8 +17,7 @@
 #' x = t(apply(apply(rbind(matrix((sample(c(-400:600),260)/100),nrow=26,ncol=10),matrix(NA,nrow=4,ncol=10)),2,sample),1,sample))
 #' rownames(x) = c("A1C", "ACC", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
 #' cerebroViz(x, regCol=c("blue","grey","red"))
-cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c("blue","white","red"), brainCol = c("white","black"), backgroundCol="white", clamp, cross.hatch=FALSE, legend.toggle=TRUE, custom.names=FALSE){
-  #loading up packages
+cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c("blue","white","red"), brainCol = c("white","black"), backgroundCol="white", clamp=NULL, cross.hatch=FALSE, legend.toggle=TRUE, custom.names=FALSE){
   require(XML)
   require(gplots)
   require(scales)
@@ -37,15 +36,14 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   #creating the master regions vector
   regions = c("A1C", "ACC", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
 
-    #creating the vector for 'parent' regions (regions that encompass others)
-    #warn the user that their data for these regions will overwrite visualization for the subregions
+  #creating the vector for 'parent' regions (regions that encompass others)
+  #warn the user that their data for these regions will overwrite visualization for the subregions
   srg = c("BS", "FCX", "OCX", "PCX", "TCX", "STR")
   usrg = srg[srg%in%rownames(x)]
   if(length(usrg)>0){
      warning(paste("The following brain regions encompass other regions of the brain: ", paste(usrg, collapse=", "),". Subregions will be masked in the output.", sep=""))
   }
 
-  #set median,mad,min, and max for the data transformation
   xmed = median(x, na.rm=TRUE)
   xmad = mad(x, constant = 1, na.rm=TRUE)
   xmin = min(x, na.rm=TRUE)
@@ -54,7 +52,7 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
 ###################################################### S P R E A D S H E E T ###
   #spreadsheet - naming conventions
   if(custom.names==TRUE){
-    dat = read.table(system.file("extdata/map/suggestedmapping.txt"), fill=TRUE, sep="\t", header=TRUE, stringsAsFactors=FALSE, na.strings="")
+    dat = read.table(system.file("extdata/map/suggestedmapping.txt", package="cerebroViz"), fill=TRUE, sep="\t", header=TRUE, stringsAsFactors=FALSE, na.strings="")
     unknames = rownames(x)[which(rownames(x)%in%regions==FALSE)]
     for(i in 1:length(unknames)){
       unkindex = grep(unknames[i], dat[,6])
@@ -66,7 +64,7 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
 ################################################################## C L A M P ###
   #set the default clamp value ( yields no clamping)
   avoidClamp = max(abs(xmed-xmin),abs(xmed-xmax))/xmad
-  if(missing(clamp)){
+  if(clamp==NULL){
     clamp = avoidClamp+0.01
   }
   if(clamp<=0) stop("clamp must be >0")
@@ -92,7 +90,6 @@ f = colorRampPalette(regCol)
 hexVec = f(201)
 
 ############################################################ B I G   L O O P ###
-#read in xml (replace with system.file())
  lobesvg = system.file("extdata/svg/brainlobe.svg",package="cerebroViz")
  sagsvg = system.file("extdata/svg/brainsagittal.svg",package="cerebroViz")
 
