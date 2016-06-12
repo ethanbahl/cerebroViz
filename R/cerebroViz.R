@@ -172,7 +172,6 @@ cerebroScale = function(datMat, clamp){
 #' @param xmlc
 #' @param brainCol
 #' @keywords brainCol
-#' @export
 #' @examples
 #' edit.brainCol(xmlc, brainCol)
 #edit.brainCol
@@ -193,7 +192,6 @@ edit.brainCol = function(xmlc, brainCol){
 #' for each xml, get style and append cross-hatching pattern.
 #' @param xmlc
 #' @keywords cross.hatch
-#' @export
 #' @examples
 #' edit.crossHatch(xmlc)
 #edit.crossHatch
@@ -222,7 +220,6 @@ edit.crossHatch = function(xmlc){
 #' @param xmlc
 #' @param hexVec
 #' @keywords regCol
-#' @export
 #' @examples
 #' edit.regCol(tmp,xmlc,hexVec)
 #edit.regCol
@@ -262,7 +259,6 @@ edit.regCol = function(tmp, xmlc, hexVec){
 #' @param hexVec
 #' @param legend.toggle
 #' @keywords legend
-#' @export
 #' @examples
 #' edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggle)
 #edit.legend()
@@ -297,7 +293,6 @@ edit.legend = function(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggl
 #' @param xmlc
 #' @param x
 #' @keywords usrg
-#' @export
 #' @examples
 #' edit.maskReg(xmlc,x,usrg)
 #edit.maskReg
