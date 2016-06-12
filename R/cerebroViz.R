@@ -1,4 +1,4 @@
-#' A tool to visualize biological data mapped to SVG brain diagrams. ...This is a test edit...
+#' A tool to visualize biological data mapped to SVG brain diagrams.
 #'
 #' 'cerebroViz' is a data mapping tool for visualizing spatiotemporal data in the brain. The user inputs a matrix of data and the tool outputs publication quality SVG diagrams with color mapping reflective of the input data. 'cerebroViz' supports 30 brain regions used by BrainSpan, GTex, Roadmap Epigneomics, and more.
 #' @param x a matrix object containing the data to map. Rownames should reflect the appropriate brain region. Columns may represent different time points or replicates.
@@ -83,52 +83,53 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   datMat = as.matrix(datMat[order(rownames(datMat)),])
 
 ################################################## N O R M A L I Z A T I O N ###
-hexInd = cerebroScale(datMat, clamp)
+  hexInd = cerebroScale(datMat, clamp)
 
 ################################################################ H E X V E C ###
-f = colorRampPalette(regCol)
-hexVec = f(201)
+  f = colorRampPalette(regCol)
+  hexVec = f(201)
 
 ############################################################ B I G   L O O P ###
  lobesvg = system.file("extdata/svg/brainlobe.svg",package="cerebroViz")
  sagsvg = system.file("extdata/svg/brainsagittal.svg",package="cerebroViz")
 
-for(j in 1:length(timepoint)){
-#timepoint selection and filling in cross hatching for missing values
-if(ncol(x)>1) {
- tmp = hexInd[,timepoint[j]]
- } else {
-   tmp = hexInd
- }
+ for(j in 1:length(timepoint)){
+   #timepoint selection and filling in cross hatching for missing values
+   if(ncol(x)>1) {
+     tmp = hexInd[,timepoint[j]]
+   }
+   else {
+     tmp = hexInd
+   }
 
- xmll = xmlTreeParse(lobesvg, useInternalNodes=TRUE)
- xmls = xmlTreeParse(sagsvg, useInternalNodes=TRUE)
- xmlc =  c(xmll, xmls)
+   xmll = xmlTreeParse(lobesvg, useInternalNodes=TRUE)
+   xmls = xmlTreeParse(sagsvg, useInternalNodes=TRUE)
+   xmlc =  c(xmll, xmls)
 
 ############################################################ B R A I N C O L ###
-xmlc = edit.brainCol(xmlc, brainCol)
+  xmlc = edit.brainCol(xmlc, brainCol)
 
 ######################################################## C R O S S H A T C H ###
-if(cross.hatch==TRUE){
-  xmlc = edit.crossHatch(xmlc)
-}
+  if(cross.hatch==TRUE){
+    xmlc = edit.crossHatch(xmlc)
+  }
 
 ################################################################ R E G C O L ###
-xmlc = edit.regCol(tmp, xmlc, hexVec)
+  xmlc = edit.regCol(tmp, xmlc, hexVec)
 
 ############################################################## M A S K R E G ###
-xmlc = edit.maskReg(xmlc, x, usrg)
+  xmlc = edit.maskReg(xmlc, x, usrg)
 
 ################################################################ L E G E N D ###
-xmlc = edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggle)
+  xmlc = edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggle)
 
 ############################################################## S A V E X M L ###
-xmll = xmlc[1][[1]]
-xmls = xmlc[2][[1]]
-saveXML(xmll, paste(outfile,"_outer_",timepoint[j],".svg",sep=""))
-saveXML(xmls, paste(outfile,"_slice_",timepoint[j],".svg",sep=""))
-print("Success! Your diagrams have been saved.")
-}
+  xmll = xmlc[1][[1]]
+  xmls = xmlc[2][[1]]
+  saveXML(xmll, paste(outfile,"_outer_",timepoint[j],".svg",sep=""))
+  saveXML(xmls, paste(outfile,"_slice_",timepoint[j],".svg",sep=""))
+  print("Success! Your diagrams have been saved.")
+  }
 }
 
 #' A data scaling function used by cerebroViz()
