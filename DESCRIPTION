@@ -1,0 +1,15 @@
+Package: cerebroViz
+Title: Visualization of biological data mapped to SVG brain diagrams.
+Version: 1.0
+Authors@R: person("Ethan", "Bahl", email = "ethan-bahl@uiowa.edu", role = c("aut", "cre"))
+Description: 'cerebroViz' is a data mapping tool for visualizing spatiotemporal
+    data in the brain. The user inputs a matrix of data and the tool outputs
+    publication quality SVG diagrams with color mapping reflective of the input
+    data. 'cerebroViz' supports 30 brain regions used by BrainSpan, GTex, Roadmap
+    Epigneomics, and more.
+Depends:
+    R (>= 3.3.0)
+License: GPL (>= 2)
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 5.0.1
