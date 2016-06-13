@@ -4,7 +4,7 @@
 \alias{edit.regCol}
 \title{a function used by cerebroViz() to map input data to brain regions.}
 \usage{
-\method{edit}{regCol}(tmp, xmlc, hexVec)
+\method{edit}{regCol}(tmp, xmlc, hexVec, cross.hatch)
 }
 \description{
 for each xml, add the appropriate fill attributes for each region

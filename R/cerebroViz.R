@@ -7,6 +7,7 @@
 #' @param regCol a character vector of colors to use in the visualization. Accepts color names, hex values, and RGB values. For sequential data, it is recommended to use two colors. Three colors, with a neutral color in the middle, are suggested for divergent data.
 #' @param brainCol a character vector of length two specifying colors for the outline and background of the brain.
 #' @param backgroundCol a character vector of length one specifying the color of the SVG background.
+#' @param divergent.data logical indicating if input data is divergent in nature. Default assumes data is sequential.
 #' @param clamp a numeric vector of length one specifying the value to multiply by MAD to determine outliers that will be 'clamped' down to prevent skewed visualizations.
 #' @param cross.hatch logical indicating if regions lacking data should be cross-hatched to differentiate them from the brain's background.
 #' @param legend.toggle logical indicating if the legend bar should be visible.
@@ -21,7 +22,7 @@
 #' x = t(apply(apply(rbind(matrix((sample(c(-400:600),260)/100),nrow=26,ncol=10),matrix(NA,nrow=4,ncol=10)),2,sample),1,sample))
 #' rownames(x) = c("A1C", "ACC", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
 #' cerebroViz(x, regCol=c("blue","grey","red"))
-cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c("blue","white","red"), brainCol = c("white","black"), backgroundCol="white", clamp=NULL, cross.hatch=FALSE, legend.toggle=TRUE, custom.names=FALSE){
+cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c("blue","grey","red"), brainCol = c("white","black"), backgroundCol="white", divergent.data=TRUE, clamp=NULL, cross.hatch=FALSE, legend.toggle=TRUE, custom.names=FALSE){
   require(XML)
   require(gplots)
   require(scales)
@@ -35,6 +36,9 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   if(sum(timepoint%%1!=0)) stop("'timepoint' invalid")
   if(length(brainCol)!=2) stop("'brainCol' must have length 2")
   if(length(backgroundCol)!=1) stop("'backgroundCol' must have length 1")
+  if(length(regCol)==3 & divergent.data==FALSE | length(regCol)==2 & divergent.data==TRUE){
+    warning("recommended usage: 2 colors (regCol) for sequential data and 3 colors for divergent data.")
+  }
 
 #################################################### R E G I O N   S E T U P ###
   #creating the master regions vector
@@ -86,7 +90,7 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   datMat = as.matrix(datMat[order(rownames(datMat)),])
 
 ################################################## N O R M A L I Z A T I O N ###
-  hexInd = cerebroScale(datMat, clamp, xmed, xmad)
+  hexInd = cerebroScale(datMat, clamp, xmed, xmad, divergent.data)
 
 ################################################################ H E X V E C ###
   f = colorRampPalette(regCol)
@@ -114,17 +118,17 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
 
 ######################################################## C R O S S H A T C H ###
   if(cross.hatch==TRUE){
-    xmlc = edit.crossHatch(xmlc)
+    xmlc = edit.crossHatch(xmlc, tmp)
   }
 
 ################################################################ R E G C O L ###
-  xmlc = edit.regCol(tmp, xmlc, hexVec)
+  xmlc = edit.regCol(tmp, xmlc, hexVec, cross.hatch)
 
 ############################################################## M A S K R E G ###
   xmlc = edit.maskReg(xmlc, x, usrg)
 
 ################################################################ L E G E N D ###
-  xmlc = edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggle)
+  xmlc = edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggle, divergent.data)
 
 ############################################################## S A V E X M L ###
   xmll = xmlc[1][[1]]
@@ -142,28 +146,34 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
 #' @param clamp
 #' @param xmed
 #' @param xmad
+#' @param divergent.data
 #' @keywords scale
 #' @export
 #' @examples
-#' cerebroScale(datMat,clamp)
-cerebroScale = function(datMat, clamp, xmed, xmad){
+#' cerebroScale(datMat,clamp,xmed,xmad,divergent.data)
+cerebroScale = function(datMat, clamp, xmed, xmad, divergent.data){
   tmp = datMat
   ol = clamp*xmad
-  abvmed = tmp[datMat>=xmed & datMat<=(xmed+ol) & !is.na(datMat)]
-  belmed = tmp[datMat<=xmed & datMat>=(xmed-ol) & !is.na(datMat)]
-  if(length(which(!is.na(tmp))) %% 2 == 0){ #imputing median if even number of data points
-    rsc = round(rescale(c(xmed,abvmed),c(101,201)))[-1]
-    tmp[datMat>=xmed & datMat<=(xmed+ol) & !is.na(datMat)] = rsc
-    lsc = round(rescale(c(xmed,belmed),c(1,101)))[-1]
-    tmp[datMat<=xmed & datMat>=(xmed-ol) & !is.na(datMat)] = lsc
-    hexInd = tmp
+  if(divergent.data==TRUE){
+    abvmed = tmp[datMat>=xmed & datMat<=(xmed+ol) & !is.na(datMat)]
+    belmed = tmp[datMat<=xmed & datMat>=(xmed-ol) & !is.na(datMat)]
+    if(length(which(!is.na(tmp))) %% 2 == 0){ #imputing median if even number of data points
+      rsc = round(rescale(c(xmed,abvmed),c(101,201)))[-1]
+      tmp[datMat>=xmed & datMat<=(xmed+ol) & !is.na(datMat)] = rsc
+      lsc = round(rescale(c(xmed,belmed),c(1,101)))[-1]
+      tmp[datMat<=xmed & datMat>=(xmed-ol) & !is.na(datMat)] = lsc
+      hexInd = tmp
+    }
+    if((length(which(!is.na(tmp)))) %% 2 == 1){
+      rsc = round(rescale(abvmed,c(101,201)))
+      tmp[datMat>=xmed & datMat<=(xmed+ol) & !is.na(datMat)] = rsc
+      lsc = round(rescale(belmed,c(1,101)))
+      tmp[datMat<=xmed & datMat>=(xmed-ol) & !is.na(datMat)] = lsc
+      hexInd = tmp
+    }
   }
-  if((length(which(!is.na(tmp)))) %% 2 == 1){
-    rsc = round(rescale(abvmed,c(101,201)))
-    tmp[datMat>=xmed & datMat<=(xmed+ol) & !is.na(datMat)] = rsc
-    lsc = round(rescale(belmed,c(1,101)))
-    tmp[datMat<=xmed & datMat>=(xmed-ol) & !is.na(datMat)] = lsc
-    hexInd = tmp
+  if(divergent.data==FALSE){
+      hexInd = round(rescale(datMat, to=c(1, 201), from=range(datMat, na.rm=TRUE, finite=TRUE)))
   }
   return(hexInd)
 }
@@ -193,13 +203,14 @@ edit.brainCol = function(xmlc, brainCol){
 #'
 #' for each xml, get style and append cross-hatching pattern.
 #' @param xmlc
+#' @param tmp
 #' @keywords cross.hatch
 #' @examples
 #' edit.crossHatch(xmlc)
 #edit.crossHatch
-edit.crossHatch = function(xmlc){
+edit.crossHatch = function(xmlc, tmp){
   nhatch = names(tmp[which(is.na(tmp))])
-  if("STR"%in%nhatch & "CAU"%in%nhatch==FALSE | "PUT"%in%nhatch==FALSE){
+  if("STR"%in%nhatch & ("CAU"%in%nhatch==FALSE | "PUT"%in%nhatch==FALSE)){
     nhatch = nhatch[-(which(nhatch=="STR"))]
   }
   for(k in 1:length(xmlc)){
@@ -221,11 +232,12 @@ edit.crossHatch = function(xmlc){
 #' @param tmp
 #' @param xmlc
 #' @param hexVec
+#' @param cross.hatch
 #' @keywords regCol
 #' @examples
 #' edit.regCol(tmp,xmlc,hexVec)
 #edit.regCol
-edit.regCol = function(tmp, xmlc, hexVec){
+edit.regCol = function(tmp, xmlc, hexVec, cross.hatch){
   nfill = tmp[which(!is.na(tmp))]
   for(k in 1:length(xmlc)){
     for(m in 1:length(nfill)){
@@ -236,13 +248,15 @@ edit.regCol = function(tmp, xmlc, hexVec){
       }
     }
   }
-  nhatch = tmp[which(is.na(tmp))]
-  for(k in 1:length(xmlc)){
-    for(m in 1:length(nhatch)){
-      node = getNodeSet(xmlc[k][[1]], paste("//*[@id='",names(nhatch)[m],"']",sep=""))[1]
-      if(is.null(node[[1]])==FALSE){
-        removeAttributes(node[[1]], "fill-opacity")
-        addAttributes(node[[1]], "fill-opacity"=0)
+  if(cross.hatch==FALSE){
+    nhatch = tmp[which(is.na(tmp))]
+    for(k in 1:length(xmlc)){
+      for(m in 1:length(nhatch)){
+        node = getNodeSet(xmlc[k][[1]], paste("//*[@id='",names(nhatch)[m],"']",sep=""))[1]
+        if(is.null(node[[1]])==FALSE){
+          removeAttributes(node[[1]], "fill-opacity")
+          addAttributes(node[[1]], "fill-opacity"=0)
+        }
       }
     }
   }
@@ -260,11 +274,12 @@ edit.regCol = function(tmp, xmlc, hexVec){
 #' @param xmlc
 #' @param hexVec
 #' @param legend.toggle
+#' @param divergent.data
 #' @keywords legend
 #' @examples
 #' edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggle)
 #edit.legend()
-edit.legend = function(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggle){
+edit.legend = function(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggle, divergent.data){
   labmin = round(max(xmin, (xmed-(clamp*xmad))),3)
   labmax = round(min(xmax, (xmed+(clamp*xmad))),3)
   labmed = round(xmed, 3)
@@ -279,6 +294,10 @@ edit.legend = function(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggl
       node = getNodeSet(xmlc[k][[1]], "//*[@class='legendLabel']")[[m]]
       nv = paste("\n",labels[m],"\n", sep="")
       xmlValue(node) = nv
+      if(divergent.data==FALSE & m==2){
+        nv = paste("\n","\n",sep="")
+        xmlValue(node) = nv
+      }
     }
     if(legend.toggle==FALSE){
       node = getNodeSet(xmlc[k][[1]], "//*[@class='legendBar']")[[1]]
