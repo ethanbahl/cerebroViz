@@ -4,7 +4,7 @@
 \alias{edit.crossHatch}
 \title{a function used by cerebroViz() to add cross-hatching to regions with missing data.}
 \usage{
-\method{edit}{crossHatch}(xmlc)
+\method{edit}{crossHatch}(xmlc, tmp)
 }
 \description{
 for each xml, get style and append cross-hatching pattern.

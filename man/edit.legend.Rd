@@ -5,7 +5,7 @@
 \title{a function used by cerebroViz() to edit the legend.}
 \usage{
 \method{edit}{legend}(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec,
-  legend.toggle)
+  legend.toggle, divergent.data)
 }
 \description{
 for each xml, map the appropriate colors to the legend
