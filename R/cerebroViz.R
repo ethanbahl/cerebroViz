@@ -287,7 +287,7 @@ edit.legend = function(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggl
       node = getNodeSet(xmlc[k][[1]], "//*[@class='legendLabel']")[[m]]
       nv = paste("\n",labels[m],"\n", sep="")
       xmlValue(node) = nv
-      if(divergent.data==FALSE & m=2){
+      if(divergent.data==FALSE & m==2){
         nv = paste("\n","\n",sep="")
         xmlValue(node) = nv
       }
