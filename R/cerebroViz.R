@@ -140,30 +140,29 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
 #' This function scales the data passed to cerebroViz and translates data points to color values.
 #' @param datMat
 #' @param clamp
+#' @param xmed
+#' @param xmad
 #' @keywords scale
 #' @export
 #' @examples
 #' cerebroScale(datMat,clamp)
-cerebroScale = function(datMat, clamp){
-  #turn datMat into m
-  m = datMat
-  med = median(m, na.rm = TRUE)
-  ol = clamp*(mad(m[!is.na(m)] ,constant=1))
-  tmp = m
-  abvmed = tmp[m>=med & m<=(med+ol) & !is.na(m)]
-  bemed = tmp[m<=med & m>=(med-ol) & !is.na(m)]
-  if((length(which(!is.na(tmp)))) %% 2 == 0){ #imputing median if even number of data points
-    rsc = round(rescale(c(med,abvmed),c(101,201)))[-1]
-    tmp[tmp>=med & tmp<=(med+ol) & !is.na(tmp)] = rsc
-    lsc = round(rescale(c(med,bemed),c(1,101)))[-1]
-    tmp[tmp<=med & tmp>=(med-ol) & !is.na(tmp)] = lsc
+cerebroScale = function(datMat, clamp, xmed, xmad){
+  tmp = datMat
+  ol = clamp*xmad
+  abvmed = tmp[datMat>=xmed & datMat<=(xmed+ol) & !is.na(datMat)]
+  belmed = tmp[datMat<=xmed & datMat>=(xmed-ol) & !is.na(datMat)]
+  if(length(which(!is.na(tmp))) %% 2 == 0){ #imputing median if even number of data points
+    rsc = round(rescale(c(xmed,abvmed),c(101,201)))[-1]
+    tmp[datMat>=xmed & datMat<=(xmed+ol) & !is.na(datMat)] = rsc
+    lsc = round(rescale(c(xmed,belmed),c(1,101)))[-1]
+    tmp[datMat<=xmed & datMat>=(xmed-ol) & !is.na(datMat)] = lsc
     hexInd = tmp
   }
   if((length(which(!is.na(tmp)))) %% 2 == 1){
     rsc = round(rescale(abvmed,c(101,201)))
-    tmp[m>=med & m<=(med+ol) & !is.na(m)] = rsc
-    lsc = round(rescale(bemed,c(1,101)))
-    tmp[m<=med & m>=(med-ol) & !is.na(m)] = lsc
+    tmp[datMat>=xmed & datMat<=(xmed+ol) & !is.na(datMat)] = rsc
+    lsc = round(rescale(belmed,c(1,101)))
+    tmp[datMat<=xmed & datMat>=(xmed-ol) & !is.na(datMat)] = lsc
     hexInd = tmp
   }
   return(hexInd)
