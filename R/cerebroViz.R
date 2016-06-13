@@ -122,7 +122,7 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   }
 
 ################################################################ R E G C O L ###
-  xmlc = edit.regCol(tmp, xmlc, hexVec)
+  xmlc = edit.regCol(tmp, xmlc, hexVec, cross.hatch)
 
 ############################################################## M A S K R E G ###
   xmlc = edit.maskReg(xmlc, x, usrg)
@@ -232,11 +232,12 @@ edit.crossHatch = function(xmlc, tmp){
 #' @param tmp
 #' @param xmlc
 #' @param hexVec
+#' @param cross.hatch
 #' @keywords regCol
 #' @examples
 #' edit.regCol(tmp,xmlc,hexVec)
 #edit.regCol
-edit.regCol = function(tmp, xmlc, hexVec){
+edit.regCol = function(tmp, xmlc, hexVec, cross.hatch){
   nfill = tmp[which(!is.na(tmp))]
   for(k in 1:length(xmlc)){
     for(m in 1:length(nfill)){
@@ -247,13 +248,15 @@ edit.regCol = function(tmp, xmlc, hexVec){
       }
     }
   }
-  nhatch = tmp[which(is.na(tmp))]
-  for(k in 1:length(xmlc)){
-    for(m in 1:length(nhatch)){
-      node = getNodeSet(xmlc[k][[1]], paste("//*[@id='",names(nhatch)[m],"']",sep=""))[1]
-      if(is.null(node[[1]])==FALSE){
-        removeAttributes(node[[1]], "fill-opacity")
-        addAttributes(node[[1]], "fill-opacity"=0)
+  if(cross.hatch==FALSE){
+    nhatch = tmp[which(is.na(tmp))]
+    for(k in 1:length(xmlc)){
+      for(m in 1:length(nhatch)){
+        node = getNodeSet(xmlc[k][[1]], paste("//*[@id='",names(nhatch)[m],"']",sep=""))[1]
+        if(is.null(node[[1]])==FALSE){
+          removeAttributes(node[[1]], "fill-opacity")
+          addAttributes(node[[1]], "fill-opacity"=0)
+        }
       }
     }
   }
