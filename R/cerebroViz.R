@@ -7,6 +7,7 @@
 #' @param regCol a character vector of colors to use in the visualization. Accepts color names, hex values, and RGB values. For sequential data, it is recommended to use two colors. Three colors, with a neutral color in the middle, are suggested for divergent data.
 #' @param brainCol a character vector of length two specifying colors for the outline and background of the brain.
 #' @param backgroundCol a character vector of length one specifying the color of the SVG background.
+#' @param divergent.data logical indicating if input data is divergent in nature. Default assumes data is sequential.
 #' @param clamp a numeric vector of length one specifying the value to multiply by MAD to determine outliers that will be 'clamped' down to prevent skewed visualizations.
 #' @param cross.hatch logical indicating if regions lacking data should be cross-hatched to differentiate them from the brain's background.
 #' @param legend.toggle logical indicating if the legend bar should be visible.
@@ -21,7 +22,7 @@
 #' x = t(apply(apply(rbind(matrix((sample(c(-400:600),260)/100),nrow=26,ncol=10),matrix(NA,nrow=4,ncol=10)),2,sample),1,sample))
 #' rownames(x) = c("A1C", "ACC", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
 #' cerebroViz(x, regCol=c("blue","grey","red"))
-cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c("blue","white","red"), brainCol = c("white","black"), backgroundCol="white", clamp=NULL, cross.hatch=FALSE, legend.toggle=TRUE, custom.names=FALSE){
+cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c("blue","white","red"), brainCol = c("white","black"), backgroundCol="white", divergent.data=FALSE, clamp=NULL, cross.hatch=FALSE, legend.toggle=TRUE, custom.names=FALSE){
   require(XML)
   require(gplots)
   require(scales)
@@ -86,7 +87,7 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   datMat = as.matrix(datMat[order(rownames(datMat)),])
 
 ################################################## N O R M A L I Z A T I O N ###
-  hexInd = cerebroScale(datMat, clamp, xmed, xmad)
+  hexInd = cerebroScale(datMat, clamp, xmed, xmad, divergent.data)
 
 ################################################################ H E X V E C ###
   f = colorRampPalette(regCol)
@@ -142,28 +143,34 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
 #' @param clamp
 #' @param xmed
 #' @param xmad
+#' @param divergent.data
 #' @keywords scale
 #' @export
 #' @examples
-#' cerebroScale(datMat,clamp)
-cerebroScale = function(datMat, clamp, xmed, xmad){
+#' cerebroScale(datMat,clamp,xmed,xmad,divergent.data)
+cerebroScale = function(datMat, clamp, xmed, xmad, divergent.data){
   tmp = datMat
   ol = clamp*xmad
-  abvmed = tmp[datMat>=xmed & datMat<=(xmed+ol) & !is.na(datMat)]
-  belmed = tmp[datMat<=xmed & datMat>=(xmed-ol) & !is.na(datMat)]
-  if(length(which(!is.na(tmp))) %% 2 == 0){ #imputing median if even number of data points
-    rsc = round(rescale(c(xmed,abvmed),c(101,201)))[-1]
-    tmp[datMat>=xmed & datMat<=(xmed+ol) & !is.na(datMat)] = rsc
-    lsc = round(rescale(c(xmed,belmed),c(1,101)))[-1]
-    tmp[datMat<=xmed & datMat>=(xmed-ol) & !is.na(datMat)] = lsc
-    hexInd = tmp
+  if(divergent.data==TRUE){
+    abvmed = tmp[datMat>=xmed & datMat<=(xmed+ol) & !is.na(datMat)]
+    belmed = tmp[datMat<=xmed & datMat>=(xmed-ol) & !is.na(datMat)]
+    if(length(which(!is.na(tmp))) %% 2 == 0){ #imputing median if even number of data points
+      rsc = round(rescale(c(xmed,abvmed),c(101,201)))[-1]
+      tmp[datMat>=xmed & datMat<=(xmed+ol) & !is.na(datMat)] = rsc
+      lsc = round(rescale(c(xmed,belmed),c(1,101)))[-1]
+      tmp[datMat<=xmed & datMat>=(xmed-ol) & !is.na(datMat)] = lsc
+      hexInd = tmp
+    }
+    if((length(which(!is.na(tmp)))) %% 2 == 1){
+      rsc = round(rescale(abvmed,c(101,201)))
+      tmp[datMat>=xmed & datMat<=(xmed+ol) & !is.na(datMat)] = rsc
+      lsc = round(rescale(belmed,c(1,101)))
+      tmp[datMat<=xmed & datMat>=(xmed-ol) & !is.na(datMat)] = lsc
+      hexInd = tmp
+    }
   }
-  if((length(which(!is.na(tmp)))) %% 2 == 1){
-    rsc = round(rescale(abvmed,c(101,201)))
-    tmp[datMat>=xmed & datMat<=(xmed+ol) & !is.na(datMat)] = rsc
-    lsc = round(rescale(belmed,c(1,101)))
-    tmp[datMat<=xmed & datMat>=(xmed-ol) & !is.na(datMat)] = lsc
-    hexInd = tmp
+  if(divergent.data==FALSE){
+      hexInd = round(rescale(datMat, to=c(1, 201), from=range(datMat, na.rm=TRUE, finite=TRUE)))
   }
   return(hexInd)
 }
