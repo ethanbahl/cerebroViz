@@ -4,13 +4,13 @@
 \alias{cerebroScale}
 \title{A data scaling function used by cerebroViz()}
 \usage{
-cerebroScale(datMat, clamp, xmed, xmad)
+cerebroScale(datMat, clamp, xmed, xmad, divergent.data)
 }
 \description{
 This function scales the data passed to cerebroViz and translates data points to color values.
 }
 \examples{
-cerebroScale(datMat,clamp)
+cerebroScale(datMat,clamp,xmed,xmad,divergent.data)
 }
 \keyword{scale}
 
