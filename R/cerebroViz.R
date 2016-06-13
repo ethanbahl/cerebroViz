@@ -66,16 +66,15 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   }
 
 ################################################################## C L A M P ###
-  #set the default clamp value ( yields no clamping)
+  #set the default clamp value (no clamping)
   avoidClamp = max(abs(xmed-xmin),abs(xmed-xmax))/xmad
-  if(clamp==NULL){
-    clamp = avoidClamp+0.01
+  if(is.null(clamp)){
+    clamp = avoidClamp+.01
   }
   if(clamp<=0) stop("clamp must be >0")
   pctOL = round(length(which(x<=(xmed-(clamp*xmad)) | x>=(xmed+(clamp*xmad))))/length(x)*100,2)
   if(pctOL>0){
-    warning(paste("The specified clamp value of ", clamp," will clamp ",pctOL,"% of your input values (outliers) to the minimum/maximum colors. As a result, the minimum and maximum values displayed on the figure legends will represent the value to which outliers are clamped to. Please note the default clamp value is 10. To avoid any clamping with your input data, use clamp > ",round(avoidClamp,2),". A summary of your data is printed above.", sep=""))
-    print(summary(c(x)))
+    warning(paste("The clamp value of ", clamp," will clamp ",pctOL,"% of input values (outliers) to the minimum/maximum colors. Minimum and maximum values displayed on figure legends represent the values outliers are clamped to.", sep=""))
   }
 
 ################################################################ D A T M A T ###
