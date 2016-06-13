@@ -125,7 +125,7 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   xmlc = edit.maskReg(xmlc, x, usrg)
 
 ################################################################ L E G E N D ###
-  xmlc = edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggle)
+  xmlc = edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggle, divergent.data)
 
 ############################################################## S A V E X M L ###
   xmll = xmlc[1][[1]]
@@ -267,11 +267,12 @@ edit.regCol = function(tmp, xmlc, hexVec){
 #' @param xmlc
 #' @param hexVec
 #' @param legend.toggle
+#' @param divergent.data
 #' @keywords legend
 #' @examples
 #' edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggle)
 #edit.legend()
-edit.legend = function(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggle){
+edit.legend = function(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggle, divergent.data){
   labmin = round(max(xmin, (xmed-(clamp*xmad))),3)
   labmax = round(min(xmax, (xmed+(clamp*xmad))),3)
   labmed = round(xmed, 3)
@@ -286,6 +287,10 @@ edit.legend = function(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggl
       node = getNodeSet(xmlc[k][[1]], "//*[@class='legendLabel']")[[m]]
       nv = paste("\n",labels[m],"\n", sep="")
       xmlValue(node) = nv
+      if(divergent.data==FALSE & m=2){
+        nv = paste("\n","\n",sep="")
+        xmlValue(node) = nv
+      }
     }
     if(legend.toggle==FALSE){
       node = getNodeSet(xmlc[k][[1]], "//*[@class='legendBar']")[[1]]
