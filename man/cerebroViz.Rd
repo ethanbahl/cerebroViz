@@ -6,7 +6,7 @@
 \usage{
 cerebroViz(x, timepoint = 1, outfile = "cerebroViz_output",
   regCol = c("blue", "grey", "red"), brainCol = c("white", "black"),
-  backgroundCol = "white", divergent.data = FALSE, clamp = NULL,
+  backgroundCol = "white", divergent.data = TRUE, clamp = NULL,
   cross.hatch = FALSE, legend.toggle = TRUE, custom.names = FALSE)
 }
 \arguments{
