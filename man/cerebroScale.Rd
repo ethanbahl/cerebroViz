@@ -4,7 +4,7 @@
 \alias{cerebroScale}
 \title{A data scaling function used by cerebroViz()}
 \usage{
-cerebroScale(datMat, clamp)
+cerebroScale(datMat, clamp, xmed, xmad)
 }
 \description{
 This function scales the data passed to cerebroViz and translates data points to color values.
