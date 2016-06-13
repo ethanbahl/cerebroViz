@@ -86,7 +86,7 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   datMat = as.matrix(datMat[order(rownames(datMat)),])
 
 ################################################## N O R M A L I Z A T I O N ###
-  hexInd = cerebroScale(datMat, clamp)
+  hexInd = cerebroScale(datMat, clamp, xmed, xmad)
 
 ################################################################ H E X V E C ###
   f = colorRampPalette(regCol)
