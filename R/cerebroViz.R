@@ -36,6 +36,9 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   if(sum(timepoint%%1!=0)) stop("'timepoint' invalid")
   if(length(brainCol)!=2) stop("'brainCol' must have length 2")
   if(length(backgroundCol)!=1) stop("'backgroundCol' must have length 1")
+  if(length(regCol)==3 & divergent.data==FALSE | length(regCol)==2 & divergent.data==TRUE){
+    warning("recommended usage: 2 colors (regCol) for sequential data and 3 colors for divergent data.")
+  }
 
 #################################################### R E G I O N   S E T U P ###
   #creating the master regions vector
