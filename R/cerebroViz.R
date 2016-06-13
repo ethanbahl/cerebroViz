@@ -1,4 +1,4 @@
-#' A tool to visualize biological data mapped to SVG brain diagrams. ...This is a test edit...
+#' A tool to visualize biological data mapped to SVG brain diagrams.
 #'
 #' 'cerebroViz' is a data mapping tool for visualizing spatiotemporal data in the brain. The user inputs a matrix of data and the tool outputs publication quality SVG diagrams with color mapping reflective of the input data. 'cerebroViz' supports 30 brain regions used by BrainSpan, GTex, Roadmap Epigneomics, and more.
 #' @param x a matrix object containing the data to map. Rownames should reflect the appropriate brain region. Columns may represent different time points or replicates.
@@ -12,6 +12,10 @@
 #' @param legend.toggle logical indicating if the legend bar should be visible.
 #' @param custom.names logical indicating if custom naming conventions are used for the input data. If TRUE, user should complete the mapping spreadsheet.
 #' @keywords cerebroViz
+#' @import XML
+#' @import gplots
+#' @import scales
+#' @import grDevices
 #' @export
 #' @examples
 #' x = t(apply(apply(rbind(matrix((sample(c(-400:600),260)/100),nrow=26,ncol=10),matrix(NA,nrow=4,ncol=10)),2,sample),1,sample))
@@ -62,16 +66,15 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   }
 
 ################################################################## C L A M P ###
-  #set the default clamp value ( yields no clamping)
+  #set the default clamp value (no clamping)
   avoidClamp = max(abs(xmed-xmin),abs(xmed-xmax))/xmad
-  if(clamp==NULL){
-    clamp = avoidClamp+0.01
+  if(is.null(clamp)){
+    clamp = avoidClamp+.01
   }
   if(clamp<=0) stop("clamp must be >0")
   pctOL = round(length(which(x<=(xmed-(clamp*xmad)) | x>=(xmed+(clamp*xmad))))/length(x)*100,2)
   if(pctOL>0){
-    warning(paste("The specified clamp value of ", clamp," will clamp ",pctOL,"% of your input values (outliers) to the minimum/maximum colors. As a result, the minimum and maximum values displayed on the figure legends will represent the value to which outliers are clamped to. Please note the default clamp value is 10. To avoid any clamping with your input data, use clamp > ",round(avoidClamp,2),". A summary of your data is printed above.", sep=""))
-    print(summary(c(x)))
+    warning(paste("The clamp value of ", clamp," will clamp ",pctOL,"% of input values (outliers) to the minimum/maximum colors. Minimum and maximum values displayed on figure legends represent the values outliers are clamped to.", sep=""))
   }
 
 ################################################################ D A T M A T ###
@@ -83,52 +86,53 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   datMat = as.matrix(datMat[order(rownames(datMat)),])
 
 ################################################## N O R M A L I Z A T I O N ###
-hexInd = cerebroScale(datMat, clamp)
+  hexInd = cerebroScale(datMat, clamp, xmed, xmad)
 
 ################################################################ H E X V E C ###
-f = colorRampPalette(regCol)
-hexVec = f(201)
+  f = colorRampPalette(regCol)
+  hexVec = f(201)
 
 ############################################################ B I G   L O O P ###
  lobesvg = system.file("extdata/svg/brainlobe.svg",package="cerebroViz")
  sagsvg = system.file("extdata/svg/brainsagittal.svg",package="cerebroViz")
 
-for(j in 1:length(timepoint)){
-#timepoint selection and filling in cross hatching for missing values
-if(ncol(x)>1) {
- tmp = hexInd[,timepoint[j]]
- } else {
-   tmp = hexInd
- }
+ for(j in 1:length(timepoint)){
+   #timepoint selection and filling in cross hatching for missing values
+   if(ncol(x)>1) {
+     tmp = hexInd[,timepoint[j]]
+   }
+   else {
+     tmp = hexInd
+   }
 
- xmll = xmlTreeParse(lobesvg, useInternalNodes=TRUE)
- xmls = xmlTreeParse(sagsvg, useInternalNodes=TRUE)
- xmlc =  c(xmll, xmls)
+   xmll = xmlTreeParse(lobesvg, useInternalNodes=TRUE)
+   xmls = xmlTreeParse(sagsvg, useInternalNodes=TRUE)
+   xmlc =  c(xmll, xmls)
 
 ############################################################ B R A I N C O L ###
-xmlc = edit.brainCol(xmlc, brainCol)
+  xmlc = edit.brainCol(xmlc, brainCol)
 
 ######################################################## C R O S S H A T C H ###
-if(cross.hatch==TRUE){
-  xmlc = edit.crossHatch(xmlc)
-}
+  if(cross.hatch==TRUE){
+    xmlc = edit.crossHatch(xmlc)
+  }
 
 ################################################################ R E G C O L ###
-xmlc = edit.regCol(tmp, xmlc, hexVec)
+  xmlc = edit.regCol(tmp, xmlc, hexVec)
 
 ############################################################## M A S K R E G ###
-xmlc = edit.maskReg(xmlc, x, usrg)
+  xmlc = edit.maskReg(xmlc, x, usrg)
 
 ################################################################ L E G E N D ###
-xmlc = edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggle)
+  xmlc = edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggle)
 
 ############################################################## S A V E X M L ###
-xmll = xmlc[1][[1]]
-xmls = xmlc[2][[1]]
-saveXML(xmll, paste(outfile,"_outer_",timepoint[j],".svg",sep=""))
-saveXML(xmls, paste(outfile,"_slice_",timepoint[j],".svg",sep=""))
-print("Success! Your diagrams have been saved.")
-}
+  xmll = xmlc[1][[1]]
+  xmls = xmlc[2][[1]]
+  saveXML(xmll, paste(outfile,"_outer_",timepoint[j],".svg",sep=""))
+  saveXML(xmls, paste(outfile,"_slice_",timepoint[j],".svg",sep=""))
+  print("Success! Your diagrams have been saved.")
+  }
 }
 
 #' A data scaling function used by cerebroViz()
@@ -136,30 +140,29 @@ print("Success! Your diagrams have been saved.")
 #' This function scales the data passed to cerebroViz and translates data points to color values.
 #' @param datMat
 #' @param clamp
+#' @param xmed
+#' @param xmad
 #' @keywords scale
 #' @export
 #' @examples
 #' cerebroScale(datMat,clamp)
-cerebroScale = function(datMat, clamp){
-  #turn datMat into m
-  m = datMat
-  med = median(m, na.rm = TRUE)
-  ol = clamp*(mad(m[!is.na(m)] ,constant=1))
-  tmp = m
-  abvmed = tmp[m>=med & m<=(med+ol) & !is.na(m)]
-  bemed = tmp[m<=med & m>=(med-ol) & !is.na(m)]
-  if((length(which(!is.na(tmp)))) %% 2 == 0){ #imputing median if even number of data points
-    rsc = round(rescale(c(med,abvmed),c(101,201)))[-1]
-    tmp[tmp>=med & tmp<=(med+ol) & !is.na(tmp)] = rsc
-    lsc = round(rescale(c(med,bemed),c(1,101)))[-1]
-    tmp[tmp<=med & tmp>=(med-ol) & !is.na(tmp)] = lsc
+cerebroScale = function(datMat, clamp, xmed, xmad){
+  tmp = datMat
+  ol = clamp*xmad
+  abvmed = tmp[datMat>=xmed & datMat<=(xmed+ol) & !is.na(datMat)]
+  belmed = tmp[datMat<=xmed & datMat>=(xmed-ol) & !is.na(datMat)]
+  if(length(which(!is.na(tmp))) %% 2 == 0){ #imputing median if even number of data points
+    rsc = round(rescale(c(xmed,abvmed),c(101,201)))[-1]
+    tmp[datMat>=xmed & datMat<=(xmed+ol) & !is.na(datMat)] = rsc
+    lsc = round(rescale(c(xmed,belmed),c(1,101)))[-1]
+    tmp[datMat<=xmed & datMat>=(xmed-ol) & !is.na(datMat)] = lsc
     hexInd = tmp
   }
   if((length(which(!is.na(tmp)))) %% 2 == 1){
     rsc = round(rescale(abvmed,c(101,201)))
-    tmp[m>=med & m<=(med+ol) & !is.na(m)] = rsc
-    lsc = round(rescale(bemed,c(1,101)))
-    tmp[m<=med & m>=(med-ol) & !is.na(m)] = lsc
+    tmp[datMat>=xmed & datMat<=(xmed+ol) & !is.na(datMat)] = rsc
+    lsc = round(rescale(belmed,c(1,101)))
+    tmp[datMat<=xmed & datMat>=(xmed-ol) & !is.na(datMat)] = lsc
     hexInd = tmp
   }
   return(hexInd)
@@ -171,7 +174,6 @@ cerebroScale = function(datMat, clamp){
 #' @param xmlc
 #' @param brainCol
 #' @keywords brainCol
-#' @export
 #' @examples
 #' edit.brainCol(xmlc, brainCol)
 #edit.brainCol
@@ -192,7 +194,6 @@ edit.brainCol = function(xmlc, brainCol){
 #' for each xml, get style and append cross-hatching pattern.
 #' @param xmlc
 #' @keywords cross.hatch
-#' @export
 #' @examples
 #' edit.crossHatch(xmlc)
 #edit.crossHatch
@@ -221,7 +222,6 @@ edit.crossHatch = function(xmlc){
 #' @param xmlc
 #' @param hexVec
 #' @keywords regCol
-#' @export
 #' @examples
 #' edit.regCol(tmp,xmlc,hexVec)
 #edit.regCol
@@ -261,7 +261,6 @@ edit.regCol = function(tmp, xmlc, hexVec){
 #' @param hexVec
 #' @param legend.toggle
 #' @keywords legend
-#' @export
 #' @examples
 #' edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggle)
 #edit.legend()
@@ -296,7 +295,6 @@ edit.legend = function(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggl
 #' @param xmlc
 #' @param x
 #' @keywords usrg
-#' @export
 #' @examples
 #' edit.maskReg(xmlc,x,usrg)
 #edit.maskReg

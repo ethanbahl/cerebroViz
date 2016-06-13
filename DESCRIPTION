@@ -9,6 +9,11 @@ Description: 'cerebroViz' is a data mapping tool for visualizing spatiotemporal
     Epigneomics, and more.
 Depends:
     R (>= 3.3.0)
+Imports:
+	XML,
+	gplots,
+	scales,
+	grDevices
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
