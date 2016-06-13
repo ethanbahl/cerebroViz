@@ -118,7 +118,7 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
 
 ######################################################## C R O S S H A T C H ###
   if(cross.hatch==TRUE){
-    xmlc = edit.crossHatch(xmlc)
+    xmlc = edit.crossHatch(xmlc, tmp)
   }
 
 ################################################################ R E G C O L ###
@@ -203,13 +203,14 @@ edit.brainCol = function(xmlc, brainCol){
 #'
 #' for each xml, get style and append cross-hatching pattern.
 #' @param xmlc
+#' @param tmp
 #' @keywords cross.hatch
 #' @examples
 #' edit.crossHatch(xmlc)
 #edit.crossHatch
-edit.crossHatch = function(xmlc){
+edit.crossHatch = function(xmlc, tmp){
   nhatch = names(tmp[which(is.na(tmp))])
-  if("STR"%in%nhatch & "CAU"%in%nhatch==FALSE | "PUT"%in%nhatch==FALSE){
+  if("STR"%in%nhatch & ("CAU"%in%nhatch==FALSE | "PUT"%in%nhatch==FALSE)){
     nhatch = nhatch[-(which(nhatch=="STR"))]
   }
   for(k in 1:length(xmlc)){
