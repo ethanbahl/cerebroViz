@@ -131,7 +131,7 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   xmls = xmlc[2][[1]]
   saveXML(xmll, paste(outfile,"_outer_",timepoint[j],".svg",sep=""))
   saveXML(xmls, paste(outfile,"_slice_",timepoint[j],".svg",sep=""))
-  print("Success! Your diagrams have been saved.")
+  message("Success! Your diagrams have been saved.")
   }
 }
 
