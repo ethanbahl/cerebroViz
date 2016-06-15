@@ -216,7 +216,7 @@ edit.crossHatch = function(xmlc, tmp){
   for(k in 1:length(xmlc)){
     for(m in 1:length(nhatch)){
       node = getNodeSet(xmlc[k][[1]], paste("//*[@id='",nhatch[m],"']",sep=""))[1]
-      if(is.null(node[[1]])==FALSE){
+      if(!is.null(node[[1]])){
         style = xmlGetAttr(node[[1]], "style")
         style = paste("fill:url(#hatch00);",style, sep="")
         addAttributes(node[[1]], style=style)
@@ -242,7 +242,7 @@ edit.regCol = function(tmp, xmlc, hexVec, cross.hatch){
   for(k in 1:length(xmlc)){
     for(m in 1:length(nfill)){
       node = getNodeSet(xmlc[k][[1]], paste("//*[@id='",names(nfill)[m],"']",sep=""))[1]
-      if(is.null(node[[1]])==FALSE){
+      if(!is.null(node[[1]])){
         removeAttributes(node[[1]], "fill")
         addAttributes(node[[1]], fill=hexVec[nfill[m]])
       }
@@ -253,7 +253,7 @@ edit.regCol = function(tmp, xmlc, hexVec, cross.hatch){
     for(k in 1:length(xmlc)){
       for(m in 1:length(nhatch)){
         node = getNodeSet(xmlc[k][[1]], paste("//*[@id='",names(nhatch)[m],"']",sep=""))[1]
-        if(is.null(node[[1]])==FALSE){
+        if(!is.null(node[[1]])){
           removeAttributes(node[[1]], "fill-opacity")
           addAttributes(node[[1]], "fill-opacity"=0)
         }
