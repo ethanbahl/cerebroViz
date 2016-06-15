@@ -46,12 +46,18 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
 
   #creating the vector for 'parent' regions (regions that encompass others) and a warning of overshadowing.
   srg = c("BS", "FCX", "OCX", "PCX", "TCX", "STR")
-  usrg = rowSums(!is.na(x[rownames(x) %in% srg,timepoint]))
-  usrg = names(test[test>0])
+  suplog = !is.na(x[rownames(x) %in% srg,timepoint])
+  if(length(timepoint)==1){
+    usrg = names(suplog[suplog==TRUE])
+  }
+  if(length(timepoint>1)){
+    usrg = rowSums(suplog)
+    usrg = names(usrg[usrg>0])
+  }
   if(length(usrg)>0){
      warning(paste("The following regions encompass other regions of the brain: ", paste(usrg, collapse=", "),". Subregions are masked in output.", sep=""))
   }
-
+  
   xmed = median(x, na.rm=TRUE)
   xmad = mad(x, constant = 1, na.rm=TRUE)
   xmin = min(x, na.rm=TRUE)
