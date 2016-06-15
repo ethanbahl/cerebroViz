@@ -209,7 +209,7 @@ edit.brainCol = function(xmlc, brainCol){
 #' edit.crossHatch(xmlc)
 #edit.crossHatch
 edit.crossHatch = function(xmlc, tmp){
-  nhatch = names(tmp[which(is.na(tmp))])
+  nhatch = names(tmp[is.na(tmp)])
   if("STR"%in%nhatch & ("CAU"%in%nhatch==FALSE | "PUT"%in%nhatch==FALSE)){
     nhatch = nhatch[-(which(nhatch=="STR"))]
   }
@@ -249,7 +249,7 @@ edit.regCol = function(tmp, xmlc, hexVec, cross.hatch){
     }
   }
   if(cross.hatch==FALSE){
-    nhatch = tmp[which(is.na(tmp))]
+    nhatch = tmp[is.na(tmp)]
     for(k in 1:length(xmlc)){
       for(m in 1:length(nhatch)){
         node = getNodeSet(xmlc[k][[1]], paste("//*[@id='",names(nhatch)[m],"']",sep=""))[1]
