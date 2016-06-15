@@ -4,13 +4,13 @@
 \alias{edit.maskReg}
 \title{a function used by cerebroViz() to mask subregions when superior regions are supplied in input data.}
 \usage{
-\method{edit}{maskReg}(xmlc, x, usrg)
+\method{edit}{maskReg}(xmlc, srg, tmp)
 }
 \description{
 for each superior region, get children region nodes and set opacity to 0.
 }
 \examples{
-edit.maskReg(xmlc,x,usrg)
+edit.maskReg(xmlc,srg,tmp)
 }
-\keyword{usrg}
+\keyword{maskReg}
 
