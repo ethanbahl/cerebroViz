@@ -309,15 +309,18 @@ edit.legend = function(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggl
 #'
 #' for each superior region, get children region nodes and set opacity to 0.
 #' @param xmlc
-#' @param x
-#' @keywords usrg
+#' @param srg
+#' @param tmp
+#' @keywords maskReg
 #' @examples
-#' edit.maskReg(xmlc,x,usrg)
+#' edit.maskReg(xmlc,srg,tmp)
 #edit.maskReg
-edit.maskReg = function(xmlc, x, usrg){
-  if(length(usrg)>0){
-    for(m in 1:length(usrg)){
-      lobename = usrg[m]
+edit.maskReg = function(xmlc, srg, tmp){
+  tmpusrg = srg[srg%in%names(tmp[!is.na(tmp)])]
+  nhatch = names(tmp[is.na(tmp)])
+  if(length(tmpusrg)>0){
+    for(m in 1:length(tmpusrg)){
+      lobename = tmpusrg[m]
       lobenode = getNodeSet(xmlc[1][[1]], paste("//*[@class='",lobename,"']",sep=""))
         for(lobeind in 1:length(lobenode)){
           if(length(lobenode)>0){
@@ -328,10 +331,10 @@ edit.maskReg = function(xmlc, x, usrg){
       }
     }
   }
-  if("STR"%in%rownames(x)){
+  if(("STR"%in%nhatch) & (sum(c("CAU","PUT") %in% nhatch)>0)){
     node = getNodeSet(xmlc[2][[1]], "//*[@id='STR']")[[1]]
     removeAttributes(node, "fill-opacity")
-    addAttributes(node, "fill-opacity"=1)
+    addAttributes(node, "fill-opacity"=0)
   }
   return(xmlc)
 }
