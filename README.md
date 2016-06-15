@@ -4,4 +4,3 @@
     publication quality SVG diagrams with color mapping reflective of the input
     data. 'cerebroViz' supports 30 brain regions used by BrainSpan, GTex, Roadmap
     Epigenomics, and more.
-# test comment
