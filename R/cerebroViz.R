@@ -50,14 +50,14 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   if(length(timepoint)==1){
     usrg = names(suplog[suplog==TRUE])
   }
-  if(length(timepoint>1)){
+  if(length(timepoint)>1){
     usrg = rowSums(suplog)
     usrg = names(usrg[usrg>0])
   }
   if(length(usrg)>0){
      warning(paste("The following regions encompass other regions of the brain: ", paste(usrg, collapse=", "),". Subregions are masked in output.", sep=""))
   }
-  
+
   xmed = median(x, na.rm=TRUE)
   xmad = mad(x, constant = 1, na.rm=TRUE)
   xmin = min(x, na.rm=TRUE)
@@ -131,7 +131,7 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   xmlc = edit.regCol(tmp, xmlc, hexVec, cross.hatch)
 
 ############################################################## M A S K R E G ###
-  xmlc = edit.maskReg(xmlc, x, usrg)
+  xmlc = edit.maskReg(xmlc, srg, tmp)
 
 ################################################################ L E G E N D ###
   xmlc = edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggle, divergent.data)
@@ -332,7 +332,7 @@ edit.maskReg = function(xmlc, srg, tmp){
           if(length(lobenode)>0){
           node = lobenode[[lobeind]]
           removeAttributes(node,"fill-opacity")
-          addAttributes(node, "fill-opacity"=0)
+          addAttributes(node, "fill-opacity"="0")
         }
       }
     }
@@ -340,7 +340,7 @@ edit.maskReg = function(xmlc, srg, tmp){
   if(("STR"%in%nhatch) & (sum(c("CAU","PUT") %in% nhatch)>0)){
     node = getNodeSet(xmlc[2][[1]], "//*[@id='STR']")[[1]]
     removeAttributes(node, "fill-opacity")
-    addAttributes(node, "fill-opacity"=0)
+    addAttributes(node, "fill-opacity"="0")
   }
   return(xmlc)
 }
