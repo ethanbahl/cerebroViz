@@ -2,7 +2,7 @@
 % Please edit documentation in R/cerebroViz.R
 \name{cerebroViz}
 \alias{cerebroViz}
-\title{A tool to visualize biological data mapped to SVG brain diagrams. !!TEST TEXT !! OOPT OOOOTOTOTOTODFV}
+\title{A tool to visualize biological data mapped to SVG brain diagrams.}
 \usage{
 cerebroViz(x, timepoint = 1, outfile = "cerebroViz_output",
   regCol = c("blue", "grey", "red"), svgCol = c("white", "black", "white"),
