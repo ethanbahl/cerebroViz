@@ -1,4 +1,4 @@
-#' A tool to visualize biological data mapped to SVG brain diagrams.
+#' A tool to visualize biological data mapped to SVG brain diagrams. !!TEST TEXT !! OOPT OOOOTOTOTOTODFV
 #'
 #' 'cerebroViz' is a data mapping tool for visualizing spatiotemporal data in the brain. The user inputs a matrix of data and the tool outputs publication quality SVG diagrams with color mapping reflective of the input data. 'cerebroViz' supports 30 brain regions used by BrainSpan, GTex, Roadmap Epigneomics, and more.
 #' @param x a matrix object containing the data to map. Rownames should reflect the appropriate brain region. Columns may represent different time points or replicates.
