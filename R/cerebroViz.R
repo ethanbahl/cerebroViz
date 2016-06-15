@@ -44,12 +44,18 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   #creating the master regions vector
   regions = c("A1C", "ACC", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
 
-  #creating the vector for 'parent' regions (regions that encompass others)
-  #warn the user that their data for these regions will overwrite visualization for the subregions
+  #creating the vector for 'parent' regions (regions that encompass others) and a warning of overshadowing.
   srg = c("BS", "FCX", "OCX", "PCX", "TCX", "STR")
-  usrg = srg[srg%in%rownames(x)]
+  suplog = !is.na(x[rownames(x) %in% srg,timepoint])
+  if(length(timepoint)==1){
+    usrg = names(suplog[suplog==TRUE])
+  }
+  if(length(timepoint)>1){
+    usrg = rowSums(suplog)
+    usrg = names(usrg[usrg>0])
+  }
   if(length(usrg)>0){
-     warning(paste("The following brain regions encompass other regions of the brain: ", paste(usrg, collapse=", "),". Subregions will be masked in the output.", sep=""))
+     warning(paste("The following regions encompass other regions of the brain: ", paste(usrg, collapse=", "),". Subregions are masked in output.", sep=""))
   }
 
   xmed = median(x, na.rm=TRUE)
@@ -125,7 +131,7 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   xmlc = edit.regCol(tmp, xmlc, hexVec, cross.hatch)
 
 ############################################################## M A S K R E G ###
-  xmlc = edit.maskReg(xmlc, x, usrg)
+  xmlc = edit.maskReg(xmlc, srg, tmp)
 
 ################################################################ L E G E N D ###
   xmlc = edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggle, divergent.data)
@@ -209,14 +215,11 @@ edit.brainCol = function(xmlc, brainCol){
 #' edit.crossHatch(xmlc)
 #edit.crossHatch
 edit.crossHatch = function(xmlc, tmp){
-  nhatch = names(tmp[which(is.na(tmp))])
-  if("STR"%in%nhatch & ("CAU"%in%nhatch==FALSE | "PUT"%in%nhatch==FALSE)){
-    nhatch = nhatch[-(which(nhatch=="STR"))]
-  }
+  nhatch = names(tmp[is.na(tmp)])
   for(k in 1:length(xmlc)){
     for(m in 1:length(nhatch)){
       node = getNodeSet(xmlc[k][[1]], paste("//*[@id='",nhatch[m],"']",sep=""))[1]
-      if(is.null(node[[1]])==FALSE){
+      if(!is.null(node[[1]])){
         style = xmlGetAttr(node[[1]], "style")
         style = paste("fill:url(#hatch00);",style, sep="")
         addAttributes(node[[1]], style=style)
@@ -242,18 +245,18 @@ edit.regCol = function(tmp, xmlc, hexVec, cross.hatch){
   for(k in 1:length(xmlc)){
     for(m in 1:length(nfill)){
       node = getNodeSet(xmlc[k][[1]], paste("//*[@id='",names(nfill)[m],"']",sep=""))[1]
-      if(is.null(node[[1]])==FALSE){
+      if(!is.null(node[[1]])){
         removeAttributes(node[[1]], "fill")
         addAttributes(node[[1]], fill=hexVec[nfill[m]])
       }
     }
   }
   if(cross.hatch==FALSE){
-    nhatch = tmp[which(is.na(tmp))]
+    nhatch = tmp[is.na(tmp)]
     for(k in 1:length(xmlc)){
       for(m in 1:length(nhatch)){
         node = getNodeSet(xmlc[k][[1]], paste("//*[@id='",names(nhatch)[m],"']",sep=""))[1]
-        if(is.null(node[[1]])==FALSE){
+        if(!is.null(node[[1]])){
           removeAttributes(node[[1]], "fill-opacity")
           addAttributes(node[[1]], "fill-opacity"=0)
         }
@@ -312,29 +315,32 @@ edit.legend = function(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggl
 #'
 #' for each superior region, get children region nodes and set opacity to 0.
 #' @param xmlc
-#' @param x
-#' @keywords usrg
+#' @param srg
+#' @param tmp
+#' @keywords maskReg
 #' @examples
-#' edit.maskReg(xmlc,x,usrg)
+#' edit.maskReg(xmlc,srg,tmp)
 #edit.maskReg
-edit.maskReg = function(xmlc, x, usrg){
-  if(length(usrg)>0){
-    for(m in 1:length(usrg)){
-      lobename = usrg[m]
+edit.maskReg = function(xmlc, srg, tmp){
+  tmpusrg = srg[srg%in%names(tmp[!is.na(tmp)])]
+  nhatch = names(tmp[is.na(tmp)])
+  if(length(tmpusrg)>0){
+    for(m in 1:length(tmpusrg)){
+      lobename = tmpusrg[m]
       lobenode = getNodeSet(xmlc[1][[1]], paste("//*[@class='",lobename,"']",sep=""))
         for(lobeind in 1:length(lobenode)){
           if(length(lobenode)>0){
           node = lobenode[[lobeind]]
           removeAttributes(node,"fill-opacity")
-          addAttributes(node, "fill-opacity"=0)
+          addAttributes(node, "fill-opacity"="0")
         }
       }
     }
   }
-  if("STR"%in%rownames(x)){
+  if(("STR"%in%nhatch) & (sum(c("CAU","PUT") %in% nhatch)>0)){
     node = getNodeSet(xmlc[2][[1]], "//*[@id='STR']")[[1]]
     removeAttributes(node, "fill-opacity")
-    addAttributes(node, "fill-opacity"=1)
+    addAttributes(node, "fill-opacity"="0")
   }
   return(xmlc)
 }
