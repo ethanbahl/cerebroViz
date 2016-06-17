@@ -5,9 +5,9 @@
 \title{A tool to visualize biological data mapped to SVG brain diagrams.}
 \usage{
 cerebroViz(x, timepoint = 1, outfile = "cerebroViz_output",
-  regCol = c("blue", "grey", "red"), brainCol = c("white", "black"),
-  backgroundCol = "white", divergent.data = TRUE, clamp = NULL,
-  cross.hatch = FALSE, legend.toggle = TRUE, custom.names = FALSE)
+  regCol = c("blue", "grey", "red"), svgCol = c("white", "black", "white"),
+  divergent.data = TRUE, clamp = NULL, cross.hatch = FALSE,
+  legend.toggle = TRUE, custom.names = FALSE)
 }
 \arguments{
 \item{x}{a matrix object containing the data to map. Rownames should reflect the appropriate brain region. Columns may represent different time points or replicates.}
@@ -18,9 +18,7 @@ cerebroViz(x, timepoint = 1, outfile = "cerebroViz_output",
 
 \item{regCol}{a character vector of colors to use in the visualization. Accepts color names, hex values, and RGB values. For sequential data, it is recommended to use two colors. Three colors, with a neutral color in the middle, are suggested for divergent data.}
 
-\item{brainCol}{a character vector of length two specifying colors for the outline and background of the brain.}
-
-\item{backgroundCol}{a character vector of length one specifying the color of the SVG background.}
+\item{svgCol}{a character vector of length three specifying colors for the outline, brain background, and svg background in that order.}
 
 \item{divergent.data}{logical indicating if input data is divergent in nature. Default assumes data is sequential.}
 
@@ -37,7 +35,7 @@ cerebroViz(x, timepoint = 1, outfile = "cerebroViz_output",
 }
 \examples{
 x = t(apply(apply(rbind(matrix((sample(c(-400:600),260)/100),nrow=26,ncol=10),matrix(NA,nrow=4,ncol=10)),2,sample),1,sample))
-rownames(x) = c("A1C", "ACC", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
+rownames(x) = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
 cerebroViz(x, regCol=c("blue","grey","red"))
 }
 \keyword{cerebroViz}

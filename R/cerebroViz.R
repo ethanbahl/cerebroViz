@@ -5,8 +5,7 @@
 #' @param timepoint a numeric vector of columns in 'x' to visualize.
 #' @param outfile the desired prefix for the output SVG files.
 #' @param regCol a character vector of colors to use in the visualization. Accepts color names, hex values, and RGB values. For sequential data, it is recommended to use two colors. Three colors, with a neutral color in the middle, are suggested for divergent data.
-#' @param brainCol a character vector of length two specifying colors for the outline and background of the brain.
-#' @param backgroundCol a character vector of length one specifying the color of the SVG background.
+#' @param svgCol a character vector of length three specifying colors for the outline, brain background, and svg background in that order.
 #' @param divergent.data logical indicating if input data is divergent in nature. Default assumes data is sequential.
 #' @param clamp a numeric vector of length one specifying the value to multiply by MAD to determine outliers that will be 'clamped' down to prevent skewed visualizations.
 #' @param cross.hatch logical indicating if regions lacking data should be cross-hatched to differentiate them from the brain's background.
@@ -20,9 +19,9 @@
 #' @export
 #' @examples
 #' x = t(apply(apply(rbind(matrix((sample(c(-400:600),260)/100),nrow=26,ncol=10),matrix(NA,nrow=4,ncol=10)),2,sample),1,sample))
-#' rownames(x) = c("A1C", "ACC", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
+#' rownames(x) = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
 #' cerebroViz(x, regCol=c("blue","grey","red"))
-cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c("blue","grey","red"), brainCol = c("white","black"), backgroundCol="white", divergent.data=TRUE, clamp=NULL, cross.hatch=FALSE, legend.toggle=TRUE, custom.names=FALSE){
+cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c("blue","grey","red"), svgCol = c("white","black","white"), divergent.data=TRUE, clamp=NULL, cross.hatch=FALSE, legend.toggle=TRUE, custom.names=FALSE){
   require(XML)
   require(gplots)
   require(scales)
@@ -34,15 +33,14 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   if(length(rownames(x))!=nrow(x)) stop("rownames must be supplied for each row in 'x'")
   if(max(timepoint)>ncol(x)) stop("'timepoint' invalid")
   if(sum(timepoint%%1!=0)) stop("'timepoint' invalid")
-  if(length(brainCol)!=2) stop("'brainCol' must have length 2")
-  if(length(backgroundCol)!=1) stop("'backgroundCol' must have length 1")
+  if(length(svgCol)!=3) stop("'svgCol' must have length 3")
   if(length(regCol)==3 & divergent.data==FALSE | length(regCol)==2 & divergent.data==TRUE){
     warning("recommended usage: 2 colors (regCol) for sequential data and 3 colors for divergent data.")
   }
 
 #################################################### R E G I O N   S E T U P ###
   #creating the master regions vector
-  regions = c("A1C", "ACC", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
+  regions = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
 
   #creating the vector for 'parent' regions (regions that encompass others) and a warning of overshadowing.
   srg = c("BS", "FCX", "OCX", "PCX", "TCX", "STR")
@@ -120,7 +118,7 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
    xmlc =  c(xmll, xmls)
 
 ############################################################ B R A I N C O L ###
-  xmlc = edit.brainCol(xmlc, brainCol)
+  xmlc = edit.svgCol(xmlc, svgCol)
 
 ######################################################## C R O S S H A T C H ###
   if(cross.hatch==TRUE){
@@ -188,19 +186,22 @@ cerebroScale = function(datMat, clamp, xmed, xmad, divergent.data){
 #'
 #' for each xml, remove fill attributes from 'brainBackground' & 'brainOutline' and replace them with the designated colors.
 #' @param xmlc
-#' @param brainCol
-#' @keywords brainCol
+#' @param svgCol
+#' @keywords svgCol
 #' @examples
-#' edit.brainCol(xmlc, brainCol)
-#edit.brainCol
-edit.brainCol = function(xmlc, brainCol){
+#' edit.svgCol(xmlc, svgCol)
+#edit.svgCol
+edit.svgCol = function(xmlc, svgCol){
   for(k in 1:length(xmlc)){
     node = getNodeSet(xmlc[k][[1]], "//*[@id='brainBackground']")[[1]]
     removeAttributes(node, "fill")
-    addAttributes(node, fill=col2hex(brainCol[1]))
+    addAttributes(node, fill=col2hex(svgCol[1]))
     node = getNodeSet(xmlc[k][[1]], "//*[@id='brainOutline']")[[1]]
     removeAttributes(node, "fill")
-    addAttributes(node, fill=col2hex(brainCol[2]))
+    addAttributes(node, fill=col2hex(svgCol[2]))
+    node = getNodeSet(xmlc[k][[1]], "//*[@id='svgBackground']")[[1]]
+    removeAttributes(node, "fill")
+    addAttributes(node, fill=col2hex(svgCol[3]))
   }
     return(xmlc)
 }

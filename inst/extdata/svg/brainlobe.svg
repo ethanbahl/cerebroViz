@@ -18,7 +18,7 @@
        <path d="M10,0 l-10,10"/>
      </g>
   </pattern>
-  <rect class="svgBackground" x="0" y="-22" width="607" height="590" style="fill:#FFFFFF;stroke-width:0;stroke:#000000"/>
+  <rect id="svgBackground" class="svgBackground" x="0" y="-22" width="607" height="590" style="fill:#FFFFFF;stroke-width:0;stroke:#000000"/>
   <path
      id="brainBackground"
      class="brainBackground"
