@@ -19,7 +19,7 @@
 #' @export
 #' @examples
 #' x = t(apply(apply(rbind(matrix((sample(c(-400:600),260)/100),nrow=26,ncol=10),matrix(NA,nrow=4,ncol=10)),2,sample),1,sample))
-#' rownames(x) = c("A1C", "ACC", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
+#' rownames(x) = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
 #' cerebroViz(x, regCol=c("blue","grey","red"))
 cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c("blue","grey","red"), svgCol = c("white","black","white"), divergent.data=TRUE, clamp=NULL, cross.hatch=FALSE, legend.toggle=TRUE, custom.names=FALSE){
   require(XML)
@@ -40,7 +40,7 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
 
 #################################################### R E G I O N   S E T U P ###
   #creating the master regions vector
-  regions = c("A1C", "ACC", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
+  regions = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
 
   #creating the vector for 'parent' regions (regions that encompass others) and a warning of overshadowing.
   srg = c("BS", "FCX", "OCX", "PCX", "TCX", "STR")
