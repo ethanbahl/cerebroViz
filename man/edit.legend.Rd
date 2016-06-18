@@ -4,14 +4,14 @@
 \alias{edit.legend}
 \title{a function used by cerebroViz() to edit the legend.}
 \usage{
-\method{edit}{legend}(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec,
+\method{edit}{legend}(xmin, xmed, clamp, xmad, xmax, xmlc, regCol,
   legend.toggle, divergent.data)
 }
 \description{
 for each xml, map the appropriate colors to the legend
 }
 \examples{
-edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggle)
+edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, regCol, legend.toggle, divergent.data)
 }
 \keyword{legend}
 

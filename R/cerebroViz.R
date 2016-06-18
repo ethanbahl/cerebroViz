@@ -132,7 +132,7 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   xmlc = edit.maskReg(xmlc, srg, tmp)
 
 ################################################################ L E G E N D ###
-  xmlc = edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggle, divergent.data)
+  xmlc = edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, regCol, legend.toggle, divergent.data)
 
 ############################################################## S A V E X M L ###
   xmll = xmlc[1][[1]]
@@ -276,23 +276,25 @@ edit.regCol = function(tmp, xmlc, hexVec, cross.hatch){
 #' @param xmad
 #' @param xmax
 #' @param xmlc
-#' @param hexVec
+#' @param regCol
 #' @param legend.toggle
 #' @param divergent.data
 #' @keywords legend
 #' @examples
-#' edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggle)
+#' edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, regCol, legend.toggle, divergent.data)
 #edit.legend()
-edit.legend = function(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggle, divergent.data){
+edit.legend = function(xmin, xmed, clamp, xmad, xmax, xmlc, regCol, legend.toggle, divergent.data){
   labmin = round(max(xmin, (xmed-(clamp*xmad))),3)
   labmax = round(min(xmax, (xmed+(clamp*xmad))),3)
   labmed = round(xmed, 3)
   labels = c(labmin, labmed, labmax)
+  stopoffset =  paste(as.character(seq(0,100,(100/(length(regCol)-1)))),"%", sep="")
+  stopcolor = col2hex(regCol)
   for(k in 1:length(xmlc)){
-    node = getNodeSet(xmlc[k][[1]], "//*[@class='legend']")
-    for(m in 1:length(node)){
-      removeAttributes(node[[m]],"fill")
-      addAttributes(node[[m]],fill=hexVec[m])
+    gradnode = getNodeSet(xmlc[k][[1]], "//*[@id='gradient']")
+    for(i in 1:length(regCol)){
+      newstop = newXMLNode("stop", attrs=c("offset"=stopoffset[i],"stop-color"=stopcolor[i]))
+      gradnode[[1]] = addChildren(gradnode[[1]],newstop)
     }
     for(m in 1:length(labels)){
       node = getNodeSet(xmlc[k][[1]], "//*[@class='legendLabel']")[[m]]
