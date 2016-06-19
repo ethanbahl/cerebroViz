@@ -7,7 +7,7 @@
 cerebroViz(x, timepoint = 1, outfile = "cerebroViz_output",
   regCol = c("blue", "grey", "red"), svgCol = c("white", "black", "white"),
   divergent.data = TRUE, clamp = NULL, cross.hatch = FALSE,
-  legend.toggle = TRUE, custom.names = FALSE)
+  legend.toggle = TRUE, customNames = NULL)
 }
 \arguments{
 \item{x}{a matrix object containing the data to map. Rownames should reflect the appropriate brain region. Columns may represent different time points or replicates.}
@@ -28,7 +28,7 @@ cerebroViz(x, timepoint = 1, outfile = "cerebroViz_output",
 
 \item{legend.toggle}{logical indicating if the legend bar should be visible.}
 
-\item{custom.names}{logical indicating if custom naming conventions are used for the input data. If TRUE, user should complete the mapping spreadsheet.}
+\item{customNames}{dataframe with 2 columns. The first column for cerebroViz convention names, the second column for custom user names.}
 }
 \description{
 'cerebroViz' is a data mapping tool for visualizing spatiotemporal data in the brain. The user inputs a matrix of data and the tool outputs publication quality SVG diagrams with color mapping reflective of the input data. 'cerebroViz' supports 30 brain regions used by BrainSpan, GTex, Roadmap Epigneomics, and more.

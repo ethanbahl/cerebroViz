@@ -10,7 +10,7 @@
 #' @param clamp a numeric vector of length one specifying the value to multiply by MAD to determine outliers that will be 'clamped' down to prevent skewed visualizations.
 #' @param cross.hatch logical indicating if regions lacking data should be cross-hatched to differentiate them from the brain's background.
 #' @param legend.toggle logical indicating if the legend bar should be visible.
-#' @param custom.names logical indicating if custom naming conventions are used for the input data. If TRUE, user should complete the mapping spreadsheet.
+#' @param customNames dataframe with 2 columns. The first column for cerebroViz convention names, the second column for custom user names.
 #' @keywords cerebroViz
 #' @import XML
 #' @import gplots
@@ -21,12 +21,14 @@
 #' x = t(apply(apply(rbind(matrix((sample(c(-400:600),260)/100),nrow=26,ncol=10),matrix(NA,nrow=4,ncol=10)),2,sample),1,sample))
 #' rownames(x) = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
 #' cerebroViz(x, regCol=c("blue","grey","red"))
-cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c("blue","grey","red"), svgCol = c("white","black","white"), divergent.data=TRUE, clamp=NULL, cross.hatch=FALSE, legend.toggle=TRUE, custom.names=FALSE){
+cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c("blue","grey","red"), svgCol = c("white","black","white"), divergent.data=TRUE, clamp=NULL, cross.hatch=FALSE, legend.toggle=TRUE, customNames=NULL){
   require(XML)
   require(gplots)
   require(scales)
   require(grDevices)
 
+  #creating the master regions vector
+  regions = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
 ################################################ E R R O R   H A N D L I N G ###
   if(class(x)!="matrix") stop("'x' must be of class 'matrix'")
   if(sum(is.na(rownames(x)))>0) stop("rownames of 'x' must be valid")
@@ -37,11 +39,12 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   if(length(regCol)==3 & divergent.data==FALSE | length(regCol)==2 & divergent.data==TRUE){
     warning("recommended usage: 2 colors (regCol) for sequential data and 3 colors for divergent data.")
   }
+  if(!is.null(customNames)){
+    if(ncol(customNames)!=2) stop("unexpected input for customNames")
+  }
+  if(is.null(customNames) & sum(rownames(x)%in%regions==FALSE)>0) warning(paste("Unknown rownames in input data: ",paste(rownames(x)[rownames(x)%in%regions==FALSE],collapse=", "),". Unknown regions will be excluded from visualization. See the help page for 'customNames' argument.",sep=""))
 
 #################################################### R E G I O N   S E T U P ###
-  #creating the master regions vector
-  regions = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
-
   #creating the vector for 'parent' regions (regions that encompass others) and a warning of overshadowing.
   srg = c("BS", "FCX", "OCX", "PCX", "TCX", "STR")
   suplog = !is.na(x[rownames(x) %in% srg,timepoint])
@@ -61,15 +64,12 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   xmin = min(x, na.rm=TRUE)
   xmax = max(x, na.rm=TRUE)
 
-###################################################### S P R E A D S H E E T ###
-  #spreadsheet - naming conventions
-  if(custom.names==TRUE){
-    dat = read.table(system.file("extdata/map/suggestedmapping.txt", package="cerebroViz"), fill=TRUE, sep="\t", header=TRUE, stringsAsFactors=FALSE, na.strings="")
-    unknames = rownames(x)[which(rownames(x)%in%regions==FALSE)]
-    for(i in 1:length(unknames)){
-      unkindex = grep(unknames[i], dat[,6])
-      inpindex = which(rownames(x)==unknames[i])
-      rownames(x)[inpindex]=dat[unkindex,1]
+###################################################### C U S T O M N A M E S ###
+  #customNames
+  if(!is.null(customNames)){
+    if(sum(customNames[,2]%in%regions)>0) stop(paste("customNames contains region names already used in cerebroViz convention: ",paste(customNames[customNames[,2]%in%regions,2],collapse=", "),sep=""))
+    for(i in 1:nrow(customNames)){
+      rownames(x)[rownames(x)==customNames[i,2]]=customNames[i,1]
     }
   }
 
