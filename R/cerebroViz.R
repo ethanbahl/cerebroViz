@@ -102,46 +102,31 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   hexVec = f(201)
 
 ############################################################ B I G   L O O P ###
- lobesvg = system.file("extdata/svg/brainlobe.svg",package="cerebroViz")
- sagsvg = system.file("extdata/svg/brainsagittal.svg",package="cerebroViz")
-
- for(j in 1:length(timepoint)){
-   #timepoint selection and filling in cross hatching for missing values
-   if(ncol(x)>1) {
-     tmp = hexInd[,timepoint[j]]
-   }
-   else {
-     tmp = hexInd
-   }
-
-   xmll = xmlTreeParse(lobesvg, useInternalNodes=TRUE)
-   xmls = xmlTreeParse(sagsvg, useInternalNodes=TRUE)
-   xmlc =  c(xmll, xmls)
-
-############################################################ B R A I N C O L ###
-  xmlc = edit.svgCol(xmlc, svgCol)
-
-######################################################## C R O S S H A T C H ###
-  if(cross.hatch==TRUE){
-    xmlc = edit.crossHatch(xmlc, tmp)
-  }
-
-################################################################ R E G C O L ###
-  xmlc = edit.regCol(tmp, xmlc, hexVec, cross.hatch)
-
-############################################################## M A S K R E G ###
-  xmlc = unmaskRegions(xmlc, srg, tmp)
-
-################################################################ L E G E N D ###
-  xmlc = edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, regCol, legend.toggle, divergent.data)
-
-############################################################## S A V E X M L ###
-  xmll = xmlc[1][[1]]
-  xmls = xmlc[2][[1]]
-  saveXML(xmll, paste(outfile,"_outer_",timepoint[j],".svg",sep=""))
-  saveXML(xmls, paste(outfile,"_slice_",timepoint[j],".svg",sep=""))
-  message("Success! Your diagrams have been saved.")
-  }
+  lobesvg = system.file("extdata/svg/brainlobe.svg",package="cerebroViz")
+  sagsvg = system.file("extdata/svg/brainsagittal.svg",package="cerebroViz")
+  for(j in 1:length(timepoint)){
+    if(ncol(x)>1) {
+      tmp = hexInd[,timepoint[j]]
+    }
+    else {
+      tmp = hexInd
+    }
+    xmll = xmlTreeParse(lobesvg, useInternalNodes=TRUE)
+    xmls = xmlTreeParse(sagsvg, useInternalNodes=TRUE)
+    xmlc =  c(xmll, xmls)
+    xmlc = edit.svgCol(xmlc, svgCol)
+    if(cross.hatch==TRUE){
+        xmlc = edit.crossHatch(xmlc, tmp)
+    }
+    xmlc = edit.regCol(tmp, xmlc, hexVec, cross.hatch)
+    xmlc = unmaskRegions(xmlc, srg, tmp)
+    xmlc = edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, regCol, legend.toggle, divergent.data)
+    xmll = xmlc[1][[1]]
+    xmls = xmlc[2][[1]]
+    saveXML(xmll, paste(outfile,"_outer_",timepoint[j],".svg",sep=""))
+    saveXML(xmls, paste(outfile,"_slice_",timepoint[j],".svg",sep=""))
+    message("Success! Your diagrams have been saved.")
+    }
 
   if(colorsout==T){
     if(!is.null(customNames)){
@@ -150,7 +135,7 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
       }
     }
     outvals = (hexInd-1)/200
-return(outvals)
+    return(outvals)
   }
 }
 
