@@ -114,13 +114,13 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
     xmll = xmlTreeParse(lobesvg, useInternalNodes=TRUE)
     xmls = xmlTreeParse(sagsvg, useInternalNodes=TRUE)
     xmlc =  c(xmll, xmls)
-    xmlc = edit.svgCol(xmlc, svgCol)
+    xmlc = editSvgCol(xmlc, svgCol)
     if(cross.hatch==TRUE){
-        xmlc = edit.crossHatch(xmlc, tmp)
+        xmlc = editCrossHatch(xmlc, tmp)
     }
-    xmlc = edit.regCol(tmp, xmlc, hexVec, cross.hatch)
+    xmlc = editRegCol(tmp, xmlc, hexVec, cross.hatch)
     xmlc = unmaskRegions(xmlc, srg, tmp)
-    xmlc = edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, regCol, legend.toggle, divergent.data)
+    xmlc = editLegend(xmin, xmed, clamp, xmad, xmax, xmlc, regCol, legend.toggle, divergent.data)
     xmll = xmlc[1][[1]]
     xmls = xmlc[2][[1]]
     saveXML(xmll, paste(outfile,"_outer_",timepoint[j],".svg",sep=""))
@@ -184,9 +184,9 @@ cerebroScale = function(datMat, clamp, xmed, xmad, divergent.data){
 #' @param svgCol
 #' @keywords internal
 #' @examples
-#' edit.svgCol(xmlc, svgCol)
-#edit.svgCol
-edit.svgCol = function(xmlc, svgCol){
+#' editSvgCol(xmlc, svgCol)
+#editSvgCol
+editSvgCol = function(xmlc, svgCol){
   for(k in 1:length(xmlc)){
     node = getNodeSet(xmlc[k][[1]], "//*[@id='brainBackground']")[[1]]
     removeAttributes(node, "fill")
@@ -208,9 +208,9 @@ edit.svgCol = function(xmlc, svgCol){
 #' @param tmp
 #' @keywords internal
 #' @examples
-#' edit.crossHatch(xmlc)
-#edit.crossHatch
-edit.crossHatch = function(xmlc, tmp){
+#' editCrossHatch(xmlc)
+#editCrossHatch
+editCrossHatch = function(xmlc, tmp){
   nhatch = names(tmp[is.na(tmp)])
   for(k in 1:length(xmlc)){
     for(m in 1:length(nhatch)){
@@ -234,9 +234,9 @@ edit.crossHatch = function(xmlc, tmp){
 #' @param cross.hatch
 #' @keywords internal
 #' @examples
-#' edit.regCol(tmp,xmlc,hexVec)
-#edit.regCol
-edit.regCol = function(tmp, xmlc, hexVec, cross.hatch){
+#' editRegCol(tmp,xmlc,hexVec)
+#editRegCol
+editRegCol = function(tmp, xmlc, hexVec, cross.hatch){
   nfill = tmp[which(!is.na(tmp))]
   for(k in 1:length(xmlc)){
     for(m in 1:length(nfill)){
@@ -276,9 +276,9 @@ edit.regCol = function(tmp, xmlc, hexVec, cross.hatch){
 #' @param divergent.data
 #' @keywords internal
 #' @examples
-#' edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, regCol, legend.toggle, divergent.data)
-#edit.legend()
-edit.legend = function(xmin, xmed, clamp, xmad, xmax, xmlc, regCol, legend.toggle, divergent.data){
+#' editLegend(xmin, xmed, clamp, xmad, xmax, xmlc, regCol, legend.toggle, divergent.data)
+#editLegend()
+editLegend = function(xmin, xmed, clamp, xmad, xmax, xmlc, regCol, legend.toggle, divergent.data){
   labmin = round(max(xmin, (xmed-(clamp*xmad))),3)
   labmax = round(min(xmax, (xmed+(clamp*xmad))),3)
   labmed = round(xmed, 3)
