@@ -11,6 +11,7 @@
 #' @param cross.hatch logical indicating if regions lacking data should be cross-hatched to differentiate them from the brain's background.
 #' @param legend.toggle logical indicating if the legend bar should be visible.
 #' @param customNames dataframe with 2 columns. The first column for cerebroViz convention names, the second column for custom user names.
+#' @colorsout colorsout returns scale to 0-1
 #' @keywords cerebroViz
 #' @import XML
 #' @import gplots
@@ -21,7 +22,7 @@
 #' x = t(apply(apply(rbind(matrix((sample(c(-400:600),260)/100),nrow=26,ncol=10),matrix(NA,nrow=4,ncol=10)),2,sample),1,sample))
 #' rownames(x) = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
 #' cerebroViz(x, regCol=c("blue","grey","red"))
-cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c("blue","grey","red"), svgCol = c("white","black","white"), divergent.data=TRUE, clamp=NULL, cross.hatch=FALSE, legend.toggle=TRUE, customNames=NULL){
+cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c("blue","grey","red"), svgCol = c("white","black","white"), divergent.data=TRUE, clamp=NULL, cross.hatch=FALSE, legend.toggle=TRUE, customNames=NULL, colorsout=FALSE){
   require(XML)
   require(gplots)
   require(scales)
@@ -140,6 +141,16 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   saveXML(xmll, paste(outfile,"_outer_",timepoint[j],".svg",sep=""))
   saveXML(xmls, paste(outfile,"_slice_",timepoint[j],".svg",sep=""))
   message("Success! Your diagrams have been saved.")
+  }
+
+  if(colorsout==T){
+    if(!is.null(customNames)){
+      for(ind in 1:nrow(customNames)){
+        rownames(hexInd)[rownames(hexInd)==customNames[ind,1]]=customNames[ind,2]
+      }
+    }
+    outvals = (hexInd-1)/200
+return(outvals)
   }
 }
 

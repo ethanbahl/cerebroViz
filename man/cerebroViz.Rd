@@ -7,7 +7,7 @@
 cerebroViz(x, timepoint = 1, outfile = "cerebroViz_output",
   regCol = c("blue", "grey", "red"), svgCol = c("white", "black", "white"),
   divergent.data = TRUE, clamp = NULL, cross.hatch = FALSE,
-  legend.toggle = TRUE, customNames = NULL)
+  legend.toggle = TRUE, customNames = NULL, colorsout = FALSE)
 }
 \arguments{
 \item{x}{a matrix object containing the data to map. Rownames should reflect the appropriate brain region. Columns may represent different time points or replicates.}
