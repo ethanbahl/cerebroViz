@@ -12,5 +12,5 @@ for each xml, get style and append cross-hatching pattern.
 \examples{
 edit.crossHatch(xmlc)
 }
-\keyword{cross.hatch}
+\keyword{internal}
 

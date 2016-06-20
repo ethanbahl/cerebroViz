@@ -12,5 +12,5 @@ for each xml, add the appropriate fill attributes for each region
 \examples{
 edit.regCol(tmp,xmlc,hexVec)
 }
-\keyword{regCol}
+\keyword{internal}
 

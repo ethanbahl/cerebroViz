@@ -12,5 +12,5 @@ for each xml, remove fill attributes from 'brainBackground' & 'brainOutline' and
 \examples{
 edit.svgCol(xmlc, svgCol)
 }
-\keyword{svgCol}
+\keyword{internal}
 

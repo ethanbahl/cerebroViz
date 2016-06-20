@@ -12,5 +12,5 @@ This function scales the data passed to cerebroViz and translates data points to
 \examples{
 cerebroScale(datMat,clamp,xmed,xmad,divergent.data)
 }
-\keyword{scale}
+\keyword{internal}
 

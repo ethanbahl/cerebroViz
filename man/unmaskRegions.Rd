@@ -19,5 +19,5 @@ for each missing superior region, set opacity to 0.
 \examples{
 unmaskRegions(xmlc,srg,tmp)
 }
-\keyword{unmaskRegions}
+\keyword{internal}
 
