@@ -6,11 +6,20 @@
 \usage{
 editRegCol(tmp, xmlc, hexVec, cross.hatch)
 }
+\arguments{
+\item{tmp}{hex gradient indices for current iteration (timepoint) in the loop, specified within cerebroViz().}
+
+\item{xmlc}{list containing the xml object for each SVG.}
+
+\item{hexVec}{character vector of length 201 containing the hex value gradient for visualization.}
+
+\item{cross.hatch}{logical indicating if regions of missing data should be filled with a cross-hatch pattern to differentiate them from the brain's background.}
+}
 \description{
 for each xml, add the appropriate fill attributes for each region
 }
 \examples{
-editRegCol(tmp,xmlc,hexVec)
+editRegCol(tmp, xmlc, hexVec, cross.hatch)
 }
 \keyword{internal}
 

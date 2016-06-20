@@ -9,11 +9,11 @@ cerebroScale(datMat, clamp, xmed, xmad, divergent.data)
 \arguments{
 \item{datMat}{input data matrix with missing regions filled as NA}
 
-\item{clamp}{numeric value by which the MAD is multiplied and then added/subtracted from the median to determine outliers}
+\item{clamp}{coefficient to the Median Absolute Deviation. Added and subtracted from the median to identify a range of non-outliers. Values external to this range will 'clamped' to extremes of the non-outlier range.}
 
 \item{xmed}{median of input data}
 
-\item{xmad}{MAD of input data}
+\item{xmad}{Median Absolute Deviation of input data (constant=1)}
 
 \item{divergent.data}{logical indicating if input data is divergent in nature. Default assumes data is sequential.}
 }
@@ -21,7 +21,7 @@ cerebroScale(datMat, clamp, xmed, xmad, divergent.data)
 This function scales the data passed to cerebroViz and translates data points to color values.
 }
 \examples{
-cerebroScale(datMat,clamp,xmed,xmad,divergent.data)
+cerebroScale(datMat, clamp, xmed, xmad, divergent.data)
 }
 \keyword{internal}
 

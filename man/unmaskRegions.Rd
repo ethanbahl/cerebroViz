@@ -7,17 +7,17 @@
 unmaskRegions(xmlc, srg, tmp)
 }
 \arguments{
-\item{xmlc}{xml list for lobe and sagittal, assigned within cerebroViz().}
+\item{xmlc}{list containing the xml object for each SVG.}
 
 \item{srg}{regions that encompass other brain regions, specified within cerebroViz().}
 
-\item{tmp}{the color index column for the current timepoint in the loop, specified within cerebroViz().}
+\item{tmp}{hex gradient indices for current iteration (timepoint) in the loop, specified within cerebroViz().}
 }
 \description{
 for each missing superior region, set opacity to 0.
 }
 \examples{
-unmaskRegions(xmlc,srg,tmp)
+unmaskRegions(xmlc, srg, tmp)
 }
 \keyword{internal}
 

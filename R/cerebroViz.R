@@ -4,14 +4,14 @@
 #' @param x a matrix object containing the data to map. Rownames should reflect the appropriate brain region. Columns may represent different time points or replicates.
 #' @param timepoint a numeric vector of columns in 'x' to visualize.
 #' @param outfile the desired prefix for the output SVG files.
-#' @param regCol a character vector of colors to use in the visualization. Accepts color names, hex values, and RGB values. For sequential data, it is recommended to use two colors. Three colors, with a neutral color in the middle, are suggested for divergent data.
-#' @param svgCol a character vector of length three specifying colors for the outline, brain background, and svg background in that order.
+#' @param regCol character vector of color values to use in the visualization. Accepts color names, hex values, and RGB values. For sequential data, it is recommended to use two colors, or a sequence of colors in a gradient. For divergent data, it is recommended to use three colors with a neutral color in the middle.
+#' @param svgCol character vector of length three specifying colors for the brain outline, brain background, and svg background in that order.
 #' @param divergent.data logical indicating if input data is divergent in nature. Default assumes data is sequential.
-#' @param clamp a numeric vector of length one specifying the value to multiply by MAD to determine outliers that will be 'clamped' down to prevent skewed visualizations.
-#' @param cross.hatch logical indicating if regions lacking data should be cross-hatched to differentiate them from the brain's background.
+#' @param clamp coefficient to the Median Absolute Deviation. Added and subtracted from the median to identify a range of non-outliers. Values external to this range will 'clamped' to extremes of the non-outlier range.
+#' @param cross.hatch logical indicating if regions of missing data should be filled with a cross-hatch pattern to differentiate them from the brain's background.
 #' @param legend.toggle logical indicating if the legend bar should be visible.
 #' @param customNames dataframe with 2 columns. The first column for cerebroViz convention names, the second column for custom user names.
-#' @colorsout colorsout returns scale to 0-1
+#' @param colorsout returns scale to 0-1
 #' @keywords cerebroViz
 #' @import XML
 #' @import gplots
@@ -143,13 +143,14 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
 #'
 #' This function scales the data passed to cerebroViz and translates data points to color values.
 #' @param datMat input data matrix with missing regions filled as NA
-#' @param clamp numeric value by which the MAD is multiplied and then added/subtracted from the median to determine outliers
+#' @param clamp coefficient to the Median Absolute Deviation. Added and subtracted from the median to identify a range of non-outliers. Values external to this range will 'clamped' to extremes of the non-outlier range.
 #' @param xmed median of input data
-#' @param xmad MAD of input data
+#' @param xmad Median Absolute Deviation of input data (constant=1)
 #' @param divergent.data logical indicating if input data is divergent in nature. Default assumes data is sequential.
 #' @keywords internal
 #' @examples
-#' cerebroScale(datMat,clamp,xmed,xmad,divergent.data)
+#' cerebroScale(datMat, clamp, xmed, xmad, divergent.data)
+#cerebroScale
 cerebroScale = function(datMat, clamp, xmed, xmad, divergent.data){
   tmp = datMat
   ol = clamp*xmad
@@ -180,8 +181,8 @@ cerebroScale = function(datMat, clamp, xmed, xmad, divergent.data){
 #' a function used by cerebroViz() to edit the brain outline and brain background.
 #'
 #' for each xml, remove fill attributes from 'brainBackground' & 'brainOutline' and replace them with the designated colors.
-#' @param xmlc
-#' @param svgCol
+#' @param xmlc list containing the xml object for each SVG.
+#' @param svgCol character vector of length three specifying colors for the brain outline, brain background, and svg background in that order.
 #' @keywords internal
 #' @examples
 #' editSvgCol(xmlc, svgCol)
@@ -204,11 +205,11 @@ editSvgCol = function(xmlc, svgCol){
 #' a function used by cerebroViz() to add cross-hatching to regions with missing data.
 #'
 #' for each xml, get style and append cross-hatching pattern.
-#' @param xmlc
-#' @param tmp
+#' @param xmlc list containing the xml object for each SVG.
+#' @param tmp hex gradient indices for current iteration (timepoint) in the loop, specified within cerebroViz().
 #' @keywords internal
 #' @examples
-#' editCrossHatch(xmlc)
+#' editCrossHatch(xmlc, tmp)
 #editCrossHatch
 editCrossHatch = function(xmlc, tmp){
   nhatch = names(tmp[is.na(tmp)])
@@ -228,13 +229,13 @@ editCrossHatch = function(xmlc, tmp){
 #' a function used by cerebroViz() to map input data to brain regions.
 #'
 #' for each xml, add the appropriate fill attributes for each region
-#' @param tmp
-#' @param xmlc
-#' @param hexVec
-#' @param cross.hatch
+#' @param tmp hex gradient indices for current iteration (timepoint) in the loop, specified within cerebroViz().
+#' @param xmlc list containing the xml object for each SVG.
+#' @param hexVec character vector of length 201 containing the hex value gradient for visualization.
+#' @param cross.hatch logical indicating if regions of missing data should be filled with a cross-hatch pattern to differentiate them from the brain's background.
 #' @keywords internal
 #' @examples
-#' editRegCol(tmp,xmlc,hexVec)
+#' editRegCol(tmp, xmlc, hexVec, cross.hatch)
 #editRegCol
 editRegCol = function(tmp, xmlc, hexVec, cross.hatch){
   nfill = tmp[which(!is.na(tmp))]
@@ -265,15 +266,15 @@ editRegCol = function(tmp, xmlc, hexVec, cross.hatch){
 #' a function used by cerebroViz() to edit the legend.
 #'
 #' for each xml, map the appropriate colors to the legend
-#' @param xmin
-#' @param xmed
-#' @param clamp
-#' @param xmad
-#' @param xmax
-#' @param xmlc
-#' @param regCol
-#' @param legend.toggle
-#' @param divergent.data
+#' @param xmin minimum of input data.
+#' @param xmed median of input data.
+#' @param clamp coefficient to the Median Absolute Deviation. Added and subtracted from the median to identify a range of non-outliers. Values external to this range will 'clamped' to extremes of the non-outlier range.
+#' @param xmad Median Absolute Deviation of input data (constant=1).
+#' @param xmax maximum of input data.
+#' @param xmlc list containing the xml object for each SVG.
+#' @param regCol character vector of color values to use in the visualization. Accepts color names, hex values, and RGB values. For sequential data, it is recommended to use two colors, or a sequence of colors in a gradient. For divergent data, it is recommended to use three colors with a neutral color in the middle.
+#' @param legend.toggle logical indicating if the legend bar should be visible.
+#' @param divergent.data logical indicating if input data is divergent in nature. Default assumes data is sequential.
 #' @keywords internal
 #' @examples
 #' editLegend(xmin, xmed, clamp, xmad, xmax, xmlc, regCol, legend.toggle, divergent.data)
@@ -312,12 +313,12 @@ editLegend = function(xmin, xmed, clamp, xmad, xmax, xmlc, regCol, legend.toggle
 #' a function used by cerebroViz() to unmask subregions when superior regions are not supplied in input data.
 #'
 #' for each missing superior region, set opacity to 0.
-#' @param xmlc xml list for lobe and sagittal, assigned within cerebroViz().
+#' @param xmlc list containing the xml object for each SVG.
 #' @param srg regions that encompass other brain regions, specified within cerebroViz().
-#' @param tmp the color index column for the current timepoint in the loop, specified within cerebroViz().
+#' @param tmp hex gradient indices for current iteration (timepoint) in the loop, specified within cerebroViz().
 #' @keywords internal
 #' @examples
-#' unmaskRegions(xmlc,srg,tmp)
+#' unmaskRegions(xmlc, srg, tmp)
 #unmaskRegions
 unmaskRegions = function(xmlc, srg, tmp){
   nhatch = names(tmp[is.na(tmp)])

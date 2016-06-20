@@ -6,6 +6,11 @@
 \usage{
 editSvgCol(xmlc, svgCol)
 }
+\arguments{
+\item{xmlc}{list containing the xml object for each SVG.}
+
+\item{svgCol}{character vector of length three specifying colors for the brain outline, brain background, and svg background in that order.}
+}
 \description{
 for each xml, remove fill attributes from 'brainBackground' & 'brainOutline' and replace them with the designated colors.
 }
