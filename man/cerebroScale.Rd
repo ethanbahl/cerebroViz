@@ -6,6 +6,17 @@
 \usage{
 cerebroScale(datMat, clamp, xmed, xmad, divergent.data)
 }
+\arguments{
+\item{datMat}{input data matrix with missing regions filled as NA}
+
+\item{clamp}{numeric value by which the MAD is multiplied and then added/subtracted from the median to determine outliers}
+
+\item{xmed}{median of input data}
+
+\item{xmad}{MAD of input data}
+
+\item{divergent.data}{logical indicating if input data is divergent in nature. Default assumes data is sequential.}
+}
 \description{
 This function scales the data passed to cerebroViz and translates data points to color values.
 }

@@ -142,11 +142,11 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
 #' A data scaling function used by cerebroViz()
 #'
 #' This function scales the data passed to cerebroViz and translates data points to color values.
-#' @param datMat
-#' @param clamp
-#' @param xmed
-#' @param xmad
-#' @param divergent.data
+#' @param datMat input data matrix with missing regions filled as NA
+#' @param clamp numeric value by which the MAD is multiplied and then added/subtracted from the median to determine outliers
+#' @param xmed median of input data
+#' @param xmad MAD of input data
+#' @param divergent.data logical indicating if input data is divergent in nature. Default assumes data is sequential.
 #' @keywords internal
 #' @examples
 #' cerebroScale(datMat,clamp,xmed,xmad,divergent.data)
