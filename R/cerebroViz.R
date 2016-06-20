@@ -147,8 +147,7 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
 #' @param xmed
 #' @param xmad
 #' @param divergent.data
-#' @keywords scale
-#' @export
+#' @keywords internal
 #' @examples
 #' cerebroScale(datMat,clamp,xmed,xmad,divergent.data)
 cerebroScale = function(datMat, clamp, xmed, xmad, divergent.data){
@@ -183,7 +182,7 @@ cerebroScale = function(datMat, clamp, xmed, xmad, divergent.data){
 #' for each xml, remove fill attributes from 'brainBackground' & 'brainOutline' and replace them with the designated colors.
 #' @param xmlc
 #' @param svgCol
-#' @keywords svgCol
+#' @keywords internal
 #' @examples
 #' edit.svgCol(xmlc, svgCol)
 #edit.svgCol
@@ -207,7 +206,7 @@ edit.svgCol = function(xmlc, svgCol){
 #' for each xml, get style and append cross-hatching pattern.
 #' @param xmlc
 #' @param tmp
-#' @keywords cross.hatch
+#' @keywords internal
 #' @examples
 #' edit.crossHatch(xmlc)
 #edit.crossHatch
@@ -233,7 +232,7 @@ edit.crossHatch = function(xmlc, tmp){
 #' @param xmlc
 #' @param hexVec
 #' @param cross.hatch
-#' @keywords regCol
+#' @keywords internal
 #' @examples
 #' edit.regCol(tmp,xmlc,hexVec)
 #edit.regCol
@@ -275,7 +274,7 @@ edit.regCol = function(tmp, xmlc, hexVec, cross.hatch){
 #' @param regCol
 #' @param legend.toggle
 #' @param divergent.data
-#' @keywords legend
+#' @keywords internal
 #' @examples
 #' edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, regCol, legend.toggle, divergent.data)
 #edit.legend()
@@ -316,7 +315,7 @@ edit.legend = function(xmin, xmed, clamp, xmad, xmax, xmlc, regCol, legend.toggl
 #' @param xmlc xml list for lobe and sagittal, assigned within cerebroViz().
 #' @param srg regions that encompass other brain regions, specified within cerebroViz().
 #' @param tmp the color index column for the current timepoint in the loop, specified within cerebroViz().
-#' @keywords unmaskRegions
+#' @keywords internal
 #' @examples
 #' unmaskRegions(xmlc,srg,tmp)
 #unmaskRegions
