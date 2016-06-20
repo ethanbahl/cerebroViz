@@ -129,7 +129,7 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   xmlc = edit.regCol(tmp, xmlc, hexVec, cross.hatch)
 
 ############################################################## M A S K R E G ###
-  xmlc = edit.maskReg(xmlc, srg, tmp)
+  xmlc = unmaskRegions(xmlc, srg, tmp)
 
 ################################################################ L E G E N D ###
   xmlc = edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, regCol, legend.toggle, divergent.data)
@@ -314,30 +314,28 @@ edit.legend = function(xmin, xmed, clamp, xmad, xmax, xmlc, regCol, legend.toggl
   return(xmlc)
 }
 
-#' a function used by cerebroViz() to mask subregions when superior regions are supplied in input data.
+#' a function used by cerebroViz() to unmask subregions when superior regions are not supplied in input data.
 #'
-#' for each superior region, get children region nodes and set opacity to 0.
-#' @param xmlc
-#' @param srg
-#' @param tmp
-#' @keywords maskReg
+#' for each missing superior region, set opacity to 0.
+#' @param xmlc xml list for lobe and sagittal, assigned within cerebroViz().
+#' @param srg regions that encompass other brain regions, specified within cerebroViz().
+#' @param tmp the color index column for the current timepoint in the loop, specified within cerebroViz().
+#' @keywords unmaskRegions
 #' @examples
-#' edit.maskReg(xmlc,srg,tmp)
-#edit.maskReg
-edit.maskReg = function(xmlc, srg, tmp){
-  tmpusrg = srg[srg%in%names(tmp[!is.na(tmp)])]
+#' unmaskRegions(xmlc,srg,tmp)
+#unmaskRegions
+unmaskRegions = function(xmlc, srg, tmp){
   nhatch = names(tmp[is.na(tmp)])
-  if(length(tmpusrg)>0){
-    for(m in 1:length(tmpusrg)){
-      lobename = tmpusrg[m]
-      lobenode = getNodeSet(xmlc[1][[1]], paste("//*[@class='",lobename,"']",sep=""))
-        for(lobeind in 1:length(lobenode)){
-          if(length(lobenode)>0){
-          node = lobenode[[lobeind]]
+  opacdown = srg[srg%in%nhatch]
+  if(length(opacdown)>0){
+    for(m in 1:length(opacdown)){
+      lobename = opacdown[m]
+      lobenode = getNodeSet(xmlc[1][[1]], paste("//*[@id='",lobename,"']",sep=""))
+        if(length(lobenode)>0){
+          node = lobenode[[1]]
           removeAttributes(node,"fill-opacity")
           addAttributes(node, "fill-opacity"="0")
         }
-      }
     }
   }
   if(("STR"%in%nhatch) & (sum(c("CAU","PUT") %in% nhatch)>0)){
