@@ -5,9 +5,9 @@
 \title{A tool to visualize biological data mapped to SVG brain diagrams.}
 \usage{
 cerebroViz(x, timepoint = 1, outfile = "cerebroViz_output",
-  regCol = c("blue", "grey", "red"), svgCol = c("white", "black", "white"),
-  divergent.data = TRUE, clamp = NULL, cross.hatch = FALSE,
-  legend.toggle = TRUE, custom.names = FALSE)
+  regCol = c("#FEECE4", "#ee2d26"), svgCol = c("white", "black", "white"),
+  divergent.data = FALSE, clamp = NULL, cross.hatch = FALSE,
+  legend.toggle = TRUE, customNames = NULL)
 }
 \arguments{
 \item{x}{a matrix object containing the data to map. Rownames should reflect the appropriate brain region. Columns may represent different time points or replicates.}
@@ -16,19 +16,19 @@ cerebroViz(x, timepoint = 1, outfile = "cerebroViz_output",
 
 \item{outfile}{the desired prefix for the output SVG files.}
 
-\item{regCol}{a character vector of colors to use in the visualization. Accepts color names, hex values, and RGB values. For sequential data, it is recommended to use two colors. Three colors, with a neutral color in the middle, are suggested for divergent data.}
+\item{regCol}{character vector of color values to use in the visualization. Accepts color names, hex values, and RGB values. For sequential data, it is recommended to use two colors, or a sequence of colors in a gradient. For divergent data, it is recommended to use three colors with a neutral color in the middle.}
 
-\item{svgCol}{a character vector of length three specifying colors for the outline, brain background, and svg background in that order.}
+\item{svgCol}{character vector of length three specifying colors for the brain outline, brain background, and svg background in that order.}
 
 \item{divergent.data}{logical indicating if input data is divergent in nature. Default assumes data is sequential.}
 
-\item{clamp}{a numeric vector of length one specifying the value to multiply by MAD to determine outliers that will be 'clamped' down to prevent skewed visualizations.}
+\item{clamp}{coefficient to the Median Absolute Deviation. Added and subtracted from the median to identify a range of non-outliers. Values external to this range will 'clamped' to extremes of the non-outlier range.}
 
-\item{cross.hatch}{logical indicating if regions lacking data should be cross-hatched to differentiate them from the brain's background.}
+\item{cross.hatch}{logical indicating if regions of missing data should be filled with a cross-hatch pattern to differentiate them from the brain's background.}
 
 \item{legend.toggle}{logical indicating if the legend bar should be visible.}
 
-\item{custom.names}{logical indicating if custom naming conventions are used for the input data. If TRUE, user should complete the mapping spreadsheet.}
+\item{customNames}{dataframe with 2 columns. The first column for cerebroViz convention names, the second column for custom user names.}
 }
 \description{
 'cerebroViz' is a data mapping tool for visualizing spatiotemporal data in the brain. The user inputs a matrix of data and the tool outputs publication quality SVG diagrams with color mapping reflective of the input data. 'cerebroViz' supports 30 brain regions used by BrainSpan, GTex, Roadmap Epigneomics, and more.
@@ -36,7 +36,7 @@ cerebroViz(x, timepoint = 1, outfile = "cerebroViz_output",
 \examples{
 x = t(apply(apply(rbind(matrix((sample(c(-400:600),260)/100),nrow=26,ncol=10),matrix(NA,nrow=4,ncol=10)),2,sample),1,sample))
 rownames(x) = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
-cerebroViz(x, regCol=c("blue","grey","red"))
+cerebroViz(x)
 }
 \keyword{cerebroViz}
 

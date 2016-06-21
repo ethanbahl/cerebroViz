@@ -4,13 +4,13 @@
 #' @param x a matrix object containing the data to map. Rownames should reflect the appropriate brain region. Columns may represent different time points or replicates.
 #' @param timepoint a numeric vector of columns in 'x' to visualize.
 #' @param outfile the desired prefix for the output SVG files.
-#' @param regCol a character vector of colors to use in the visualization. Accepts color names, hex values, and RGB values. For sequential data, it is recommended to use two colors. Three colors, with a neutral color in the middle, are suggested for divergent data.
-#' @param svgCol a character vector of length three specifying colors for the outline, brain background, and svg background in that order.
+#' @param regCol character vector of color values to use in the visualization. Accepts color names, hex values, and RGB values. For sequential data, it is recommended to use two colors, or a sequence of colors in a gradient. For divergent data, it is recommended to use three colors with a neutral color in the middle.
+#' @param svgCol character vector of length three specifying colors for the brain outline, brain background, and svg background in that order.
 #' @param divergent.data logical indicating if input data is divergent in nature. Default assumes data is sequential.
-#' @param clamp a numeric vector of length one specifying the value to multiply by MAD to determine outliers that will be 'clamped' down to prevent skewed visualizations.
-#' @param cross.hatch logical indicating if regions lacking data should be cross-hatched to differentiate them from the brain's background.
+#' @param clamp coefficient to the Median Absolute Deviation. Added and subtracted from the median to identify a range of non-outliers. Values external to this range will 'clamped' to extremes of the non-outlier range.
+#' @param cross.hatch logical indicating if regions of missing data should be filled with a cross-hatch pattern to differentiate them from the brain's background.
 #' @param legend.toggle logical indicating if the legend bar should be visible.
-#' @param custom.names logical indicating if custom naming conventions are used for the input data. If TRUE, user should complete the mapping spreadsheet.
+#' @param customNames dataframe with 2 columns. The first column for cerebroViz convention names, the second column for custom user names.
 #' @keywords cerebroViz
 #' @import XML
 #' @import gplots
@@ -20,13 +20,15 @@
 #' @examples
 #' x = t(apply(apply(rbind(matrix((sample(c(-400:600),260)/100),nrow=26,ncol=10),matrix(NA,nrow=4,ncol=10)),2,sample),1,sample))
 #' rownames(x) = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
-#' cerebroViz(x, regCol=c("blue","grey","red"))
-cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c("blue","grey","red"), svgCol = c("white","black","white"), divergent.data=TRUE, clamp=NULL, cross.hatch=FALSE, legend.toggle=TRUE, custom.names=FALSE){
+#' cerebroViz(x)
+cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c("#FEECE4","#ee2d26"), svgCol = c("white","black","white"), divergent.data=FALSE, clamp=NULL, cross.hatch=FALSE, legend.toggle=TRUE, customNames=NULL){
   require(XML)
   require(gplots)
   require(scales)
   require(grDevices)
 
+  #creating the master regions vector
+  regions = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
 ################################################ E R R O R   H A N D L I N G ###
   if(class(x)!="matrix") stop("'x' must be of class 'matrix'")
   if(sum(is.na(rownames(x)))>0) stop("rownames of 'x' must be valid")
@@ -37,11 +39,12 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   if(length(regCol)==3 & divergent.data==FALSE | length(regCol)==2 & divergent.data==TRUE){
     warning("recommended usage: 2 colors (regCol) for sequential data and 3 colors for divergent data.")
   }
+  if(!is.null(customNames)){
+    if(ncol(customNames)!=2) stop("unexpected input for customNames")
+  }
+  if(is.null(customNames) & sum(rownames(x)%in%regions==FALSE)>0) warning(paste("Unknown rownames in input data: ",paste(rownames(x)[rownames(x)%in%regions==FALSE],collapse=", "),". Unknown regions will be excluded from visualization. See the help page for 'customNames' argument.",sep=""))
 
 #################################################### R E G I O N   S E T U P ###
-  #creating the master regions vector
-  regions = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
-
   #creating the vector for 'parent' regions (regions that encompass others) and a warning of overshadowing.
   srg = c("BS", "FCX", "OCX", "PCX", "TCX", "STR")
   suplog = !is.na(x[rownames(x) %in% srg,timepoint])
@@ -61,15 +64,12 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   xmin = min(x, na.rm=TRUE)
   xmax = max(x, na.rm=TRUE)
 
-###################################################### S P R E A D S H E E T ###
-  #spreadsheet - naming conventions
-  if(custom.names==TRUE){
-    dat = read.table(system.file("extdata/map/suggestedmapping.txt", package="cerebroViz"), fill=TRUE, sep="\t", header=TRUE, stringsAsFactors=FALSE, na.strings="")
-    unknames = rownames(x)[which(rownames(x)%in%regions==FALSE)]
-    for(i in 1:length(unknames)){
-      unkindex = grep(unknames[i], dat[,6])
-      inpindex = which(rownames(x)==unknames[i])
-      rownames(x)[inpindex]=dat[unkindex,1]
+###################################################### C U S T O M N A M E S ###
+  #customNames
+  if(!is.null(customNames)){
+    if(sum(customNames[,2]%in%regions)>0) stop(paste("customNames contains region names already used in cerebroViz convention: ",paste(customNames[customNames[,2]%in%regions,2],collapse=", "),sep=""))
+    for(i in 1:nrow(customNames)){
+      rownames(x)[rownames(x)==customNames[i,2]]=customNames[i,1]
     }
   }
 
@@ -92,106 +92,102 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   rownames(NAmatrix) = regions[which(regions%in%rownames(x)==FALSE)]
   datMat = rbind(x, NAmatrix)
   datMat = as.matrix(datMat[order(rownames(datMat)),])
-
-################################################## N O R M A L I Z A T I O N ###
-  hexInd = cerebroScale(datMat, clamp, xmed, xmad, divergent.data)
-
-################################################################ H E X V E C ###
+  x_scaled = cerebroScale(datMat, clamp, divergent.data)
+  hexInd = round(x_scaled*200+1)
   f = colorRampPalette(regCol)
   hexVec = f(201)
 
 ############################################################ B I G   L O O P ###
- lobesvg = system.file("extdata/svg/brainlobe.svg",package="cerebroViz")
- sagsvg = system.file("extdata/svg/brainsagittal.svg",package="cerebroViz")
-
- for(j in 1:length(timepoint)){
-   #timepoint selection and filling in cross hatching for missing values
-   if(ncol(x)>1) {
-     tmp = hexInd[,timepoint[j]]
-   }
-   else {
-     tmp = hexInd
-   }
-
-   xmll = xmlTreeParse(lobesvg, useInternalNodes=TRUE)
-   xmls = xmlTreeParse(sagsvg, useInternalNodes=TRUE)
-   xmlc =  c(xmll, xmls)
-
-############################################################ B R A I N C O L ###
-  xmlc = edit.svgCol(xmlc, svgCol)
-
-######################################################## C R O S S H A T C H ###
-  if(cross.hatch==TRUE){
-    xmlc = edit.crossHatch(xmlc, tmp)
-  }
-
-################################################################ R E G C O L ###
-  xmlc = edit.regCol(tmp, xmlc, hexVec, cross.hatch)
-
-############################################################## M A S K R E G ###
-  xmlc = edit.maskReg(xmlc, srg, tmp)
-
-################################################################ L E G E N D ###
-  xmlc = edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggle, divergent.data)
-
-############################################################## S A V E X M L ###
-  xmll = xmlc[1][[1]]
-  xmls = xmlc[2][[1]]
-  saveXML(xmll, paste(outfile,"_outer_",timepoint[j],".svg",sep=""))
-  saveXML(xmls, paste(outfile,"_slice_",timepoint[j],".svg",sep=""))
-  message("Success! Your diagrams have been saved.")
-  }
+  lobesvg = system.file("extdata/svg/brainlobe.svg",package="cerebroViz")
+  sagsvg = system.file("extdata/svg/brainsagittal.svg",package="cerebroViz")
+  for(j in 1:length(timepoint)){
+    if(ncol(x)>1) {
+      tmp = hexInd[,timepoint[j]]
+    }
+    else {
+      tmp = hexInd
+    }
+    xmll = xmlTreeParse(lobesvg, useInternalNodes=TRUE)
+    xmls = xmlTreeParse(sagsvg, useInternalNodes=TRUE)
+    xmlc =  c(xmll, xmls)
+    xmlc = editSvgCol(xmlc, svgCol)
+    if(cross.hatch==TRUE){
+        xmlc = editCrossHatch(xmlc, tmp)
+    }
+    xmlc = editRegCol(tmp, xmlc, hexVec, cross.hatch)
+    xmlc = unmaskRegions(xmlc, srg, tmp)
+    xmlc = editLegend(xmin, xmed, clamp, xmad, xmax, xmlc, regCol, legend.toggle, divergent.data)
+    xmll = xmlc[1][[1]]
+    xmls = xmlc[2][[1]]
+    saveXML(xmll, paste(outfile,"_outer_",timepoint[j],".svg",sep=""))
+    saveXML(xmls, paste(outfile,"_slice_",timepoint[j],".svg",sep=""))
+    message("Success! Your diagrams have been saved.")
+    }
 }
 
-#' A data scaling function used by cerebroViz()
+#' A function to scale sequential and divergent data to a 0:1 range
 #'
-#' This function scales the data passed to cerebroViz and translates data points to color values.
-#' @param datMat
-#' @param clamp
-#' @param xmed
-#' @param xmad
-#' @param divergent.data
-#' @keywords scale
+#' This function scales input data to a 0:1 range. If divergent.data=FALSE it will scale linearly. If divergent.data=TRUE, it will utilize a polylinear scale centered at the median of the input data.
+#' @param x input data matrix
+#' @param clamp coefficient to the Median Absolute Deviation. Added and subtracted from the median to identify a range of non-outliers. Values external to this range will 'clamped' to extremes of the non-outlier range.
+#' @param divergent.data logical indicating if input data is divergent in nature. Default assumes data is sequential.
+#' @keywords cerebroScale
 #' @export
 #' @examples
-#' cerebroScale(datMat,clamp,xmed,xmad,divergent.data)
-cerebroScale = function(datMat, clamp, xmed, xmad, divergent.data){
-  tmp = datMat
-  ol = clamp*xmad
+#' cerebroScale(x, clamp = 100, divergent.data=FALSE)
+#cerebroScale
+cerebroScale = function(x, clamp, divergent.data){
+  xmed = median(x, na.rm=TRUE)
+  xmad = mad(x, constant = 1, na.rm=TRUE)
+  xmin = min(x, na.rm=TRUE)
+  xmax = max(x, na.rm=TRUE)
+  avoidClamp = max(abs(xmed-xmin),abs(xmed-xmax))/xmad
+  fill_matrix = x
+
+  if(is.null(clamp)){
+    clamp = avoidClamp+1
+  }
+  outlrs = clamp*xmad
+  if(clamp<=0) stop("clamp must be >0")
+  pctOL = round(length(which(x<=(xmed-(outlrs)) | x>=(xmed+(outlrs))))/length(x)*100,2)
+  if(pctOL>0){
+    warning(paste("The clamp value of ", clamp," will clamp ",pctOL,"% of input values (outliers) to 0 or 1.", sep=""))
+  }
+
   if(divergent.data==TRUE){
-    abvmed = tmp[datMat>=xmed & datMat<=(xmed+ol) & !is.na(datMat)]
-    belmed = tmp[datMat<=xmed & datMat>=(xmed-ol) & !is.na(datMat)]
-    if(length(which(!is.na(tmp))) %% 2 == 0){ #imputing median if even number of data points
-      rsc = round(rescale(c(xmed,abvmed),c(101,201)))[-1]
-      tmp[datMat>=xmed & datMat<=(xmed+ol) & !is.na(datMat)] = rsc
-      lsc = round(rescale(c(xmed,belmed),c(1,101)))[-1]
-      tmp[datMat<=xmed & datMat>=(xmed-ol) & !is.na(datMat)] = lsc
-      hexInd = tmp
+    abvmed = x[x>=xmed & x<=(xmed+outlrs) & !is.na(x)]
+    belmed = x[x<=xmed & x>=(xmed-outlrs) & !is.na(x)]
+    if(length(which(!is.na(x))) %% 2 == 0){ #imputing median if even number of data points
+      rsc = rescale(c(xmed,abvmed),c(0.5,1))[-1]
+      fill_matrix[x>=xmed & x<=(xmed+outlrs) & !is.na(x)] = rsc
+      lsc = rescale(c(xmed,belmed),c(0,0.5))[-1]
+      fill_matrix[x<=xmed & x>=(xmed-outlrs) & !is.na(x)] = lsc
+      x_scaled = fill_matrix
     }
-    if((length(which(!is.na(tmp)))) %% 2 == 1){
-      rsc = round(rescale(abvmed,c(101,201)))
-      tmp[datMat>=xmed & datMat<=(xmed+ol) & !is.na(datMat)] = rsc
-      lsc = round(rescale(belmed,c(1,101)))
-      tmp[datMat<=xmed & datMat>=(xmed-ol) & !is.na(datMat)] = lsc
-      hexInd = tmp
+    if((length(which(!is.na(x)))) %% 2 == 1){
+      rsc = rescale(abvmed,c(0.5,1))
+      fill_matrix[x>=xmed & x<=(xmed+outlrs) & !is.na(x)] = rsc
+      lsc = rescale(belmed,c(0,0.5))
+      fill_matrix[x<=xmed & x>=(xmed-outlrs) & !is.na(x)] = lsc
+      x_scaled = fill_matrix
     }
   }
   if(divergent.data==FALSE){
-      hexInd = round(rescale(datMat, to=c(1, 201), from=range(datMat, na.rm=TRUE, finite=TRUE)))
+      x_scaled = rescale(x, to=c(0,1), from=range(x, na.rm=TRUE, finite=TRUE))
   }
-  return(hexInd)
+  return(x_scaled)
 }
 
 #' a function used by cerebroViz() to edit the brain outline and brain background.
 #'
 #' for each xml, remove fill attributes from 'brainBackground' & 'brainOutline' and replace them with the designated colors.
-#' @param xmlc
-#' @param svgCol
-#' @keywords svgCol
+#' @param xmlc list containing the xml object for each SVG.
+#' @param svgCol character vector of length three specifying colors for the brain outline, brain background, and svg background in that order.
+#' @keywords internal
 #' @examples
-#' edit.svgCol(xmlc, svgCol)
-#edit.svgCol
-edit.svgCol = function(xmlc, svgCol){
+#' editSvgCol(xmlc, svgCol)
+#editSvgCol
+editSvgCol = function(xmlc, svgCol){
   for(k in 1:length(xmlc)){
     node = getNodeSet(xmlc[k][[1]], "//*[@id='brainBackground']")[[1]]
     removeAttributes(node, "fill")
@@ -209,13 +205,13 @@ edit.svgCol = function(xmlc, svgCol){
 #' a function used by cerebroViz() to add cross-hatching to regions with missing data.
 #'
 #' for each xml, get style and append cross-hatching pattern.
-#' @param xmlc
-#' @param tmp
-#' @keywords cross.hatch
+#' @param xmlc list containing the xml object for each SVG.
+#' @param tmp hex gradient indices for current iteration (timepoint) in the loop, specified within cerebroViz().
+#' @keywords internal
 #' @examples
-#' edit.crossHatch(xmlc)
-#edit.crossHatch
-edit.crossHatch = function(xmlc, tmp){
+#' editCrossHatch(xmlc, tmp)
+#editCrossHatch
+editCrossHatch = function(xmlc, tmp){
   nhatch = names(tmp[is.na(tmp)])
   for(k in 1:length(xmlc)){
     for(m in 1:length(nhatch)){
@@ -233,15 +229,15 @@ edit.crossHatch = function(xmlc, tmp){
 #' a function used by cerebroViz() to map input data to brain regions.
 #'
 #' for each xml, add the appropriate fill attributes for each region
-#' @param tmp
-#' @param xmlc
-#' @param hexVec
-#' @param cross.hatch
-#' @keywords regCol
+#' @param tmp hex gradient indices for current iteration (timepoint) in the loop, specified within cerebroViz().
+#' @param xmlc list containing the xml object for each SVG.
+#' @param hexVec character vector of length 201 containing the hex value gradient for visualization.
+#' @param cross.hatch logical indicating if regions of missing data should be filled with a cross-hatch pattern to differentiate them from the brain's background.
+#' @keywords internal
 #' @examples
-#' edit.regCol(tmp,xmlc,hexVec)
-#edit.regCol
-edit.regCol = function(tmp, xmlc, hexVec, cross.hatch){
+#' editRegCol(tmp, xmlc, hexVec, cross.hatch)
+#editRegCol
+editRegCol = function(tmp, xmlc, hexVec, cross.hatch){
   nfill = tmp[which(!is.na(tmp))]
   for(k in 1:length(xmlc)){
     for(m in 1:length(nfill)){
@@ -270,29 +266,31 @@ edit.regCol = function(tmp, xmlc, hexVec, cross.hatch){
 #' a function used by cerebroViz() to edit the legend.
 #'
 #' for each xml, map the appropriate colors to the legend
-#' @param xmin
-#' @param xmed
-#' @param clamp
-#' @param xmad
-#' @param xmax
-#' @param xmlc
-#' @param hexVec
-#' @param legend.toggle
-#' @param divergent.data
-#' @keywords legend
+#' @param xmin minimum of input data.
+#' @param xmed median of input data.
+#' @param clamp coefficient to the Median Absolute Deviation. Added and subtracted from the median to identify a range of non-outliers. Values external to this range will 'clamped' to extremes of the non-outlier range.
+#' @param xmad Median Absolute Deviation of input data (constant=1).
+#' @param xmax maximum of input data.
+#' @param xmlc list containing the xml object for each SVG.
+#' @param regCol character vector of color values to use in the visualization. Accepts color names, hex values, and RGB values. For sequential data, it is recommended to use two colors, or a sequence of colors in a gradient. For divergent data, it is recommended to use three colors with a neutral color in the middle.
+#' @param legend.toggle logical indicating if the legend bar should be visible.
+#' @param divergent.data logical indicating if input data is divergent in nature. Default assumes data is sequential.
+#' @keywords internal
 #' @examples
-#' edit.legend(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggle)
-#edit.legend()
-edit.legend = function(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggle, divergent.data){
+#' editLegend(xmin, xmed, clamp, xmad, xmax, xmlc, regCol, legend.toggle, divergent.data)
+#editLegend()
+editLegend = function(xmin, xmed, clamp, xmad, xmax, xmlc, regCol, legend.toggle, divergent.data){
   labmin = round(max(xmin, (xmed-(clamp*xmad))),3)
   labmax = round(min(xmax, (xmed+(clamp*xmad))),3)
   labmed = round(xmed, 3)
   labels = c(labmin, labmed, labmax)
+  stopoffset =  paste(as.character(seq(0,100,(100/(length(regCol)-1)))),"%", sep="")
+  stopcolor = col2hex(regCol)
   for(k in 1:length(xmlc)){
-    node = getNodeSet(xmlc[k][[1]], "//*[@class='legend']")
-    for(m in 1:length(node)){
-      removeAttributes(node[[m]],"fill")
-      addAttributes(node[[m]],fill=hexVec[m])
+    gradnode = getNodeSet(xmlc[k][[1]], "//*[@id='gradient']")
+    for(i in 1:length(regCol)){
+      newstop = newXMLNode("stop", attrs=c("offset"=stopoffset[i],"stop-color"=stopcolor[i]))
+      gradnode[[1]] = addChildren(gradnode[[1]],newstop)
     }
     for(m in 1:length(labels)){
       node = getNodeSet(xmlc[k][[1]], "//*[@class='legendLabel']")[[m]]
@@ -312,30 +310,28 @@ edit.legend = function(xmin, xmed, clamp, xmad, xmax, xmlc, hexVec, legend.toggl
   return(xmlc)
 }
 
-#' a function used by cerebroViz() to mask subregions when superior regions are supplied in input data.
+#' a function used by cerebroViz() to unmask subregions when superior regions are not supplied in input data.
 #'
-#' for each superior region, get children region nodes and set opacity to 0.
-#' @param xmlc
-#' @param srg
-#' @param tmp
-#' @keywords maskReg
+#' for each missing superior region, set opacity to 0.
+#' @param xmlc list containing the xml object for each SVG.
+#' @param srg regions that encompass other brain regions, specified within cerebroViz().
+#' @param tmp hex gradient indices for current iteration (timepoint) in the loop, specified within cerebroViz().
+#' @keywords internal
 #' @examples
-#' edit.maskReg(xmlc,srg,tmp)
-#edit.maskReg
-edit.maskReg = function(xmlc, srg, tmp){
-  tmpusrg = srg[srg%in%names(tmp[!is.na(tmp)])]
+#' unmaskRegions(xmlc, srg, tmp)
+#unmaskRegions
+unmaskRegions = function(xmlc, srg, tmp){
   nhatch = names(tmp[is.na(tmp)])
-  if(length(tmpusrg)>0){
-    for(m in 1:length(tmpusrg)){
-      lobename = tmpusrg[m]
-      lobenode = getNodeSet(xmlc[1][[1]], paste("//*[@class='",lobename,"']",sep=""))
-        for(lobeind in 1:length(lobenode)){
-          if(length(lobenode)>0){
-          node = lobenode[[lobeind]]
+  opacdown = srg[srg%in%nhatch]
+  if(length(opacdown)>0){
+    for(m in 1:length(opacdown)){
+      lobename = opacdown[m]
+      lobenode = getNodeSet(xmlc[1][[1]], paste("//*[@id='",lobename,"']",sep=""))
+        if(length(lobenode)>0){
+          node = lobenode[[1]]
           removeAttributes(node,"fill-opacity")
           addAttributes(node, "fill-opacity"="0")
         }
-      }
     }
   }
   if(("STR"%in%nhatch) & (sum(c("CAU","PUT") %in% nhatch)>0)){
