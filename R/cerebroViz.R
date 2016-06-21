@@ -21,7 +21,7 @@
 #' x = t(apply(apply(rbind(matrix((sample(c(-400:600),260)/100),nrow=26,ncol=10),matrix(NA,nrow=4,ncol=10)),2,sample),1,sample))
 #' rownames(x) = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
 #' cerebroViz(x)
-cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c("#FEECE4","#ee2d26"), svgCol = c("white","black","white"), divergent.data=FALSE, clamp=NULL, cross.hatch=FALSE, legend.toggle=TRUE, customNames=NULL){
+cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c("#ffffb2", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#b10026"), svgCol = c("white","black","white"), divergent.data=FALSE, clamp=NULL, cross.hatch=FALSE, legend.toggle=TRUE, customNames=NULL){
   require(XML)
   require(gplots)
   require(scales)
