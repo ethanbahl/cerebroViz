@@ -5,9 +5,9 @@
 \title{A tool to visualize biological data mapped to SVG brain diagrams.}
 \usage{
 cerebroViz(x, timepoint = 1, outfile = "cerebroViz_output",
-  regCol = c("blue", "grey", "red"), svgCol = c("white", "black", "white"),
-  divergent.data = TRUE, clamp = NULL, cross.hatch = FALSE,
-  legend.toggle = TRUE, customNames = NULL, colorsout = FALSE)
+  regCol = c("#FEECE4", "#ee2d26"), svgCol = c("white", "black", "white"),
+  divergent.data = FALSE, clamp = NULL, cross.hatch = FALSE,
+  legend.toggle = TRUE, customNames = NULL)
 }
 \arguments{
 \item{x}{a matrix object containing the data to map. Rownames should reflect the appropriate brain region. Columns may represent different time points or replicates.}
@@ -29,8 +29,6 @@ cerebroViz(x, timepoint = 1, outfile = "cerebroViz_output",
 \item{legend.toggle}{logical indicating if the legend bar should be visible.}
 
 \item{customNames}{dataframe with 2 columns. The first column for cerebroViz convention names, the second column for custom user names.}
-
-\item{colorsout}{returns scale to 0-1}
 }
 \description{
 'cerebroViz' is a data mapping tool for visualizing spatiotemporal data in the brain. The user inputs a matrix of data and the tool outputs publication quality SVG diagrams with color mapping reflective of the input data. 'cerebroViz' supports 30 brain regions used by BrainSpan, GTex, Roadmap Epigneomics, and more.
@@ -38,7 +36,7 @@ cerebroViz(x, timepoint = 1, outfile = "cerebroViz_output",
 \examples{
 x = t(apply(apply(rbind(matrix((sample(c(-400:600),260)/100),nrow=26,ncol=10),matrix(NA,nrow=4,ncol=10)),2,sample),1,sample))
 rownames(x) = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
-cerebroViz(x, regCol=c("blue","grey","red"))
+cerebroViz(x)
 }
 \keyword{cerebroViz}
 

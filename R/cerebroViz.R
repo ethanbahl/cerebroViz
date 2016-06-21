@@ -11,7 +11,6 @@
 #' @param cross.hatch logical indicating if regions of missing data should be filled with a cross-hatch pattern to differentiate them from the brain's background.
 #' @param legend.toggle logical indicating if the legend bar should be visible.
 #' @param customNames dataframe with 2 columns. The first column for cerebroViz convention names, the second column for custom user names.
-#' @param colorsout returns scale to 0-1
 #' @keywords cerebroViz
 #' @import XML
 #' @import gplots
@@ -21,8 +20,8 @@
 #' @examples
 #' x = t(apply(apply(rbind(matrix((sample(c(-400:600),260)/100),nrow=26,ncol=10),matrix(NA,nrow=4,ncol=10)),2,sample),1,sample))
 #' rownames(x) = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
-#' cerebroViz(x, regCol=c("blue","grey","red"))
-cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c("blue","grey","red"), svgCol = c("white","black","white"), divergent.data=TRUE, clamp=NULL, cross.hatch=FALSE, legend.toggle=TRUE, customNames=NULL, colorsout=FALSE){
+#' cerebroViz(x)
+cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c("#FEECE4","#ee2d26"), svgCol = c("white","black","white"), divergent.data=FALSE, clamp=NULL, cross.hatch=FALSE, legend.toggle=TRUE, customNames=NULL){
   require(XML)
   require(gplots)
   require(scales)
@@ -93,11 +92,8 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   rownames(NAmatrix) = regions[which(regions%in%rownames(x)==FALSE)]
   datMat = rbind(x, NAmatrix)
   datMat = as.matrix(datMat[order(rownames(datMat)),])
-
-################################################## N O R M A L I Z A T I O N ###
-  hexInd = cerebroScale(datMat, clamp, xmed, xmad, divergent.data)
-
-################################################################ H E X V E C ###
+  x_scaled = cerebroScale(datMat, clamp, divergent.data)
+  hexInd = round(x_scaled*200+1)
   f = colorRampPalette(regCol)
   hexVec = f(201)
 
@@ -127,55 +123,59 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
     saveXML(xmls, paste(outfile,"_slice_",timepoint[j],".svg",sep=""))
     message("Success! Your diagrams have been saved.")
     }
-
-  if(colorsout==T){
-    if(!is.null(customNames)){
-      for(ind in 1:nrow(customNames)){
-        rownames(hexInd)[rownames(hexInd)==customNames[ind,1]]=customNames[ind,2]
-      }
-    }
-    outvals = (hexInd-1)/200
-    return(outvals)
-  }
 }
 
-#' A data scaling function used by cerebroViz()
+#' A function to scale sequential and divergent data to a 0:1 range
 #'
-#' This function scales the data passed to cerebroViz and translates data points to color values.
-#' @param datMat input data matrix with missing regions filled as NA
+#' This function scales input data to a 0:1 range. If divergent.data=FALSE it will scale linearly. If divergent.data=TRUE, it will utilize a polylinear scale centered at the median of the input data.
+#' @param x input data matrix
 #' @param clamp coefficient to the Median Absolute Deviation. Added and subtracted from the median to identify a range of non-outliers. Values external to this range will 'clamped' to extremes of the non-outlier range.
-#' @param xmed median of input data
-#' @param xmad Median Absolute Deviation of input data (constant=1)
 #' @param divergent.data logical indicating if input data is divergent in nature. Default assumes data is sequential.
-#' @keywords internal
+#' @keywords cerebroScale
+#' @export
 #' @examples
-#' cerebroScale(datMat, clamp, xmed, xmad, divergent.data)
+#' cerebroScale(x, clamp = 100, divergent.data=FALSE)
 #cerebroScale
-cerebroScale = function(datMat, clamp, xmed, xmad, divergent.data){
-  tmp = datMat
-  ol = clamp*xmad
+cerebroScale = function(x, clamp, divergent.data){
+  xmed = median(x, na.rm=TRUE)
+  xmad = mad(x, constant = 1, na.rm=TRUE)
+  xmin = min(x, na.rm=TRUE)
+  xmax = max(x, na.rm=TRUE)
+  avoidClamp = max(abs(xmed-xmin),abs(xmed-xmax))/xmad
+  fill_matrix = x
+
+  if(is.null(clamp)){
+    clamp = avoidClamp+1
+  }
+  outlrs = clamp*xmad
+  if(clamp<=0) stop("clamp must be >0")
+  pctOL = round(length(which(x<=(xmed-(outlrs)) | x>=(xmed+(outlrs))))/length(x)*100,2)
+  if(pctOL>0){
+    warning(paste("The clamp value of ", clamp," will clamp ",pctOL,"% of input values (outliers) to 0 or 1.", sep=""))
+  }
+
   if(divergent.data==TRUE){
-    abvmed = tmp[datMat>=xmed & datMat<=(xmed+ol) & !is.na(datMat)]
-    belmed = tmp[datMat<=xmed & datMat>=(xmed-ol) & !is.na(datMat)]
-    if(length(which(!is.na(tmp))) %% 2 == 0){ #imputing median if even number of data points
-      rsc = round(rescale(c(xmed,abvmed),c(101,201)))[-1]
-      tmp[datMat>=xmed & datMat<=(xmed+ol) & !is.na(datMat)] = rsc
-      lsc = round(rescale(c(xmed,belmed),c(1,101)))[-1]
-      tmp[datMat<=xmed & datMat>=(xmed-ol) & !is.na(datMat)] = lsc
-      hexInd = tmp
+    abvmed = x[x>=xmed & x<=(xmed+outlrs) & !is.na(x)]
+    belmed = x[x<=xmed & x>=(xmed-outlrs) & !is.na(x)]
+    if(length(which(!is.na(x))) %% 2 == 0){ #imputing median if even number of data points
+      rsc = rescale(c(xmed,abvmed),c(0.5,1))[-1]
+      fill_matrix[x>=xmed & x<=(xmed+outlrs) & !is.na(x)] = rsc
+      lsc = rescale(c(xmed,belmed),c(0,0.5))[-1]
+      fill_matrix[x<=xmed & x>=(xmed-outlrs) & !is.na(x)] = lsc
+      x_scaled = fill_matrix
     }
-    if((length(which(!is.na(tmp)))) %% 2 == 1){
-      rsc = round(rescale(abvmed,c(101,201)))
-      tmp[datMat>=xmed & datMat<=(xmed+ol) & !is.na(datMat)] = rsc
-      lsc = round(rescale(belmed,c(1,101)))
-      tmp[datMat<=xmed & datMat>=(xmed-ol) & !is.na(datMat)] = lsc
-      hexInd = tmp
+    if((length(which(!is.na(x)))) %% 2 == 1){
+      rsc = rescale(abvmed,c(0.5,1))
+      fill_matrix[x>=xmed & x<=(xmed+outlrs) & !is.na(x)] = rsc
+      lsc = rescale(belmed,c(0,0.5))
+      fill_matrix[x<=xmed & x>=(xmed-outlrs) & !is.na(x)] = lsc
+      x_scaled = fill_matrix
     }
   }
   if(divergent.data==FALSE){
-      hexInd = round(rescale(datMat, to=c(1, 201), from=range(datMat, na.rm=TRUE, finite=TRUE)))
+      x_scaled = rescale(x, to=c(0,1), from=range(x, na.rm=TRUE, finite=TRUE))
   }
-  return(hexInd)
+  return(x_scaled)
 }
 
 #' a function used by cerebroViz() to edit the brain outline and brain background.
