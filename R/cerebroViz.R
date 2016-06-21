@@ -55,7 +55,8 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
 #################################################### R E G I O N   S E T U P ###
   #creating the vector for 'parent' regions (regions that encompass others) and a warning of overshadowing.
   srg = c("BS", "FCX", "OCX", "PCX", "TCX", "STR")
-  suplog = !is.na(x[rownames(x) %in% srg,timepoint])
+  suplog = matrix(!is.na(x[rownames(x) %in% srg,timepoint]),ncol=length(timepoint))
+  rownames(suplog) = rownames(x)[rownames(x)%in%srg]
   if(length(timepoint)==1){
     usrg = names(suplog[suplog==TRUE])
   }
@@ -114,8 +115,8 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
     xmls = xmlc[2][[1]]
     saveXML(xmll, paste(outfile,"_outer_",timepoint[j],".svg",sep=""))
     saveXML(xmls, paste(outfile,"_slice_",timepoint[j],".svg",sep=""))
-    message("Success! Your diagrams have been saved.")
-    }
+  }
+  message("Success! Your diagrams have been saved to the working directory.")
 }
 
 #' A function to scale sequential and divergent data to a 0:1 range
