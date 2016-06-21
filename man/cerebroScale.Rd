@@ -2,15 +2,22 @@
 % Please edit documentation in R/cerebroViz.R
 \name{cerebroScale}
 \alias{cerebroScale}
-\title{A data scaling function used by cerebroViz()}
+\title{A function to scale sequential and divergent data to a 0:1 range}
 \usage{
-cerebroScale(datMat, clamp, xmed, xmad, divergent.data)
+cerebroScale(x, clamp, divergent.data)
+}
+\arguments{
+\item{x}{input data matrix}
+
+\item{clamp}{coefficient to the Median Absolute Deviation. Added and subtracted from the median to identify a range of non-outliers. Values external to this range will 'clamped' to extremes of the non-outlier range.}
+
+\item{divergent.data}{logical indicating if input data is divergent in nature. Default assumes data is sequential.}
 }
 \description{
-This function scales the data passed to cerebroViz and translates data points to color values.
+This function scales input data to a 0:1 range. If divergent.data=FALSE it will scale linearly. If divergent.data=TRUE, it will utilize a polylinear scale centered at the median of the input data.
 }
 \examples{
-cerebroScale(datMat,clamp,xmed,xmad,divergent.data)
+cerebroScale(x, clamp = 100, divergent.data=FALSE)
 }
-\keyword{scale}
+\keyword{cerebroScale}
 
