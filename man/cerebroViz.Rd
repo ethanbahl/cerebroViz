@@ -4,23 +4,23 @@
 \alias{cerebroViz}
 \title{A tool to visualize biological data mapped to SVG brain diagrams.}
 \usage{
-cerebroViz(x, timepoint = 1, outfile = "cerebroViz_output",
-  regCol = c("#FEECE4", "#ee2d26"), svgCol = c("white", "black", "white"),
-  divergent.data = FALSE, clamp = NULL, cross.hatch = FALSE,
-  legend.toggle = TRUE, customNames = NULL)
+cerebroViz(x, outfile = "cerebroViz_output", timepoint = 1,
+  divergent.data = FALSE, regCol = NULL, svgCol = c("white", "black",
+  "white"), clamp = NULL, cross.hatch = FALSE, legend.toggle = TRUE,
+  customNames = NULL)
 }
 \arguments{
 \item{x}{a matrix object containing the data to map. Rownames should reflect the appropriate brain region. Columns may represent different time points or replicates.}
 
+\item{outfile}{the desired prefix for the output SVG files.}
+
 \item{timepoint}{a numeric vector of columns in 'x' to visualize.}
 
-\item{outfile}{the desired prefix for the output SVG files.}
+\item{divergent.data}{logical indicating if input data is divergent in nature. Default assumes data is sequential.}
 
 \item{regCol}{character vector of color values to use in the visualization. Accepts color names, hex values, and RGB values. For sequential data, it is recommended to use two colors, or a sequence of colors in a gradient. For divergent data, it is recommended to use three colors with a neutral color in the middle.}
 
 \item{svgCol}{character vector of length three specifying colors for the brain outline, brain background, and svg background in that order.}
-
-\item{divergent.data}{logical indicating if input data is divergent in nature. Default assumes data is sequential.}
 
 \item{clamp}{coefficient to the Median Absolute Deviation. Added and subtracted from the median to identify a range of non-outliers. Values external to this range will 'clamped' to extremes of the non-outlier range.}
 
