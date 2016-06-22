@@ -44,9 +44,6 @@ cerebroViz = function(x, outfile="cerebroViz_output", timepoint=1, divergent.dat
   if(max(timepoint)>ncol(x)) stop("'timepoint' invalid")
   if(sum(timepoint%%1!=0)) stop("'timepoint' invalid")
   if(length(svgCol)!=3) stop("'svgCol' must have length 3")
-  if(length(regCol)==3 & divergent.data==FALSE | length(regCol)==2 & divergent.data==TRUE){
-    warning("recommended usage: 2 colors (regCol) for sequential data and 3 colors for divergent data.")
-  }
   if(!is.null(customNames)){
     if(ncol(customNames)!=2) stop("unexpected input for customNames")
   }
@@ -65,13 +62,8 @@ cerebroViz = function(x, outfile="cerebroViz_output", timepoint=1, divergent.dat
   srg = c("BS", "FCX", "OCX", "PCX", "TCX", "STR")
   suplog = matrix(!is.na(x[rownames(x) %in% srg,timepoint]),ncol=length(timepoint))
   rownames(suplog) = rownames(x)[rownames(x)%in%srg]
-  if(length(timepoint)==1){
-    usrg = names(suplog[suplog==TRUE])
-  }
-  if(length(timepoint)>1){
-    usrg = rowSums(suplog)
-    usrg = names(usrg[usrg>0])
-  }
+  usrg = rowSums(suplog)
+  usrg = names(usrg[usrg>0])
   if(length(usrg)>0){
      warning(paste("The following regions encompass other regions of the brain: ", paste(usrg, collapse=", "),". Subregions are masked in output.", sep=""))
   }
