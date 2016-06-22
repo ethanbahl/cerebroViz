@@ -21,7 +21,7 @@
 #' x = t(apply(apply(rbind(matrix((sample(c(-400:600),260)/100),nrow=26,ncol=10),matrix(NA,nrow=4,ncol=10)),2,sample),1,sample))
 #' rownames(x) = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
 #' cerebroViz(x)
-cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c("#FEECE4","#ee2d26"), svgCol = c("white","black","white"), divergent.data=FALSE, clamp=NULL, cross.hatch=FALSE, legend.toggle=TRUE, customNames=NULL){
+cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c("#ffffb2", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#b10026"), svgCol = c("white","black","white"), divergent.data=FALSE, clamp=NULL, cross.hatch=FALSE, legend.toggle=TRUE, customNames=NULL){
   require(XML)
   require(gplots)
   require(scales)
@@ -44,10 +44,19 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   }
   if(is.null(customNames) & sum(rownames(x)%in%regions==FALSE)>0) warning(paste("Unknown rownames in input data: ",paste(rownames(x)[rownames(x)%in%regions==FALSE],collapse=", "),". Unknown regions will be excluded from visualization. See the help page for 'customNames' argument.",sep=""))
 
+  #customNames
+  if(!is.null(customNames)){
+    if(sum(customNames[,2]%in%regions)>0) stop(paste("customNames contains region names already used in cerebroViz convention: ",paste(customNames[customNames[,2]%in%regions,2],collapse=", "),sep=""))
+    for(i in 1:nrow(customNames)){
+      rownames(x)[rownames(x)==customNames[i,2]]=customNames[i,1]
+    }
+  }
+
 #################################################### R E G I O N   S E T U P ###
   #creating the vector for 'parent' regions (regions that encompass others) and a warning of overshadowing.
   srg = c("BS", "FCX", "OCX", "PCX", "TCX", "STR")
-  suplog = !is.na(x[rownames(x) %in% srg,timepoint])
+  suplog = matrix(!is.na(x[rownames(x) %in% srg,timepoint]),ncol=length(timepoint))
+  rownames(suplog) = rownames(x)[rownames(x)%in%srg]
   if(length(timepoint)==1){
     usrg = names(suplog[suplog==TRUE])
   }
@@ -64,28 +73,13 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   xmin = min(x, na.rm=TRUE)
   xmax = max(x, na.rm=TRUE)
 
-###################################################### C U S T O M N A M E S ###
-  #customNames
-  if(!is.null(customNames)){
-    if(sum(customNames[,2]%in%regions)>0) stop(paste("customNames contains region names already used in cerebroViz convention: ",paste(customNames[customNames[,2]%in%regions,2],collapse=", "),sep=""))
-    for(i in 1:nrow(customNames)){
-      rownames(x)[rownames(x)==customNames[i,2]]=customNames[i,1]
-    }
-  }
-
-################################################################## C L A M P ###
   #set the default clamp value (no clamping)
   avoidClamp = max(abs(xmed-xmin),abs(xmed-xmax))/xmad
   if(is.null(clamp)){
-    clamp = avoidClamp+.01
+    clamp = avoidClamp+1
   }
   if(clamp<=0) stop("clamp must be >0")
-  pctOL = round(length(which(x<=(xmed-(clamp*xmad)) | x>=(xmed+(clamp*xmad))))/length(x)*100,2)
-  if(pctOL>0){
-    warning(paste("The clamp value of ", clamp," will clamp ",pctOL,"% of input values (outliers) to the minimum/maximum colors. Minimum and maximum values displayed on figure legends represent the values outliers are clamped to.", sep=""))
-  }
 
-################################################################ D A T M A T ###
   #set regions w/ no data to NA
   #name the rows, join the users data with the NA data, alphabetize
   NAmatrix = matrix(data=NA, nrow=length(regions[which(regions%in%rownames(x)==FALSE)]),ncol=ncol(x))
@@ -97,7 +91,7 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   f = colorRampPalette(regCol)
   hexVec = f(201)
 
-############################################################ B I G   L O O P ###
+  #loop for each timepoint
   lobesvg = system.file("extdata/svg/brainlobe.svg",package="cerebroViz")
   sagsvg = system.file("extdata/svg/brainsagittal.svg",package="cerebroViz")
   for(j in 1:length(timepoint)){
@@ -121,8 +115,8 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
     xmls = xmlc[2][[1]]
     saveXML(xmll, paste(outfile,"_outer_",timepoint[j],".svg",sep=""))
     saveXML(xmls, paste(outfile,"_slice_",timepoint[j],".svg",sep=""))
-    message("Success! Your diagrams have been saved.")
-    }
+  }
+  message("Success! Your diagrams have been saved to the working directory.")
 }
 
 #' A function to scale sequential and divergent data to a 0:1 range
@@ -149,9 +143,10 @@ cerebroScale = function(x, clamp, divergent.data){
   }
   outlrs = clamp*xmad
   if(clamp<=0) stop("clamp must be >0")
-  pctOL = round(length(which(x<=(xmed-(outlrs)) | x>=(xmed+(outlrs))))/length(x)*100,2)
+  pctOL = round(length(which(x[!is.na(x)]<=(xmed-(outlrs)) | x[!is.na(x)]>=(xmed+(outlrs))))/length(x[!is.na(x)])*100,2)
+
   if(pctOL>0){
-    warning(paste("The clamp value of ", clamp," will clamp ",pctOL,"% of input values (outliers) to 0 or 1.", sep=""))
+    warning(paste("The clamp value of ", clamp," will clamp ",pctOL,"% of input values (outliers) to the min or max of the scaled range.", sep=""))
   }
 
   if(divergent.data==TRUE){

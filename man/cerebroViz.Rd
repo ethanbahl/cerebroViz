@@ -5,9 +5,10 @@
 \title{A tool to visualize biological data mapped to SVG brain diagrams.}
 \usage{
 cerebroViz(x, timepoint = 1, outfile = "cerebroViz_output",
-  regCol = c("#FEECE4", "#ee2d26"), svgCol = c("white", "black", "white"),
-  divergent.data = FALSE, clamp = NULL, cross.hatch = FALSE,
-  legend.toggle = TRUE, customNames = NULL)
+  regCol = c("#ffffb2", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c",
+  "#b10026"), svgCol = c("white", "black", "white"), divergent.data = FALSE,
+  clamp = NULL, cross.hatch = FALSE, legend.toggle = TRUE,
+  customNames = NULL)
 }
 \arguments{
 \item{x}{a matrix object containing the data to map. Rownames should reflect the appropriate brain region. Columns may represent different time points or replicates.}
