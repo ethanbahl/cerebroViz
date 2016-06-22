@@ -2,11 +2,11 @@
 #'
 #' 'cerebroViz' is a data mapping tool for visualizing spatiotemporal data in the brain. The user inputs a matrix of data and the tool outputs publication quality SVG diagrams with color mapping reflective of the input data. 'cerebroViz' supports 30 brain regions used by BrainSpan, GTex, Roadmap Epigneomics, and more.
 #' @param x a matrix object containing the data to map. Rownames should reflect the appropriate brain region. Columns may represent different time points or replicates.
-#' @param timepoint a numeric vector of columns in 'x' to visualize.
 #' @param outfile the desired prefix for the output SVG files.
+#' @param timepoint a numeric vector of columns in 'x' to visualize.
+#' @param divergent.data logical indicating if input data is divergent in nature. Default assumes data is sequential.
 #' @param regCol character vector of color values to use in the visualization. Accepts color names, hex values, and RGB values. For sequential data, it is recommended to use two colors, or a sequence of colors in a gradient. For divergent data, it is recommended to use three colors with a neutral color in the middle.
 #' @param svgCol character vector of length three specifying colors for the brain outline, brain background, and svg background in that order.
-#' @param divergent.data logical indicating if input data is divergent in nature. Default assumes data is sequential.
 #' @param clamp coefficient to the Median Absolute Deviation. Added and subtracted from the median to identify a range of non-outliers. Values external to this range will 'clamped' to extremes of the non-outlier range.
 #' @param cross.hatch logical indicating if regions of missing data should be filled with a cross-hatch pattern to differentiate them from the brain's background.
 #' @param legend.toggle logical indicating if the legend bar should be visible.
@@ -21,11 +21,19 @@
 #' x = t(apply(apply(rbind(matrix((sample(c(-400:600),260)/100),nrow=26,ncol=10),matrix(NA,nrow=4,ncol=10)),2,sample),1,sample))
 #' rownames(x) = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
 #' cerebroViz(x)
-cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c("#ffffb2", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#b10026"), svgCol = c("white","black","white"), divergent.data=FALSE, clamp=NULL, cross.hatch=FALSE, legend.toggle=TRUE, customNames=NULL){
+cerebroViz = function(x, outfile="cerebroViz_output", timepoint=1, divergent.data=FALSE, regCol=NULL, svgCol = c("white","black","white"), clamp=NULL, cross.hatch=FALSE, legend.toggle=TRUE, customNames=NULL){
   require(XML)
   require(gplots)
   require(scales)
   require(grDevices)
+
+  if(is.null(regCol) & divergent.data==FALSE){
+    regCol = c("#FFFFB2", "#FED976", "#FEB24C", "#FD8D3C", "#FC4E2A", "#E31A1C", "#B10026")
+  }
+
+  if(is.null(regCol) & divergent.data==TRUE){
+    regCol = c("#D73027", "#FC8D59", "#FEE090", "#FFFFBF", "#E0F3F8", "#91BFDB", "#4575B4")
+  }
 
   #creating the master regions vector
   regions = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
@@ -36,9 +44,6 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   if(max(timepoint)>ncol(x)) stop("'timepoint' invalid")
   if(sum(timepoint%%1!=0)) stop("'timepoint' invalid")
   if(length(svgCol)!=3) stop("'svgCol' must have length 3")
-  if(length(regCol)==3 & divergent.data==FALSE | length(regCol)==2 & divergent.data==TRUE){
-    warning("recommended usage: 2 colors (regCol) for sequential data and 3 colors for divergent data.")
-  }
   if(!is.null(customNames)){
     if(ncol(customNames)!=2) stop("unexpected input for customNames")
   }
@@ -57,13 +62,8 @@ cerebroViz = function(x, timepoint=1, outfile = "cerebroViz_output", regCol = c(
   srg = c("BS", "FCX", "OCX", "PCX", "TCX", "STR")
   suplog = matrix(!is.na(x[rownames(x) %in% srg,timepoint]),ncol=length(timepoint))
   rownames(suplog) = rownames(x)[rownames(x)%in%srg]
-  if(length(timepoint)==1){
-    usrg = names(suplog[suplog==TRUE])
-  }
-  if(length(timepoint)>1){
-    usrg = rowSums(suplog)
-    usrg = names(usrg[usrg>0])
-  }
+  usrg = rowSums(suplog)
+  usrg = names(usrg[usrg>0])
   if(length(usrg)>0){
      warning(paste("The following regions encompass other regions of the brain: ", paste(usrg, collapse=", "),". Subregions are masked in output.", sep=""))
   }
