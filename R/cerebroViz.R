@@ -6,7 +6,7 @@
 #' @param timepoint a numeric vector of columns in 'x' to visualize.
 #' @param divergent.data logical indicating if input data is divergent in nature. Default assumes data is sequential.
 #' @param regCol character vector of color values to use in the visualization. Accepts color names, hex values, and RGB values. For sequential data, it is recommended to use two colors, or a sequence of colors in a gradient. For divergent data, it is recommended to use three colors with a neutral color in the middle.
-#' @param svgCol character vector of length three specifying colors for the brain outline, brain background, and svg background in that order.
+#' @param svgCol character vector of length three specifying colors for the brain background, brain outline, and svg background in that order.
 #' @param clamp coefficient to the Median Absolute Deviation. Added and subtracted from the median to identify a range of non-outliers. Values external to this range will 'clamped' to extremes of the non-outlier range.
 #' @param cross.hatch logical indicating if regions of missing data should be filled with a cross-hatch pattern to differentiate them from the brain's background.
 #' @param legend.toggle logical indicating if the legend bar should be visible.
