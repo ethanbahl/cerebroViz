@@ -157,6 +157,8 @@ cerebroScale = function(x, clamp, divergent.data){
       fill_matrix[x>=xmed & x<=(xmed+outlrs) & !is.na(x)] = rsc
       lsc = rescale(c(xmed,belmed),c(0,0.5))[-1]
       fill_matrix[x<=xmed & x>=(xmed-outlrs) & !is.na(x)] = lsc
+      fill_matrix[x<(xmed-outlrs) & !is.na(x)] = 0
+      fill_matrix[x>(xmed+outlrs) & !is.na(x)] = 1
       x_scaled = fill_matrix
     }
     if((length(which(!is.na(x)))) %% 2 == 1){
@@ -168,7 +170,12 @@ cerebroScale = function(x, clamp, divergent.data){
     }
   }
   if(divergent.data==FALSE){
-      x_scaled = rescale(x, to=c(0,1), from=range(x, na.rm=TRUE, finite=TRUE))
+    nonoutlrs = x[x>=(xmed-outlrs) & x<=(xmed+outlrs) & !is.na(x)]
+    xsc = rescale(nonoutlrs,c(0,1))
+    fill_matrix[x>=(xmed-outlrs) & x<=(xmed+outlrs) & !is.na(x)] = xsc
+    fill_matrix[x<(xmed-outlrs) & !is.na(x)] = 0
+    fill_matrix[x>(xmed+outlrs) & !is.na(x)] = 1
+    x_scaled = fill_matrix
   }
   return(x_scaled)
 }
