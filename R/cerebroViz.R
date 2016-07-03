@@ -116,7 +116,7 @@ cerebroViz = function(x, outfile="cerebroViz_output", timepoint=1, divergent.dat
     saveXML(xmll, paste(outfile,"_outer_",timepoint[j],".svg",sep=""))
     saveXML(xmls, paste(outfile,"_slice_",timepoint[j],".svg",sep=""))
   }
-  message("Success! Your diagrams have been saved to the working directory.")
+  message("Success! Your diagrams have been saved.")
 }
 
 #' A function to scale sequential and divergent data to a 0:1 range
