@@ -6,11 +6,11 @@
 #' @param timepoint a numeric vector of columns in 'x' to visualize.
 #' @param divergent.data logical indicating if input data is divergent in nature. Default assumes data is sequential.
 #' @param regCol character vector of color values to use in the visualization. Accepts color names, hex values, and RGB values. For sequential data, it is recommended to use two colors, or a sequence of colors in a gradient. For divergent data, it is recommended to use three colors with a neutral color in the middle.
-#' @param svgCol character vector of length three specifying colors for the brain outline, brain background, and svg background in that order.
+#' @param svgCol character vector of length three specifying colors for the brain background, brain outline, and svg background in that order.
 #' @param clamp coefficient to the Median Absolute Deviation. Added and subtracted from the median to identify a range of non-outliers. Values external to this range will 'clamped' to extremes of the non-outlier range.
 #' @param cross.hatch logical indicating if regions of missing data should be filled with a cross-hatch pattern to differentiate them from the brain's background.
 #' @param legend.toggle logical indicating if the legend bar should be visible.
-#' @param customNames dataframe with 2 columns. The first column for cerebroViz convention names, the second column for custom user names.
+#' @param customNames dataframe or matrix with 2 columns. The first column for cerebroViz convention names, the second column for custom user names. Cells in input cannot be factors.
 #' @keywords cerebroViz
 #' @import XML
 #' @import gplots
@@ -116,7 +116,7 @@ cerebroViz = function(x, outfile="cerebroViz_output", timepoint=1, divergent.dat
     saveXML(xmll, paste(outfile,"_outer_",timepoint[j],".svg",sep=""))
     saveXML(xmls, paste(outfile,"_slice_",timepoint[j],".svg",sep=""))
   }
-  message("Success! Your diagrams have been saved to the working directory.")
+  message("Success! Your diagrams have been saved.")
 }
 
 #' A function to scale sequential and divergent data to a 0:1 range
@@ -157,6 +157,8 @@ cerebroScale = function(x, clamp, divergent.data){
       fill_matrix[x>=xmed & x<=(xmed+outlrs) & !is.na(x)] = rsc
       lsc = rescale(c(xmed,belmed),c(0,0.5))[-1]
       fill_matrix[x<=xmed & x>=(xmed-outlrs) & !is.na(x)] = lsc
+      fill_matrix[x<(xmed-outlrs) & !is.na(x)] = 0
+      fill_matrix[x>(xmed+outlrs) & !is.na(x)] = 1
       x_scaled = fill_matrix
     }
     if((length(which(!is.na(x)))) %% 2 == 1){
@@ -168,7 +170,12 @@ cerebroScale = function(x, clamp, divergent.data){
     }
   }
   if(divergent.data==FALSE){
-      x_scaled = rescale(x, to=c(0,1), from=range(x, na.rm=TRUE, finite=TRUE))
+    nonoutlrs = x[x>=(xmed-outlrs) & x<=(xmed+outlrs) & !is.na(x)]
+    xsc = rescale(nonoutlrs,c(0,1))
+    fill_matrix[x>=(xmed-outlrs) & x<=(xmed+outlrs) & !is.na(x)] = xsc
+    fill_matrix[x<(xmed-outlrs) & !is.na(x)] = 0
+    fill_matrix[x>(xmed+outlrs) & !is.na(x)] = 1
+    x_scaled = fill_matrix
   }
   return(x_scaled)
 }

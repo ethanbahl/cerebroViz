@@ -20,7 +20,7 @@ cerebroViz(x, outfile = "cerebroViz_output", timepoint = 1,
 
 \item{regCol}{character vector of color values to use in the visualization. Accepts color names, hex values, and RGB values. For sequential data, it is recommended to use two colors, or a sequence of colors in a gradient. For divergent data, it is recommended to use three colors with a neutral color in the middle.}
 
-\item{svgCol}{character vector of length three specifying colors for the brain outline, brain background, and svg background in that order.}
+\item{svgCol}{character vector of length three specifying colors for the brain background, brain outline, and svg background in that order.}
 
 \item{clamp}{coefficient to the Median Absolute Deviation. Added and subtracted from the median to identify a range of non-outliers. Values external to this range will 'clamped' to extremes of the non-outlier range.}
 
@@ -28,7 +28,7 @@ cerebroViz(x, outfile = "cerebroViz_output", timepoint = 1,
 
 \item{legend.toggle}{logical indicating if the legend bar should be visible.}
 
-\item{customNames}{dataframe with 2 columns. The first column for cerebroViz convention names, the second column for custom user names.}
+\item{customNames}{dataframe or matrix with 2 columns. The first column for cerebroViz convention names, the second column for custom user names. Cells in input cannot be factors.}
 }
 \description{
 'cerebroViz' is a data mapping tool for visualizing spatiotemporal data in the brain. The user inputs a matrix of data and the tool outputs publication quality SVG diagrams with color mapping reflective of the input data. 'cerebroViz' supports 30 brain regions used by BrainSpan, GTex, Roadmap Epigneomics, and more.
