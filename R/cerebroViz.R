@@ -10,7 +10,7 @@
 #' @param clamp coefficient to the Median Absolute Deviation. Added and subtracted from the median to identify a range of non-outliers. Values external to this range will 'clamped' to extremes of the non-outlier range.
 #' @param cross.hatch logical indicating if regions of missing data should be filled with a cross-hatch pattern to differentiate them from the brain's background.
 #' @param legend.toggle logical indicating if the legend bar should be visible.
-#' @param customNames dataframe with 2 columns. The first column for cerebroViz convention names, the second column for custom user names.
+#' @param customNames dataframe or matrix with 2 columns. The first column for cerebroViz convention names, the second column for custom user names. Cells in input cannot be factors.
 #' @keywords cerebroViz
 #' @import XML
 #' @import gplots
