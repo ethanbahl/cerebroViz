@@ -145,8 +145,7 @@ cerebroViz(ex1_NA, cross.hatch = TRUE, outfile = 'cross_hatch')
 
 ### Custom colors
 
-`cerebroViz()` allows users to customize the color schemes used for both the
-visualization and the brain background. 
+`cerebroViz()` allows users to customize the color schemes used for both the visualization and the brain background. 
 
 The color scale to which the data are mapped can be sepcified with the `regCol = ` argument. It accepts a vector of color names, RGB values or hex values with a length of two or greater
 
@@ -158,19 +157,21 @@ cerebroViz(ex1, regCol = c("coral", "antiquewhite", "cornflowerblue"), outfile =
 <img class="svg" src="custom_scale_outer_1.svg"><img class="svg" src="custom_scale_slice_1.svg">
 Users are advised to specify an odd number of colors whenever using `divergent.data = TRUE`, ensuring the median is assigned to a known color. 
 
-The color of the brain outline, brain background (empty regions of the brain) and image background can be specified, in that order, to the `svgCol = ` argument. Like `regCol`, this argument accepts a vector of color names, RGB values or hex values. Unlike `regCol`, `svgCol = ` only accepts a vector of length three. 
+The color of the brain background ("empty" regions of the brain), brain outline, and image background must be specified, in that order, to the `svgCol = ` argument. Like `regCol`, this argument accepts a vector of color names, RGB values or hex values. Unlike `regCol`, `svgCol = ` only accepts a vector of length three. 
 
 ```{r, echo=TRUE}
 library(cerebroViz)
 
-cerebroViz(ex1, svgCol = c("white", "darkgrey", "black"), outfile = "custom_background")
+cerebroViz(ex1, svgCol = c("darkgrey", "white", "lightgrey"), outfile = "custom_background")
 ```
 <img class="svg" src="custom_background_outer_1.svg"><img class="svg" src="custom_background_slice_1.svg">
+
+***
 ***
 <p align="right"> <a href="#top" >Back to top</a> </p>
 
 ### Using RColorBrewer with Cerebroviz
-Defining an accurate color pallete by hand is often challenging, so the `reCol = ` argument of `cerebroViz()` has been designed to accept the `brewer.pal()` function of the popular RColorBrewer package as input. 
+Defining an accurate color pallete by hand is often challenging, so the `regCol = ` argument of `cerebroViz()` has been designed to accept the `brewer.pal()` function of the popular RColorBrewer package as input. 
 
 ```{r, echo=TRUE}
 library(cerebroViz)
@@ -179,6 +180,7 @@ library(RColorBrewer)
 cerebroViz(ex1, regCol = brewer.pal(5, "BrBG"), divergent.data = TRUE, outfile = "brewer")
 ```
 <img class="svg" src="brewer_outer_1.svg"><img class="svg" src="brewer_slice_1.svg">
+
 ***
 ***
 <p align="right"> <a href="#top" >Back to top</a> </p>
@@ -258,10 +260,3 @@ The data are now properly mapped to the corresponding regions. Note that both th
 ***
 ***
 <p align="right"> <a href="#top" >Back to top</a> </p>
-
-# Using [brainspan_package] with cerebroViz
-
-***
-***
-<p align="right"> <a href="#top" >Back to top</a> </p>
-
