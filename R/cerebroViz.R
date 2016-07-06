@@ -336,7 +336,7 @@ unmaskRegions = function(xmlc, srg, tmp){
         }
     }
   }
-  if(("STR"%in%nhatch) & (sum(c("CAU","PUT") %in% nhatch)>0)){
+  if(("STR"%in%nhatch) & (sum(c("CAU","PUT") %in% nhatch)<2)){
     node = getNodeSet(xmlc[2][[1]], "//*[@id='STR']")[[1]]
     removeAttributes(node, "fill-opacity")
     addAttributes(node, "fill-opacity"="0")
