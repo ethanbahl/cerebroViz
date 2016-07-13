@@ -1,0 +1,262 @@
+---
+title: "Intro to cerebroViz"
+author: "Tanner Koomar"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette: 
+    toc: true
+    includes:
+      before_body: header.html
+vignette: >
+  %\VignetteIndexEntry{Intro to cerebroViz}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+# cerebroViz Basics
+cerebroViz is a tool for visualizing spatiotemporal data in the brain. As input, it requires a matrix with rows corresponding to brain regions and columns corresponding to time points. This package includes an example matrix, `ex1`,  which fulfills these requirements:
+  
+```{r, echo=TRUE, fig.show='hold', tidy = TRUE}
+library('cerebroViz')
+data(ex1)
+ex1
+```
+
+Calling cerebroViz on this matrix produces two files in the current working directory: one with the suffix "\_outer.svg" and another with the suffix "\_slice.svg". The _outer_ file corresponds to a temporal view of the brain, while the _slice_ file corresponds to a sagittal view. 
+
+```{r, echo=TRUE}
+cerebroViz(ex1)
+
+```
+<img class="svg" src="cerebroViz_output_outer_1.svg"><img class="svg" src="cerebroViz_output_slice_1.svg">
+
+
+***
+***
+
+<p align="right"> <a href="#top" >Back to top</a> </p>
+
+## Specifying a timepoint
+
+One of cerebroViz's primary utilities is  that it allows visualization of brain data temporally, as well as spatially. Multiple time points (corresponding to the columns of a properly formatted matrix) can be specified for rendering by passing a integer vector to the `timepoint = ` argument of `cerebroViz()`. This generates an _outer_ and _slice_ image for each time point, where the number of the corresponding time point is listed in the file name after _outer_ or _slice_. For example: `ex1\_outer\_1.svg` is the temporal view for the first time point and `ex1\_slice\_2.svg` is the sagittal view for the second time point. 
+
+```{r, echo=TRUE}
+library('cerebroViz')
+
+cerebroViz(ex1, timepoint = c(1:3))
+```
+##### Timepoint 1
+<img class="svg" src="cerebroViz_output_outer_1.svg"><img class="svg" src="cerebroViz_output_slice_1.svg">
+
+##### Timepoint 2
+<img class="svg" src="cerebroViz_output_outer_2.svg"><img class="svg" src="cerebroViz_output_slice_2.svg">
+
+##### Timepoint 3
+<img class="svg" src="cerebroViz_output_outer_3.svg"><img class="svg" src="cerebroViz_output_slice_3.svg">
+
+***
+***
+<p align="right"> <a href="#top" >Back to top</a> </p>
+
+## Changing the ouput file
+
+Users may specify a custom prefix for the rendered images with the `outfile = ` argument of `cerebroViz()`. The saved filenames with also contain a suffix indicating _outer_ or _slice_ and the requested time point before the file extension. By default, `cerebroViz()` save files to the working directory, but a file path may be passed to `outfile = ` so that images may be saved elsewhere:
+
+```{r}
+library('cerebroViz')
+
+dir.create('custom_directory/')
+
+cerebroViz(ex1, outfile = 'custom_directory/a_custom_filename', timepoint = c(1:3))
+
+list.files('custom_directory/')
+
+```
+
+***
+***
+<p align="right"> <a href="#top" >Back to top</a> </p>
+
+## Divergant Scales
+
+By default, `cerebroViz()` maps input data to a linear color scale. When working with divergent data (e.g. gene expression), it is desirable to have a neutral "middle" color. 
+
+A divergent scale can be specified by passing the `divergent.data = TRUE` argument. In this case, `cerebroViz()` maps the **median** value of all data points in the matrix to a neutral yellow and the extreme values to a pleasant red and blue. 
+
+```{r, echo=TRUE}
+library('cerebroViz')
+
+summary(as.vector(ex1))
+
+cerebroViz(ex1, divergent.data = TRUE, outfile = 'divergent')
+```
+<img class="svg" src="divergent_outer_1.svg"><img class="svg" src="divergent_slice_1.svg">
+
+***
+***
+<p align="right"> <a href="#top" >Back to top</a> </p>
+
+## Clamping Outliers {#clamp}
+
+The removal of outliers from data is crucial to producing interpretable visualizations. For example, if we set the data for the medulla (lower portion of the brain stem) in our example data `ex1` to an extremely high value: 
+
+```{r, echo=TRUE}
+ex1 -> ex1_out
+
+ex1_out["MED",1] <- 55
+```
+The medulla has an extremely high signal, and all other values are indistinguishable. 
+```{r, echo=TRUE}
+cerebroViz(ex1_out, outfile = 'outlier')
+```
+<img class="svg" src="outlier_outer_1.svg"><img class="svg" src="outlier_slice_1.svg">
+
+To compensate for outliers, a value can be passed to the `clamp = ` argument of `cerebroViz()`. This *clamp* value is used as a coefficient with the Median Absolute Deviation (MAD) to calculate a range of acceptable values.   
+
+$$median \pm clamp \times MAD $$
+
+Values greater than this range are reduced (or "clamped") to its maximum value, while values less than the range are increased to its minimum. The ideal *clamp* value depends on the shape of the data, but values near 3 are often used as a rule of thumb.  Applying this process to the `ex1_out` matrix, which has been edited to contain an outlier:
+
+```{r, echo=TRUE}
+cerebroViz(ex1_out, clamp = 3, outfile = 'outlier_clamped')
+```
+<img class="svg" src="outlier_clamped_outer_1.svg"><img class="svg" src="outlier_clamped_slice_1.svg">
+
+
+***
+***
+<p align="right"> <a href="#top" >Back to top</a> </p>
+
+## Customizing cerebroViz's appearance
+
+### Crosshatching missing regions
+
+Depending on specified color schemes, it may be difficult to distinguish a color (likely a neutral color in divergent data) from the background of the brain. When some data points are missing (NAs), corresponding regions may appear to be near the median, when they are in fact missing. The argument `cross.hatch = TRUE` may be passed to `cerebroViz()` to apply a cross-hatch to these regions to help distinguish them from the background or the neutral color.
+
+```{r, echo=TRUE}
+ex1 -> ex1_NA
+ex1_NA["PON",1] <- NA
+
+cerebroViz(ex1_NA, cross.hatch = TRUE, outfile = 'cross_hatch')
+```
+<img class="svg" src="cross_hatch_outer_1.svg"><img class="svg" src="cross_hatch_slice_1.svg">
+
+***
+<p align="right"> <a href="#top" >Back to top</a> </p>
+
+### Custom colors
+
+`cerebroViz()` allows users to customize the color schemes used for both the visualization and the brain background. 
+
+The color scale to which the data are mapped can be sepcified with the `regCol = ` argument. It accepts a vector of color names, RGB values or hex values with a length of two or greater
+
+```{r, echo=TRUE}
+library(cerebroViz)
+
+cerebroViz(ex1, regCol = c("coral", "antiquewhite", "cornflowerblue"), outfile = "custom_scale")
+```
+<img class="svg" src="custom_scale_outer_1.svg"><img class="svg" src="custom_scale_slice_1.svg">
+Users are advised to specify an odd number of colors whenever using `divergent.data = TRUE`, ensuring the median is assigned to a known color. 
+
+The color of the brain background ("empty" regions of the brain), brain outline, and image background must be specified, in that order, to the `svgCol = ` argument. Like `regCol`, this argument accepts a vector of color names, RGB values or hex values. Unlike `regCol`, `svgCol = ` only accepts a vector of length three. 
+
+```{r, echo=TRUE}
+library(cerebroViz)
+
+cerebroViz(ex1, svgCol = c("darkgrey", "white", "lightgrey"), outfile = "custom_background")
+```
+<img class="svg" src="custom_background_outer_1.svg"><img class="svg" src="custom_background_slice_1.svg">
+
+***
+***
+<p align="right"> <a href="#top" >Back to top</a> </p>
+
+### Using RColorBrewer with Cerebroviz
+Defining an accurate color pallete by hand is often challenging, so the `regCol = ` argument of `cerebroViz()` has been designed to accept the `brewer.pal()` function of the popular RColorBrewer package as input. 
+
+```{r, echo=TRUE}
+library(cerebroViz)
+library(RColorBrewer)
+
+cerebroViz(ex1, regCol = brewer.pal(5, "BrBG"), divergent.data = TRUE, outfile = "brewer")
+```
+<img class="svg" src="brewer_outer_1.svg"><img class="svg" src="brewer_slice_1.svg">
+
+***
+***
+<p align="right"> <a href="#top" >Back to top</a> </p>
+
+
+# Generating a heatmap with cerebroScale
+Because it is impractical to interpret many cerebroViz diagrams simultaniously, it often makes sense to also vizualize the data as a heatmap. In order to account for the custom scaling `cerebroViz()` can perform thanks to `clamp =` and `divergent.data = `, the convienience function `cerebroScale()` is included. 
+
+When passed a matrix in proper cerebroViz format, `cerebroScale()` returns a new matrix of the same dimensions where all values have been rescaled with the minimum value set to 0.0, and the maximum set to 1.0. 
+
+```{r, echo=TRUE}
+head(ex1)
+
+head(cerebroScale(ex1, clamp = NULL, divergent.data = FALSE))
+```
+
+If the `divergent.data = TRUE` argument is passed to `cerebroScale()`, the median of the dataset is also scaled to 0.5, so that it maps to the neutral middle color of the dataset. The `clamp = ` argument will clamp outliers to the 0 to 1 range as described <a href="#clamp" >here</a>.
+
+```{r, echo=TRUE}
+summary(as.vector(ex1))
+
+summary(as.vector(cerebroScale(ex1, clamp = NULL, divergent.data = FALSE)))
+
+summary(as.vector(cerebroScale(ex1, clamp = 3, divergent.data = TRUE)))
+```
+
+Note that both `diverget.data = ` and `clamp = ` are required arguments for `cerebroScale()`, and if `divergen.data = FALSE` and `clamp = NULL` (the default values in `cerebroViz()`), there is no need to use `cerebroScale()` to rescale data before vizulaizing as a heatmap. 
+
+Using the `heatmap()` function from the {stas} package is the quickest way to generate a heapmap corresponding to a dataset which had been vizualized with cerebroViz. Note that we will pass the `Colv = NA` argument to `heatmap()` so that timepoints are not rearranged in a dendrogram.  
+
+```{r, echo=TRUE, fig.width=7, fig.height=7, fig.show='hold'}
+cerebroScale(ex1, clamp = 3, divergent.data = TRUE) -> ex1_scaled
+
+heatmap(ex1_scaled, Colv = NA, col = c("#D73027", "#FC8D59", "#FEE090", "#FFFFBF", "#E0F3F8", "#91BFDB", "#4575B4"))
+
+cerebroViz(ex1, clamp = 3, divergent.data = TRUE, outfile = "scaled")
+```
+<img class="svg" src="scaled_outer_1.svg"> <img class="svg" src="scaled_slice_1.svg"> 
+***
+***
+<p align="right"> <a href="#top" >Back to top</a> </p>
+
+# Brain Regions in cerebroViz
+Cerebroviz provides 30 regions to which brain data can be mapped. To view a data frame containing mapping of cerebroViz's regions to those of several popular databases:
+
+```{r, echo = TRUE, results='hide'}
+  data(regionMap)
+  regionMap
+```
+```{r, echo=FALSE, results='asis'}
+knitr::kable(regionMap)
+```
+
+Users are encouraged to name the rows of their data using the cerebroViz conventions described in the above table. If this is not possible,  a matrix with 2 columns, where [,1] contains cerebroViz convention names and [,2] contains the corresponding custom name can be passed to the `customNames = ` argument of cerebroViz. The names cerebroViz uses by convention are reserved, and my not be assigned to custom regions in this way. 
+
+## Custom Regions Example
+For example, renaming the medulla and pons (regions within the brain stem) in the ex1 example matrix results in an error, and those regions are not colored in the generated SVGs.
+```{r, echo=TRUE}
+rownames(ex1)[c(13, 18)]
+rownames(ex1)[c(13, 18)] <- c('medulla', 'pons')
+cerebroViz(ex1, outfile = "missing_name")
+```
+<img class="svg" src="missing_name_outer_1.svg"><img class="svg" src="missing_name_slice_1.svg">  
+
+***
+To map these regions to our custom names, we create the 2 column matrix and pass it to the `customNames = ` argument of cerebroViz.
+```{r, echo = TRUE}
+matrix(c("PON", "MED","pons", "medulla"), ncol=2 ) -> cnm
+cnm
+cerebroViz(ex1, customNames = cnm, outfile = "custom_name")
+```
+<img class="svg" src="custom_name_outer_1.svg"><img class="svg" src="custom_name_slice_1.svg"> 
+
+***
+The data are now properly mapped to the corresponding regions. Note that both the "missing_name" and "custom_name" images have the same scale. cerebroViz uses all data in the supplied matrix to calculate its color scale, even those which cannot be mapped to regions in the output images. 
+
+***
+***
+<p align="right"> <a href="#top" >Back to top</a> </p>
