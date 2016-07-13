@@ -35,7 +35,7 @@ cerebroViz(x, outfile = "cerebroViz_output", timepoint = 1,
 }
 \examples{
 x = t(apply(apply(rbind(matrix((sample(c(-400:600),260)/100),nrow=26,ncol=10),matrix(NA,nrow=4,ncol=10)),2,sample),1,sample))
-rownames(x) = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
+rownames(x) = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FL", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OL", "OFC", "PL", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TL", "THA", "V1C", "VFC")
 cerebroViz(x)
 }
 \keyword{cerebroViz}
