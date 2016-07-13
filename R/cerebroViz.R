@@ -19,7 +19,7 @@
 #' @export
 #' @examples
 #' x = t(apply(apply(rbind(matrix((sample(c(-400:600),260)/100),nrow=26,ncol=10),matrix(NA,nrow=4,ncol=10)),2,sample),1,sample))
-#' rownames(x) = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
+#' rownames(x) = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FL", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OL", "OFC", "PL", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TL", "THA", "V1C", "VFC")
 #' cerebroViz(x)
 cerebroViz = function(x, outfile="cerebroViz_output", timepoint=1, divergent.data=FALSE, regCol=NULL, svgCol = c("white","black","white"), clamp=NULL, cross.hatch=FALSE, legend.toggle=TRUE, customNames=NULL){
   require(XML)
@@ -36,7 +36,7 @@ cerebroViz = function(x, outfile="cerebroViz_output", timepoint=1, divergent.dat
   }
 
   #creating the master regions vector
-  regions = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FCX", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OCX", "OFC", "PCX", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TCX", "THA", "V1C", "VFC")
+  regions = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FL", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OL", "OFC", "PL", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TL", "THA", "V1C", "VFC")
 ################################################ E R R O R   H A N D L I N G ###
   if(class(x)!="matrix") stop("'x' must be of class 'matrix'")
   if(sum(is.na(rownames(x)))>0) stop("rownames of 'x' must be valid")
@@ -59,7 +59,7 @@ cerebroViz = function(x, outfile="cerebroViz_output", timepoint=1, divergent.dat
 
 #################################################### R E G I O N   S E T U P ###
   #creating the vector for 'parent' regions (regions that encompass others) and a warning of overshadowing.
-  srg = c("BS", "FCX", "OCX", "PCX", "TCX", "STR")
+  srg = c("BS", "FL", "OL", "PL", "TL", "STR")
   suplog = matrix(!is.na(x[rownames(x) %in% srg,timepoint]),ncol=length(timepoint))
   rownames(suplog) = rownames(x)[rownames(x)%in%srg]
   usrg = rowSums(suplog)
