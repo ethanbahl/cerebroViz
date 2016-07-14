@@ -1,6 +1,6 @@
 #' A tool to visualize biological data mapped to SVG brain diagrams.
 #'
-#' 'cerebroViz' is a data mapping tool for visualizing spatiotemporal data in the brain. The user inputs a matrix of data and the tool outputs publication quality SVG diagrams with color mapping reflective of the input data. 'cerebroViz' supports 30 brain regions used by BrainSpan, GTex, Roadmap Epigneomics, and more.
+#' 'cerebroViz' is a data mapping tool for visualizing spatiotemporal data in the brain. The user inputs a matrix of data and the tool outputs publication quality SVG diagrams with color mapping reflective of the input data. 'cerebroViz' supports 30 brain regions used by BrainSpan, GTex, Roadmap Epigenomics, and more.
 #' @param x a matrix object containing the data to map. Rownames should reflect the appropriate brain region. Columns may represent different time points or replicates.
 #' @param outfile the desired prefix for the output SVG files.
 #' @param timepoint a numeric vector of columns in 'x' to visualize.
@@ -16,6 +16,7 @@
 #' @import gplots
 #' @import scales
 #' @import grDevices
+#' @import RColorBrewer
 #' @export
 #' @examples
 #' x = t(apply(apply(rbind(matrix((sample(c(-400:600),260)/100),nrow=26,ncol=10),matrix(NA,nrow=4,ncol=10)),2,sample),1,sample))
@@ -26,17 +27,18 @@ cerebroViz = function(x, outfile="cerebroViz_output", timepoint=1, divergent.dat
   require(gplots)
   require(scales)
   require(grDevices)
+  require(RColorBrewer)
 
   if(is.null(regCol) & divergent.data==FALSE){
-    regCol = c("#FFFFB2", "#FED976", "#FEB24C", "#FD8D3C", "#FC4E2A", "#E31A1C", "#B10026")
+    regCol = brewer.pal(n=7, name="YlOrRd")
   }
 
   if(is.null(regCol) & divergent.data==TRUE){
-    regCol = c("#D73027", "#FC8D59", "#FEE090", "#FFFFBF", "#E0F3F8", "#91BFDB", "#4575B4")
+    regCol = rev(brewer.pal(n=7, name="RdYlBu"))
   }
 
   #creating the master regions vector
-  regions = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FL", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OL", "OFC", "PL", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TL", "THA", "V1C", "VFC")
+  regions = c("A1C", "AMY", "ANG", "BS", "CAU", "CB", "CNG", "DFC", "FL", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OL", "OFC", "PL", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TL", "THA", "V1C", "VFC")
 ################################################ E R R O R   H A N D L I N G ###
   if(class(x)!="matrix") stop("'x' must be of class 'matrix'")
   if(sum(is.na(rownames(x)))>0) stop("rownames of 'x' must be valid")

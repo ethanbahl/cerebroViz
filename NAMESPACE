@@ -2,6 +2,7 @@
 
 export(cerebroScale)
 export(cerebroViz)
+import(RColorBrewer)
 import(XML)
 import(gplots)
 import(grDevices)
