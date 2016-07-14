@@ -40,7 +40,7 @@
      y="0"
      width="660"
      height="660"
-     fill="#ffffff"
+     fill="#FFFFFF"
      style="stroke:#000000;stroke-width:0" />
   <path
     id="brainBackground"
@@ -189,29 +189,33 @@
        y="185"
        width="120"
        height="15"
-       style="fill:url(#gradient);stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1"
-       id="rect33" />
+       style="fill:url(#gradient);stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1"
+       stroke="#000000"
+       id="legendRect" />
     <text
        class="legendLabel"
        x="100"
        y="210"
        font-size="7"
-       id="text37"
-       style="font-size:7px;font-family:sans;text-anchor:middle;fill:#000000">-1</text>
+       id="leglableft"
+       fill="#000000"
+       style="font-size:7px;font-family:sans;text-anchor:middle">-1</text>
     <text
        class="legendLabel"
        x="160"
        y="210"
        font-size="7"
-       id="text39"
-       style="font-size:7px;font-family:sans;text-anchor:middle;fill:#000000">0</text>
+       id="leglabmid"
+       fill="#000000"
+       style="font-size:7px;font-family:sans;text-anchor:middle">0</text>
     <text
        class="legendLabel"
        x="220"
        y="210"
        font-size="7"
-       id="text41"
-       style="font-size:7px;font-family:sans;text-anchor:middle;fill:#000000">+1</text>
+       id="leglabright"
+       fill="#000000"
+       style="font-size:7px;font-family:sans;text-anchor:middle">+1</text>
     <g
        style="fill:#000000;fill-opacity:1"
        id="g453">

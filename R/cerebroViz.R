@@ -199,6 +199,18 @@ editSvgCol = function(xmlc, svgCol){
     node = getNodeSet(xmlc[k][[1]], "//*[@id='brainOutline']")[[1]]
     removeAttributes(node, "fill")
     addAttributes(node, fill=col2hex(svgCol[2]))
+    node = getNodeSet(xmlc[k][[1]], "//*[@id='legendRect']")[[1]]
+    removeAttributes(node, "stroke")
+    addAttributes(node, stroke=col2hex(svgCol[2]))
+    node = getNodeSet(xmlc[k][[1]], "//*[@id='leglableft']")[[1]]
+    removeAttributes(node, "fill")
+    addAttributes(node, fill=col2hex(svgCol[2]))
+    node = getNodeSet(xmlc[k][[1]], "//*[@id='leglabmid']")[[1]]
+    removeAttributes(node, "fill")
+    addAttributes(node, fill=col2hex(svgCol[2]))
+    node = getNodeSet(xmlc[k][[1]], "//*[@id='leglabright']")[[1]]
+    removeAttributes(node, "fill")
+    addAttributes(node, fill=col2hex(svgCol[2]))
     node = getNodeSet(xmlc[k][[1]], "//*[@id='svgBackground']")[[1]]
     removeAttributes(node, "fill")
     addAttributes(node, fill=col2hex(svgCol[3]))

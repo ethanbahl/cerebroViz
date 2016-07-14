@@ -217,29 +217,33 @@
      transform="matrix(2.2,0,0,2.2,92.400004,66.000006)"
      class="legendBar">
     <rect
-       id="legendrect"
-       style="fill:url(#gradient);stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1"
+       id="legendRect"
+       stroke="#000000"
+       style="fill:url(#gradient);stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1"
        height="15"
        width="120"
        y="185"
        x="100" />
     <text
-       style="font-size:7px;font-family:sans;text-anchor:middle;fill:#000000"
-       id="text37"
+       style="font-size:7px;font-family:sans;text-anchor:middle"
+       fill="#000000"
+       id="leglableft"
        font-size="7"
        y="210"
        x="100"
        class="legendLabel">-1</text>
     <text
-       style="font-size:7px;font-family:sans;text-anchor:middle;fill:#000000"
-       id="text39"
+       style="font-size:7px;font-family:sans;text-anchor:middle"
+       fill="#000000"
+       id="leglabmid"
        font-size="7"
        y="210"
        x="160"
        class="legendLabel">0</text>
     <text
-       style="font-size:7px;font-family:sans;text-anchor:middle;fill:#000000"
-       id="text41"
+       style="font-size:7px;font-family:sans;text-anchor:middle"
+       fill="#000000"
+       id="leglabright"
        font-size="7"
        y="210"
        x="220"
