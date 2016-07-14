@@ -30,11 +30,11 @@ cerebroViz = function(x, outfile="cerebroViz_output", timepoint=1, divergent.dat
   require(RColorBrewer)
 
   if(is.null(regCol) & divergent.data==FALSE){
-    regCol = brewer.pal(n=7, name="YlOrRd")
+    regCol = brewer.pal(n=9, name="YlOrRd")
   }
 
   if(is.null(regCol) & divergent.data==TRUE){
-    regCol = rev(brewer.pal(n=7, name="RdYlBu"))
+    regCol = rev(brewer.pal(n=11, name="RdYlBu"))
   }
 
   #creating the master regions vector
