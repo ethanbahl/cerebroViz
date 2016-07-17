@@ -86,8 +86,8 @@
      d="m 429.82629,148.2407 c 0.69109,-15.79749 16.43857,-59.058722 2.60208,-97.317722 4.31617,-6.40926 14.39078,-6.029976 17.17371,-2.60208 16.65958,14.977932 20.37261,23.99352 37.59623,36.838752 21.40378,15.96274 45.55915,32.14756 57.37965,52.15233 6.72433,21.25109 -2.12506,13.69526 11.70493,27.55711 9.19615,9.21732 22.15237,17.75553 21.86187,19.80071 12.67484,19.99477 13.72265,38.85845 15.74258,56.85543 -8.95492,-21.304 -17.29518,-21.37119 -28.80588,-22.55007 -3.385,-9.44916 -3.61563,-47.70365 -37.15682,-44.45346 -3.86596,9.38587 -7.28761,18.3281 -11.27057,27.66217 -3.99872,9.37101 -8.14015,19.16664 -16.16605,26.19968 -12.13335,-21.81661 -28.33197,-19.15982 -37.61533,-31.22377 -7.81802,0.90405 -9.12661,-34.49906 -18.21455,-47.09762 -3.58459,-0.83371 -3.59861,-2.26252 -14.83185,-1.82146 z"
      />
   <path
-    id="FCX"
-    class="FCX"
+    id="FL"
+    class="FL"
     fill="#ffffff"
     fill-opacity="1"
     style="fill-rule:evenodd;stroke:#000000;stroke-width:0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -102,8 +102,8 @@
      d="m 3.9664152,222.84673 c 21.7170028,-12.53832 22.2169798,-9.72158 37.5793078,-7.05893 12.837442,6.87302 19.944898,20.26196 26.865647,36.4874 4.140726,9.70778 13.240066,13.92237 19.317034,17.79105 -4.318224,13.08032 -7.235572,25.22669 -5.703838,34.40703 L 34.185935,303.73729 C 30.919044,303.44783 22.565126,301.21477 17.041903,290.31382 8.42725,273.31144 -0.93445409,248.96111 3.9664152,222.84673 Z"
      />
   <path
-    id="OCX"
-    class="OCX"
+    id="OL"
+    class="OL"
     fill="#ffffff"
     fill-opacity="1"
     style="fill-rule:evenodd;stroke:#000000;stroke-width:0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -126,8 +126,8 @@
      d="m 305.2908,-1.97728 c 0.72588,-0.3034489 -16.19623,1.92815241 -35.43241,2.21744224 -25.807,0.38810754 -43.43289,3.02931336 -52.38291,10.14890476 19.66817,33.693041 26.81686,37.306953 46.57508,51.17911 15.23137,23.172343 27.2157,38.439233 42.10824,70.726563 -6.84187,16.99902 -5.81575,11.45101 -10.09385,38.56234 17.74693,4.33936 34.79251,5.749 43.76432,13.63039 10.17343,8.93697 14.89115,20.04205 19.47172,17.96766 2.65668,-1.20312 1.76819,-3.84234 -1.26347,-14.30657 -0.83704,-2.88918 -1.11381,-6.68117 -2.24037,-10.89468 -2.47278,-11.56406 -7.78589,-18.77915 -11.58978,-28.42003 -3.66214,-9.28164 -5.3219,-20.95043 -10.34492,-39.3672 -0.47868,-10.688398 2.14317,-31.326317 -3.47976,-50.646436 -6.52388,-22.41576 -4.41858,-11.9925 -25.09189,-60.797494 z"
      />
   <path
-    id="PCX"
-    class="PCX"
+    id="PL"
+    class="PL"
     fill="#ffffff"
     fill-opacity="1"
     style="fill-rule:evenodd;stroke:#000000;stroke-width:0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -166,8 +166,8 @@
      d="m 149.14007,141.33221 c 14.82205,48.11035 55.07927,77.08989 79.86944,80.65976 22.92726,14.1679 26.00258,21.70315 48.33497,18.10212 16.19614,5.73994 36.47785,1.26588 55.16406,0.78063 11.07112,-2.77106 15.51815,-13.82219 21.33706,-23.1585 -70.45122,-13.47862 -95.79382,-16.14983 -131.66518,-48.39867 -30.28991,-11.41956 -31.5949,-11.24472 -73.04035,-27.98534 z"
      />
   <path
-    id="TCX"
-    class="TCX"
+    id="TL"
+    class="TL"
     fill="#ffffff"
     fill-opacity="1"
     style="fill-rule:evenodd;stroke:#000000;stroke-width:0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -217,29 +217,33 @@
      transform="matrix(2.2,0,0,2.2,92.400004,66.000006)"
      class="legendBar">
     <rect
-       id="legendrect"
-       style="fill:url(#gradient);stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1"
+       id="legendRect"
+       stroke="#000000"
+       style="fill:url(#gradient);stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1"
        height="15"
        width="120"
        y="185"
        x="100" />
     <text
-       style="font-size:7px;font-family:sans;text-anchor:middle;fill:#000000"
-       id="text37"
+       style="font-size:7px;font-family:sans;text-anchor:middle"
+       fill="#000000"
+       id="leglableft"
        font-size="7"
        y="210"
        x="100"
        class="legendLabel">-1</text>
     <text
-       style="font-size:7px;font-family:sans;text-anchor:middle;fill:#000000"
-       id="text39"
+       style="font-size:7px;font-family:sans;text-anchor:middle"
+       fill="#000000"
+       id="leglabmid"
        font-size="7"
        y="210"
        x="160"
        class="legendLabel">0</text>
     <text
-       style="font-size:7px;font-family:sans;text-anchor:middle;fill:#000000"
-       id="text41"
+       style="font-size:7px;font-family:sans;text-anchor:middle"
+       fill="#000000"
+       id="leglabright"
        font-size="7"
        y="210"
        x="220"

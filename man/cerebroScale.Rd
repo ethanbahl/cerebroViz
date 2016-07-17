@@ -4,20 +4,20 @@
 \alias{cerebroScale}
 \title{A function to scale sequential and divergent data to a 0:1 range}
 \usage{
-cerebroScale(x, clamp, divergent.data)
+cerebroScale(x, clamp, divData)
 }
 \arguments{
 \item{x}{input data matrix}
 
 \item{clamp}{coefficient to the Median Absolute Deviation. Added and subtracted from the median to identify a range of non-outliers. Values external to this range will 'clamped' to extremes of the non-outlier range.}
 
-\item{divergent.data}{logical indicating if input data is divergent in nature. Default assumes data is sequential.}
+\item{divData}{logical indicating if input data is divergent in nature. Default assumes data is sequential.}
 }
 \description{
-This function scales input data to a 0:1 range. If divergent.data=FALSE it will scale linearly. If divergent.data=TRUE, it will utilize a polylinear scale centered at the median of the input data.
+This function scales input data to a 0:1 range. If divData=FALSE it will scale linearly. If divData=TRUE, it will utilize a polylinear scale centered at the median of the input data.
 }
 \examples{
-cerebroScale(x, clamp = 100, divergent.data=FALSE)
+cerebroScale(x, clamp = 100, divData=FALSE)
 }
 \keyword{cerebroScale}
 
