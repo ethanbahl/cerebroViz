@@ -4,8 +4,7 @@
 \alias{editLegend}
 \title{a function used by cerebroViz() to edit the legend.}
 \usage{
-editLegend(xmin, xmed, clamp, xmad, xmax, xmlc, regCol, legend.toggle,
-  divergent.data)
+editLegend(xmin, xmed, clamp, xmad, xmax, xmlc, palette, legend, divData)
 }
 \arguments{
 \item{xmin}{minimum of input data.}
@@ -20,17 +19,17 @@ editLegend(xmin, xmed, clamp, xmad, xmax, xmlc, regCol, legend.toggle,
 
 \item{xmlc}{list containing the xml object for each SVG.}
 
-\item{regCol}{character vector of color values to use in the visualization. Accepts color names, hex values, and RGB values. For sequential data, it is recommended to use two colors, or a sequence of colors in a gradient. For divergent data, it is recommended to use three colors with a neutral color in the middle.}
+\item{palette}{character vector of color values to use in the visualization. Accepts color names, hex values, and RGB values. For sequential data, it is recommended to use two colors, or a sequence of colors in a gradient. For divergent data, it is recommended to use three colors with a neutral color in the middle.}
 
-\item{legend.toggle}{logical indicating if the legend bar should be visible.}
+\item{legend}{logical indicating if the legend bar should be visible.}
 
-\item{divergent.data}{logical indicating if input data is divergent in nature. Default assumes data is sequential.}
+\item{divData}{logical indicating if input data is divergent in nature. Default assumes data is sequential.}
 }
 \description{
 for each xml, map the appropriate colors to the legend
 }
 \examples{
-editLegend(xmin, xmed, clamp, xmad, xmax, xmlc, regCol, legend.toggle, divergent.data)
+editLegend(xmin, xmed, clamp, xmad, xmax, xmlc, palette, legend, divData)
 }
 \keyword{internal}
 
