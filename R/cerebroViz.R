@@ -111,7 +111,7 @@ cerebroViz = function(x, outfile="cerebroViz_output", palette=NULL, timePoint=1,
         xmlc = editnaHatch(xmlc, lupiter)
     }
     xmlc = editpalette(lupiter, xmlc, hexVec, naHatch)
-    xmlc = unmaskRegions(xmlc, srg, lupiter)
+    xmlc = maskRegions(xmlc, srg, lupiter)
     xmlc = editLegend(xmin, xmed, clamp, xmad, xmax, xmlc, palette, legend, divData)
     xmll = xmlc[1][[1]]
     xmls = xmlc[2][[1]]
@@ -326,7 +326,7 @@ editLegend = function(xmin, xmed, clamp, xmad, xmax, xmlc, palette, legend, divD
   return(xmlc)
 }
 
-#' a function used by cerebroViz() to unmask subregions when superior regions are not supplied in input data.
+#' a function used by cerebroViz() to lower opacity for superior regions when data is not provided
 #'
 #' for each missing superior region, set opacity to 0.
 #' @param xmlc list containing the xml object for each SVG.
@@ -334,9 +334,9 @@ editLegend = function(xmin, xmed, clamp, xmad, xmax, xmlc, palette, legend, divD
 #' @param lupiter hex gradient indices for current iteration (timePoint) in the loop, specified within cerebroViz().
 #' @keywords internal
 #' @examples
-#' unmaskRegions(xmlc, srg, lupiter)
-#unmaskRegions
-unmaskRegions = function(xmlc, srg, lupiter){
+#' maskRegions(xmlc, srg, lupiter)
+#maskRegions
+maskRegions = function(xmlc, srg, lupiter){
   missNames = names(lupiter[is.na(lupiter)])
   opacdown = srg[srg%in%missNames]
   if(length(opacdown)>0){
