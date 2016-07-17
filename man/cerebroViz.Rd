@@ -4,34 +4,34 @@
 \alias{cerebroViz}
 \title{A tool to visualize biological data mapped to SVG brain diagrams.}
 \usage{
-cerebroViz(x, outfile = "cerebroViz_output", timepoint = 1,
-  divergent.data = FALSE, regCol = NULL, svgCol = c("white", "black",
-  "white"), clamp = NULL, cross.hatch = FALSE, legend.toggle = TRUE,
+cerebroViz(x, outfile = "cerebroViz_output", palette = NULL,
+  timePoint = 1, divData = FALSE, secondaryPalette = c("white", "black",
+  "white"), clamp = NULL, naHatch = FALSE, legend = TRUE,
   customNames = NULL)
 }
 \arguments{
-\item{x}{a matrix object containing the data to map. Rownames should reflect the appropriate brain region. Columns may represent different time points or replicates.}
+\item{x}{matrix containing input data. Row names should reflect the appropriate brain regions. Column names may represent different time points or samples and do not require naming}
 
-\item{outfile}{the desired prefix for the output SVG files.}
+\item{outfile}{desired prefix for the output SVG files}
 
-\item{timepoint}{a numeric vector of columns in 'x' to visualize.}
+\item{palette}{character vector of color values for visualizing brain regions. Accepts color names, hex values, and RGB values}
 
-\item{divergent.data}{logical indicating if input data is divergent in nature. Default assumes data is sequential.}
+\item{timePoint}{a numeric vector of columns in 'x' to visualize}
 
-\item{regCol}{character vector of color values to use in the visualization. Accepts color names, hex values, and RGB values. For sequential data, it is recommended to use two colors, or a sequence of colors in a gradient. For divergent data, it is recommended to use three colors with a neutral color in the middle.}
+\item{divData}{logical indicating if input data is to be visualized as it diverges from the median. Defaults to false}
 
-\item{svgCol}{character vector of length three specifying colors for the brain background, brain outline, and svg background in that order.}
+\item{secondaryPalette}{character vector of length three specifying colors for the brain background, brain outline/legend, and svg background in that order}
 
-\item{clamp}{coefficient to the Median Absolute Deviation. Added and subtracted from the median to identify a range of non-outliers. Values external to this range will 'clamped' to extremes of the non-outlier range.}
+\item{clamp}{coefficient to the Median Absolute Deviation. Added and subtracted from the median to identify a range of non-outliers. Values external to this range will 'clamped' to extremes of the non-outlier range}
 
-\item{cross.hatch}{logical indicating if regions of missing data should be filled with a cross-hatch pattern to differentiate them from the brain's background.}
+\item{naHatch}{logical indicating if regions of missing data should be filled with a cross-hatch pattern to differentiate them from the brain's background}
 
-\item{legend.toggle}{logical indicating if the legend bar should be visible.}
+\item{legend}{logical indicating if the legend bar is displayed}
 
-\item{customNames}{dataframe or matrix with 2 columns. The first column for cerebroViz convention names, the second column for custom user names. Cells in input cannot be factors.}
+\item{customNames}{dataframe or matrix with 2 columns. The first column for cerebroViz convention names, the second column for custom user names. Cells in input cannot be factors}
 }
 \description{
-'cerebroViz' is a data mapping tool for visualizing spatiotemporal data in the brain. The user inputs a matrix of data and the tool outputs publication quality SVG diagrams with color mapping reflective of the input data. 'cerebroViz' supports 30 brain regions used by BrainSpan, GTex, Roadmap Epigenomics, and more.
+'cerebroViz' is a tool for visualizing spatiotemporal data in the brain within an anatomical context. The user inputs a matrix and the tool creates SVG diagrams with color mapping reflective of the input data. 'cerebroViz' supports 30 brain regions used by BrainSpan, GTEx, Roadmap Epigenomics, and more.
 }
 \examples{
 x = t(apply(apply(rbind(matrix((sample(c(-400:600),260)/100),nrow=26,ncol=10),matrix(NA,nrow=4,ncol=10)),2,sample),1,sample))
