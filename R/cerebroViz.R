@@ -22,7 +22,7 @@
 #' x = t(apply(apply(rbind(matrix((sample(c(-400:600),260)/100),nrow=26,ncol=10),matrix(NA,nrow=4,ncol=10)),2,sample),1,sample))
 #' rownames(x) = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FL", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OL", "OFC", "PL", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TL", "THA", "V1C", "VFC")
 #' cerebroViz(x)
-cerebroViz = function(x, outfile="cerebroViz_output", palette=NULL, timePoint=1, divData=FALSE, secondaryPalette = c("white","black","white"), clamp=NULL, naHatch=FALSE, legend=TRUE, customNames=NULL){
+cerebroViz <- function(x, outfile = "cerebroViz_output", palette = NULL, timePoint = 1, divData = FALSE, secondaryPalette = c("white","black","white"), clamp = NULL, naHatch = FALSE, legend = TRUE, customNames = NULL){
   require(XML)
   require(gplots)
   require(scales)
@@ -40,20 +40,20 @@ cerebroViz = function(x, outfile="cerebroViz_output", palette=NULL, timePoint=1,
   #creating the master regions vector
   regions = c("A1C", "AMY", "ANG", "BS", "CAU", "CB", "CNG", "DFC", "FL", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OL", "OFC", "PL", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TL", "THA", "V1C", "VFC")
 ################################################ E R R O R   H A N D L I N G ###
-  if(class(x)!="matrix") stop("'x' must be of class 'matrix'")
-  if(sum(is.na(rownames(x)))>0) stop("rownames of 'x' must be valid")
-  if(length(rownames(x))!=nrow(x)) stop("rownames must be supplied for each row in 'x'")
+  if(class(x)!="matrix") stop("'x' must be of class 'matrix'.")
+  if(sum(is.na(rownames(x)))>0) stop("Row names of 'x' must be valid.")
+  if(length(rownames(x))!=nrow(x)) stop("Row names must be supplied for each row in 'x'.")
   if(max(timePoint)>ncol(x)) stop("'timePoint' invalid")
   if(sum(timePoint%%1!=0)) stop("'timePoint' invalid")
-  if(length(secondaryPalette)!=3) stop("'secondaryPalette' must have length 3")
+  if(length(secondaryPalette)!=3) stop("'secondaryPalette' must have length 3.")
   if(!is.null(customNames)){
-    if(ncol(customNames)!=2) stop("unexpected input for customNames")
+    if(ncol(customNames)!=2) stop("Unexpected input for customNames.")
   }
-  if(is.null(customNames) & sum(rownames(x)%in%regions==FALSE)>0) warning(paste("Unknown rownames in input data: ",paste(rownames(x)[rownames(x)%in%regions==FALSE],collapse=", "),". Unknown regions will be excluded from visualization. See the help page for 'customNames' argument.",sep=""))
+  if(is.null(customNames) & sum(rownames(x)%in%regions==FALSE)>0) warning(paste("Unknown row names in input data: ",paste(rownames(x)[rownames(x)%in%regions==FALSE],collapse=", "),". Unknown regions will be excluded from visualization. See the help manual for 'customNames' argument.",sep=""))
 
   #customNames
   if(!is.null(customNames)){
-    if(sum(customNames[,2]%in%regions)>0) stop(paste("customNames contains region names already used in cerebroViz convention: ",paste(customNames[customNames[,2]%in%regions,2],collapse=", "),sep=""))
+    if(sum(customNames[,2]%in%regions)>0) stop(paste("customNames contains region names already used by cerebroViz convention: ",paste(customNames[customNames[,2]%in%regions,2],collapse=", "),sep=""))
     for(indA in 1:nrow(customNames)){
       rownames(x)[rownames(x)==customNames[indA,2]]=customNames[indA,1]
     }
@@ -80,7 +80,7 @@ cerebroViz = function(x, outfile="cerebroViz_output", palette=NULL, timePoint=1,
   if(is.null(clamp)){
     clamp = avoidClamp+1
   }
-  if(clamp<=0) stop("clamp must be >0")
+  if(clamp<=0) stop("'clamp' must be >0")
 
   #set regions w/ no data to NA
   #name the rows, join the users data with the NA data, alphabetize
@@ -94,8 +94,8 @@ cerebroViz = function(x, outfile="cerebroViz_output", palette=NULL, timePoint=1,
   hexVec = f(201)
 
   #loop for each timePoint
-  lobesvg = system.file("extdata/svg/brainlobe.svg",package="cerebroViz")
-  sagsvg = system.file("extdata/svg/brainsagittal.svg",package="cerebroViz")
+  svg_outer = system.file("extdata/svg/brain-outer.svg",package="cerebroViz")
+  svg_slice = system.file("extdata/svg/brain-slice.svg",package="cerebroViz")
   for(indA in 1:length(timePoint)){
     if(ncol(x)>1) {
       lupiter = hexInd[,timePoint[indA]]
@@ -103,8 +103,8 @@ cerebroViz = function(x, outfile="cerebroViz_output", palette=NULL, timePoint=1,
     else {
       lupiter = hexInd
     }
-    xmll = xmlTreeParse(lobesvg, useInternalNodes=TRUE)
-    xmls = xmlTreeParse(sagsvg, useInternalNodes=TRUE)
+    xmll = xmlTreeParse(svg_outer, useInternalNodes=TRUE)
+    xmls = xmlTreeParse(svg_slice, useInternalNodes=TRUE)
     xmlc =  c(xmll, xmls)
     xmlc = editsecondaryPalette(xmlc, secondaryPalette)
     if(naHatch==TRUE){
@@ -132,7 +132,7 @@ cerebroViz = function(x, outfile="cerebroViz_output", palette=NULL, timePoint=1,
 #' @examples
 #' cerebroScale(x, clamp = 100, divData=FALSE)
 #cerebroScale
-cerebroScale = function(x, clamp, divData){
+cerebroScale <- function(x, clamp, divData){
   xmed = median(x, na.rm=TRUE)
   xmad = mad(x, constant = 1, na.rm=TRUE)
   xmin = min(x, na.rm=TRUE)
@@ -168,6 +168,8 @@ cerebroScale = function(x, clamp, divData){
       fill_matrix[x>=xmed & x<=(xmed+outlrs) & !is.na(x)] = rsc
       lsc = rescale(belmed,c(0,0.5))
       fill_matrix[x<=xmed & x>=(xmed-outlrs) & !is.na(x)] = lsc
+      fill_matrix[x<(xmed-outlrs) & !is.na(x)] = 0
+      fill_matrix[x>(xmed+outlrs) & !is.na(x)] = 1
       x_scaled = fill_matrix
     }
   }
@@ -191,7 +193,7 @@ cerebroScale = function(x, clamp, divData){
 #' @examples
 #' editsecondaryPalette(xmlc, secondaryPalette)
 #editsecondaryPalette
-editsecondaryPalette = function(xmlc, secondaryPalette){
+editsecondaryPalette <- function(xmlc, secondaryPalette){
   for(indB in 1:length(xmlc)){
     node = getNodeSet(xmlc[indB][[1]], "//*[@id='brainBackground']")[[1]]
     removeAttributes(node, "fill")
@@ -227,7 +229,7 @@ editsecondaryPalette = function(xmlc, secondaryPalette){
 #' @examples
 #' editnaHatch(xmlc, lupiter)
 #editnaHatch
-editnaHatch = function(xmlc, lupiter){
+editnaHatch <- function(xmlc, lupiter){
   missNames = names(lupiter[is.na(lupiter)])
   for(indB in 1:length(xmlc)){
     for(indC in 1:length(missNames)){
@@ -253,7 +255,7 @@ editnaHatch = function(xmlc, lupiter){
 #' @examples
 #' editpalette(lupiter, xmlc, hexVec, naHatch)
 #editpalette
-editpalette = function(lupiter, xmlc, hexVec, naHatch){
+editpalette <- function(lupiter, xmlc, hexVec, naHatch){
   fillData = lupiter[which(!is.na(lupiter))]
   for(indB in 1:length(xmlc)){
     for(indC in 1:length(fillData)){
@@ -295,7 +297,7 @@ editpalette = function(lupiter, xmlc, hexVec, naHatch){
 #' @examples
 #' editLegend(xmin, xmed, clamp, xmad, xmax, xmlc, palette, legend, divData)
 #editLegend()
-editLegend = function(xmin, xmed, clamp, xmad, xmax, xmlc, palette, legend, divData){
+editLegend <- function(xmin, xmed, clamp, xmad, xmax, xmlc, palette, legend, divData){
   labmin = round(max(xmin, (xmed-(clamp*xmad))),3)
   labmax = round(min(xmax, (xmed+(clamp*xmad))),3)
   labmed = round(xmed, 3)
@@ -336,7 +338,7 @@ editLegend = function(xmin, xmed, clamp, xmad, xmax, xmlc, palette, legend, divD
 #' @examples
 #' maskRegions(xmlc, srg, lupiter)
 #maskRegions
-maskRegions = function(xmlc, srg, lupiter){
+maskRegions <- function(xmlc, srg, lupiter){
   missNames = names(lupiter[is.na(lupiter)])
   opacdown = srg[srg%in%missNames]
   if(length(opacdown)>0){
