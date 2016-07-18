@@ -168,6 +168,8 @@ cerebroScale <- function(x, clamp, divData){
       fill_matrix[x>=xmed & x<=(xmed+outlrs) & !is.na(x)] = rsc
       lsc = rescale(belmed,c(0,0.5))
       fill_matrix[x<=xmed & x>=(xmed-outlrs) & !is.na(x)] = lsc
+      fill_matrix[x<(xmed-outlrs) & !is.na(x)] = 0
+      fill_matrix[x>(xmed+outlrs) & !is.na(x)] = 1
       x_scaled = fill_matrix
     }
   }
