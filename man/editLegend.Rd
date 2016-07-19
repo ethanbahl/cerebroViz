@@ -4,32 +4,32 @@
 \alias{editLegend}
 \title{a function used by cerebroViz() to edit the legend.}
 \usage{
-editLegend(xmin, xmed, clamp, xmad, xmax, xmlc, palette, legend, divData)
+editLegend(cXml, palette, divData, clamp, legend, xmin, xmed, xmad, xmax)
 }
 \arguments{
+\item{cXml}{list containing the xml object for each SVG.}
+
+\item{palette}{character vector of color values to use in the visualization. Accepts color names, hex values, and RGB values. For sequential data, it is recommended to use two colors, or a sequence of colors in a gradient. For divergent data, it is recommended to use three colors with a neutral color in the middle.}
+
+\item{divData}{logical indicating if input data is divergent in nature. Default assumes data is sequential.}
+
+\item{clamp}{coefficient to the Median Absolute Deviation. Added and subtracted from the median to identify a range of non-outliers. Values external to this range will 'clamped' to extremes of the non-outlier range.}
+
+\item{legend}{logical indicating if the legend bar should be visible.}
+
 \item{xmin}{minimum of input data.}
 
 \item{xmed}{median of input data.}
 
-\item{clamp}{coefficient to the Median Absolute Deviation. Added and subtracted from the median to identify a range of non-outliers. Values external to this range will 'clamped' to extremes of the non-outlier range.}
-
 \item{xmad}{Median Absolute Deviation of input data (constant=1).}
 
 \item{xmax}{maximum of input data.}
-
-\item{xmlc}{list containing the xml object for each SVG.}
-
-\item{palette}{character vector of color values to use in the visualization. Accepts color names, hex values, and RGB values. For sequential data, it is recommended to use two colors, or a sequence of colors in a gradient. For divergent data, it is recommended to use three colors with a neutral color in the middle.}
-
-\item{legend}{logical indicating if the legend bar should be visible.}
-
-\item{divData}{logical indicating if input data is divergent in nature. Default assumes data is sequential.}
 }
 \description{
 for each xml, map the appropriate colors to the legend
 }
 \examples{
-editLegend(xmin, xmed, clamp, xmad, xmax, xmlc, palette, legend, divData)
+editLegend(cXml, palette, divData, clamp, legend, xmin, xmed, xmad, xmax)
 }
 \keyword{internal}
 
