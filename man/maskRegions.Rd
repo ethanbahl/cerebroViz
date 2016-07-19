@@ -4,12 +4,12 @@
 \alias{maskRegions}
 \title{a function used by cerebroViz() to lower opacity for superior regions when data is not provided}
 \usage{
-maskRegions(xmlc, srg, lupiter)
+maskRegions(cXml, supReg, lupiter)
 }
 \arguments{
-\item{xmlc}{list containing the xml object for each SVG.}
+\item{cXml}{list containing the xml object for each SVG.}
 
-\item{srg}{regions that encompass other brain regions, specified within cerebroViz().}
+\item{supReg}{regions that encompass other brain regions, specified within cerebroViz().}
 
 \item{lupiter}{hex gradient indices for current iteration (timePoint) in the loop, specified within cerebroViz().}
 }
@@ -17,7 +17,7 @@ maskRegions(xmlc, srg, lupiter)
 for each missing superior region, set opacity to 0.
 }
 \examples{
-maskRegions(xmlc, srg, lupiter)
+maskRegions(cXml, supReg, lupiter)
 }
 \keyword{internal}
 

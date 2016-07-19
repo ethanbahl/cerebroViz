@@ -13,7 +13,8 @@ Imports:
 	XML,
 	gplots,
 	scales,
-	grDevices
+	grDevices,
+	RColorBrewer
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
