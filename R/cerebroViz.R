@@ -37,9 +37,8 @@ cerebroViz <- function(x, filePrefix = "cerebroViz_output", palette = NULL, time
     palette = rev(brewer.pal(n=11, name="RdYlBu"))
   }
 
-  #creating the master regions vector
   regions = c("A1C", "AMY", "ANG", "BS", "CAU", "CB", "CNG", "DFC", "FL", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OL", "OFC", "PL", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TL", "THA", "V1C", "VFC")
-################################################ E R R O R   H A N D L I N G ###
+
   if(class(x)!="matrix") stop("'x' must be of class 'matrix'.")
   if(sum(is.na(rownames(x)))>0) stop("Row names of 'x' must be valid.")
   if(length(rownames(x))!=nrow(x)) stop("Row names must be supplied for each row in 'x'.")
@@ -51,7 +50,7 @@ cerebroViz <- function(x, filePrefix = "cerebroViz_output", palette = NULL, time
   }
   if(is.null(customNames) & sum(rownames(x)%in%regions==FALSE)>0) warning(paste("Unknown row names in input data: ",paste(rownames(x)[rownames(x)%in%regions==FALSE],collapse=", "),". Unknown regions will be excluded from visualization. See the help manual for 'customNames' argument.",sep=""))
 
-  #customNames
+
   if(!is.null(customNames)){
     if(sum(customNames[,2]%in%regions)>0) stop(paste("customNames contains region names already used by cerebroViz convention: ",paste(customNames[customNames[,2]%in%regions,2],collapse=", "),sep=""))
     for(indA in 1:nrow(customNames)){
