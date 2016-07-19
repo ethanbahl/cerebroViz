@@ -4,15 +4,15 @@
 \alias{cerebroViz}
 \title{A tool to visualize biological data mapped to SVG brain diagrams.}
 \usage{
-cerebroViz(x, outfile = "cerebroViz_output", palette = NULL,
-  timePoint = 1, divData = FALSE, secondaryPalette = c("white", "black",
+cerebroViz(x, filePrefix = "cerebroViz_output", palette = NULL,
+  timePoint = 1, divData = FALSE, secPalette = c("white", "black",
   "white"), clamp = NULL, naHatch = FALSE, legend = TRUE,
   customNames = NULL)
 }
 \arguments{
 \item{x}{matrix containing input data. Row names should reflect the appropriate brain regions. Column names may represent different time points or samples and do not require naming}
 
-\item{outfile}{desired prefix for the output SVG files}
+\item{filePrefix}{desired prefix for the output SVG files}
 
 \item{palette}{character vector of color values for visualizing brain regions. Accepts color names, hex values, and RGB values}
 
@@ -20,7 +20,7 @@ cerebroViz(x, outfile = "cerebroViz_output", palette = NULL,
 
 \item{divData}{logical indicating if input data is to be visualized as it diverges from the median. Defaults to false}
 
-\item{secondaryPalette}{character vector of length three specifying colors for the brain background, brain outline/legend, and svg background in that order}
+\item{secPalette}{character vector of length three specifying colors for the brain background, brain outline/legend, and svg background in that order}
 
 \item{clamp}{coefficient to the Median Absolute Deviation. Added and subtracted from the median to identify a range of non-outliers. Values external to this range will 'clamped' to extremes of the non-outlier range}
 
