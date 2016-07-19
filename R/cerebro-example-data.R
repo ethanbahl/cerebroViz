@@ -4,9 +4,9 @@
 #'
 #' @docType data
 #'
-#' @usage ex1
+#' @usage cerebro_example
 #'
 #' @format An object of class \code{"matrix"}
 #'
 #' @keywords datasets
-"ex1"
+"cerebro_example"
