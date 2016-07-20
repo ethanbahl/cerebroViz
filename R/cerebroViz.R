@@ -1,6 +1,6 @@
 #' A tool to visualize biological data mapped to SVG brain diagrams.
 #'
-#' 'cerebroViz' is a tool for visualizing spatiotemporal data in the brain within an anatomical context. The user inputs a matrix and the tool creates SVG diagrams with color mapping reflective of the input data. 'cerebroViz' supports 30 brain regions used by BrainSpan, GTEx, Roadmap Epigenomics, and more.
+#' \code{cerebroViz} is a tool for visualizing spatiotemporal data in the brain within an anatomical context. The user inputs a matrix and the tool creates SVG diagrams with color mapping reflective of the input data. \code{cerebroViz} supports 30 brain regions used by BrainSpan, GTEx, Roadmap Epigenomics, and more.
 #' @param x matrix containing input data. Row names should reflect the appropriate brain regions. Column names may represent different time points or samples and do not require naming
 #' @param filePrefix desired prefix for the output SVG files
 #' @param palette character vector of color values for visualizing brain regions. Accepts color names, hex values, and RGB values
@@ -19,9 +19,8 @@
 #' @import RColorBrewer
 #' @export
 #' @examples
-#' x = t(apply(apply(rbind(matrix((sample(c(-400:600),260)/100),nrow=26,ncol=10),matrix(NA,nrow=4,ncol=10)),2,sample),1,sample))
-#' rownames(x) = c("A1C", "CNG", "AMY", "ANG", "BS", "CAU", "CB", "DFC", "FL", "HIP", "HTH", "IPC", "ITC", "M1C", "MED", "MFC", "OL", "OFC", "PL", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TL", "THA", "V1C", "VFC")
-#' cerebroViz(x)
+#' exdata = data(cerebroEx)
+#' cerebroViz(exdata)
 cerebroViz <- function(x, filePrefix = "cerebroViz_output", palette = NULL, timePoint = 1, divData = FALSE, secPalette = c("white","black","white"), clamp = NULL, naHatch = FALSE, legend = TRUE, customNames = NULL){
   require(XML)
   require(gplots)
@@ -58,7 +57,6 @@ cerebroViz <- function(x, filePrefix = "cerebroViz_output", palette = NULL, time
     }
   }
 
-#################################################### R E G I O N   S E T U P ###
   #creating the vector for 'parent' regions (regions that encompass others) and a warning of overshadowing.
   supReg = c("BS", "FL", "OL", "PL", "TL", "STR")
   supLog = matrix(!is.na(x[rownames(x) %in% supReg,timePoint]),ncol=length(timePoint))
@@ -127,7 +125,7 @@ cerebroViz <- function(x, filePrefix = "cerebroViz_output", palette = NULL, time
 #' @keywords cerebroScale
 #' @export
 #' @examples
-#' cerebroScale(x, clamp = 100, divData=FALSE)
+#' cerebroScale(x, clamp = NULL, divData=FALSE)
 #cerebroScale
 cerebroScale <- function(x, clamp, divData){
   xmed = median(x, na.rm=TRUE)
