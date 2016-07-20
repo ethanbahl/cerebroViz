@@ -91,8 +91,8 @@ cerebroViz <- function(x, filePrefix = "cerebroViz_output", palette = NULL, time
   hexVec = f(201)
 
   #loop for each timePoint
-  svgOuter = system.file("extdata/svg/brain-outer.svg",package="cerebroViz")
-  svgSlice = system.file("extdata/svg/brain-slice.svg",package="cerebroViz")
+  svgOuter = system.file("extdata/svg/brain_outer.svg",package="cerebroViz")
+  svgSlice = system.file("extdata/svg/brain_slice.svg",package="cerebroViz")
   for(indA in 1:length(timePoint)){
     if(ncol(x)>1) {
       lupiter = hexInd[,timePoint[indA]]
