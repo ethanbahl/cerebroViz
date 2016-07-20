@@ -17,7 +17,7 @@ cerebroScale(x, clamp, divData)
 This function scales input data to a 0:1 range. If divData=FALSE it will scale linearly. If divData=TRUE, it will utilize a polylinear scale centered at the median of the input data.
 }
 \examples{
-cerebroScale(x, clamp = 100, divData=FALSE)
+cerebroScale(x, clamp = NULL, divData=FALSE)
 }
 \keyword{cerebroScale}
 
