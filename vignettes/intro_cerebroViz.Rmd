@@ -275,3 +275,9 @@ The data are now properly mapped to the corresponding regions. Note that both th
 ***
 ***
 <p align="right"> <a href="#top" >Back to top</a> </p>
+
+# Make an anigif
+brew reinstall imagemagick --with-librsvg 
+
+imagemagick
+convert -delay 120 -loop 0 *_slice_*.svg animated.gif
