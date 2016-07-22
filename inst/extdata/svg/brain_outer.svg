@@ -185,4 +185,11 @@
             <use height="100%" width="100%" id="use465" y="216.97656" x="210.3125" xlink:href="#glyph0-1"/>
         </g>
     </g>
+    <g id="diagramLabel" opacity="1" transform="matrix(2.2,0,0,2.2,93.00004,66)" >
+        <text id="labelText" x="-20" y="240" fill="#000000" style="font-size:12px;font-family:sans;text-anchor:left"></text>
+        <g style="fill:#000000;fill-opacity:1" id="g453">
+            <use xlink:href="#glyph0-0" x="117.6875" y="216.97656" id="use455" width="100%" height="100%"/>
+            <use xlink:href="#glyph0-1" x="120.4502" y="216.97656" id="use457" width="100%" height="100%"/>
+        </g>
+    </g>
 </svg>

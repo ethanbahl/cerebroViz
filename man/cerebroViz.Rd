@@ -7,7 +7,7 @@
 cerebroViz(x, filePrefix = "cerebroViz_output", palette = NULL,
   timePoint = 1, divData = FALSE, secPalette = c("white", "black",
   "white"), clamp = NULL, naHatch = FALSE, legend = TRUE,
-  customNames = NULL)
+  customNames = NULL, figLabel = FALSE)
 }
 \arguments{
 \item{x}{matrix containing input data. Row names should reflect the appropriate brain regions. Column names may represent different time points or samples and do not require naming}
@@ -29,6 +29,8 @@ cerebroViz(x, filePrefix = "cerebroViz_output", palette = NULL,
 \item{legend}{logical indicating if the legend bar is displayed}
 
 \item{customNames}{dataframe or matrix with 2 columns. The first column for cerebroViz convention names, the second column for custom user names. Cells in input cannot be factors.}
+
+\item{figLabel}{logical indicating if figure label should be added to the output.}
 }
 \description{
 \code{cerebroViz} is a tool for visualizing spatiotemporal data in the brain within an anatomical context. The user inputs a matrix and the tool creates SVG diagrams with color mapping reflective of the input data. \code{cerebroViz} supports 30 brain regions used by BrainSpan, GTEx, Roadmap Epigenomics, and more.

@@ -11,6 +11,7 @@
 #' @param naHatch logical indicating if regions of missing data should be filled with a cross-hatch pattern to differentiate them from the brain's background
 #' @param legend logical indicating if the legend bar is displayed
 #' @param customNames dataframe or matrix with 2 columns. The first column for cerebroViz convention names, the second column for custom user names. Cells in input cannot be factors.
+#' @param figLabel logical indicating if figure label should be added to the output.
 #' @keywords cerebroViz
 #' @import XML
 #' @import gplots
@@ -23,7 +24,7 @@
 #' cerebroViz(exdata)
 cerebroViz <- function(x, filePrefix = "cerebroViz_output", palette = NULL,
     timePoint = 1, divData = FALSE, secPalette = c("white", "black", "white"),
-    clamp = NULL, naHatch = FALSE, legend = TRUE, customNames = NULL) {
+    clamp = NULL, naHatch = FALSE, legend = TRUE, customNames = NULL, figLabel = FALSE) {
     require(XML)
     require(gplots)
     require(scales)
@@ -133,6 +134,9 @@ cerebroViz <- function(x, filePrefix = "cerebroViz_output", palette = NULL,
         cXml <- maskRegions(cXml, supReg, lupiter)
         cXml <- editLegend(cXml, palette, divData, clamp, legend, xmin,
             xmed, xmad, xmax)
+        if (figLabel==TRUE) {
+            cXml <- editLabel(cXml, timePoint, figLabel, x, indA)
+        }
         oXml <- cXml[1][[1]]
         sXml <- cXml[2][[1]]
         saveXML(oXml, paste(filePrefix, "_outer_", timePoint[indA], ".svg",
@@ -391,5 +395,29 @@ maskRegions <- function(cXml, supReg, lupiter) {
         removeAttributes(node, "fill-opacity")
         addAttributes(node, "fill-opacity" = "0")
     }
+    return(cXml)
+}
+
+#' a function used by cerebroViz() to add a figure label
+#'
+#' for each xml, get label text node a fill with column names or timePoint.
+#' @param cXml list containing the xml object for each SVG.
+#' @keywords internal
+#' @examples
+#' editLabel(cXml, timePoint, figLabel, x)
+editLabel <- function(cXml, timePoint, figLabel, x, indA) {
+  if (!is.null(colnames(x))) {
+      for (indB in 1:length(cXml)) {
+          node <- getNodeSet(cXml[indB][[1]], "//*[@id='labelText']")[1]
+          nv <- paste("\n", colnames(x)[timePoint[indA]], "\n", sep= "")
+          xmlValue(node[[1]]) <- nv
+      }
+  } else {
+      for (indB in 1:length(cXml)) {
+          node <- getNodeSet(cXml[indB][[1]], "//*[@id='labelText']")[1]
+          nv <- paste("\n", timePoint[indA], "\n", sep= "")
+          xmlValue(node[[1]]) <- nv
+      }
+  }
     return(cXml)
 }
