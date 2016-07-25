@@ -13,14 +13,14 @@ cerebroViz(cerebroEx)
 ## ---- echo=TRUE, warning=FALSE-------------------------------------------
 library('cerebroViz')
 
-cerebroViz(cerebroEx, timePoint = c(1, 5, 10))
+cerebroViz(cerebroEx, timePoint = c(1, 5, 9))
 
 ## ---- warning=FALSE------------------------------------------------------
 library('cerebroViz')
 
 dir.create('custom_directory/')
 
-cerebroViz(cerebroEx, filePrefix = 'custom_directory/a_custom_filename', timePoint = c(1, 5, 10))
+cerebroViz(cerebroEx, filePrefix = 'custom_directory/a_custom_filename', timePoint = c(1, 5, 9))
 
 list.files('custom_directory/')
 
@@ -99,4 +99,14 @@ cerebroViz(cerebroEx, filePrefix = "missing_name")
 matrix(c("CB", "THA", "CBC", "MD"), ncol=2 ) -> cnm
 cnm
 cerebroViz(cerebroEx, customNames = cnm, filePrefix = "custom_name")
+
+## ---- include=FALSE------------------------------------------------------
+data("cerebroEx")
+cerebroEx
+
+## ---- warning=FALSE------------------------------------------------------
+library(cerebroViz)
+dir.create("gif_directory")
+cerebroViz(cerebroEx, timePoint = c(1, 5, 9), divData = TRUE,  filePrefix = "gif_directory/gif", figLabel = TRUE)
+
 

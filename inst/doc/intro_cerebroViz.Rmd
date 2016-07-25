@@ -13,9 +13,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 # cerebroViz Basics
-cerebroViz is a tool for visualizing spatiotemporal data in the brain. As input, it requires a matrix with rows corresponding to brain regions and columns corresponding to time points. You can learn more about the 30 regions which cerebroViz recognizes in the <a href="#regions">Brain Regions in cerebroViz</a> section.
+cerebroViz is a tool for visualizing spatiotemporal data in the brain. As input, it requires a matrix with rows corresponding to brain regions and columns corresponding to time points. You can learn more about the 30 regions which cerebroViz recognizes in the <a href="#regions">Brain Regions in cerebroViz</a> section.  
 
-cerebroViz includes an example matrix, `cerebroEx`, which is gene expression data for the POGZ gene taken from the <a href="http://www.brainspan.org/rnaseq/search/index.html">Brainspan developmental transcriptome</a>.
+cerebroViz includes an example matrix, `cerebroEx`, which is gene expression data for the POGZ gene taken from the Brainspan developmental transcriptome[^1].
   
 ```{r, echo=TRUE, fig.show='hold', warning=FALSE, tidy=TRUE}
 library('cerebroViz')
@@ -35,11 +35,12 @@ cerebroViz(cerebroEx)
 ```
 <img class="svg" src="cerebroViz_output_outer_1.svg"><img class="svg" src="cerebroViz_output_slice_1.svg">
 
+[^1]: BrainSpan: Atlas of the Developing Human Brain [Internet]. Funded by ARRA Awards 1RC2MH089921-01, 1RC2MH090047-01, and 1RC2MH089929-01. © 2011. Available from: http://developinghumanbrain.org.
 
 ***
 ***
 
-<p align="right"> <a href="#top" >Back to top</a> </p>
+<p align="right"> [Back to top](#top)</p>
 
 ## Specifying a Timepoint
 
@@ -48,7 +49,7 @@ cerebroViz allows visualization of brain data temporally, as well as spatially. 
 ```{r, echo=TRUE, warning=FALSE}
 library('cerebroViz')
 
-cerebroViz(cerebroEx, timePoint = c(1, 5, 10))
+cerebroViz(cerebroEx, timePoint = c(1, 5, 9))
 ```
 ##### Timepoint 1
 <img class="svg" src="cerebroViz_output_outer_1.svg"><img class="svg" src="cerebroViz_output_slice_1.svg">
@@ -56,12 +57,12 @@ cerebroViz(cerebroEx, timePoint = c(1, 5, 10))
 ##### Timepoint 5
 <img class="svg" src="cerebroViz_output_outer_5.svg"><img class="svg" src="cerebroViz_output_slice_5.svg">
 
-##### Timepoint 10
-<img class="svg" src="cerebroViz_output_outer_10.svg"><img class="svg" src="cerebroViz_output_slice_10.svg">
+##### Timepoint 9
+<img class="svg" src="cerebroViz_output_outer_9.svg"><img class="svg" src="cerebroViz_output_slice_9.svg">
 
 ***
 ***
-<p align="right"> <a href="#top" >Back to top</a> </p>
+<p align="right">[Back to top](#top)</p>
 
 ## Changing the Ouput File {#filenames}
 
@@ -72,7 +73,7 @@ library('cerebroViz')
 
 dir.create('custom_directory/')
 
-cerebroViz(cerebroEx, filePrefix = 'custom_directory/a_custom_filename', timePoint = c(1, 5, 10))
+cerebroViz(cerebroEx, filePrefix = 'custom_directory/a_custom_filename', timePoint = c(1, 5, 9))
 
 list.files('custom_directory/')
 
@@ -80,7 +81,7 @@ list.files('custom_directory/')
 
 ***
 ***
-<p align="right"> <a href="#top" >Back to top</a> </p>
+<p align="right"> [Back to top](#top)</p>
 
 ## Divergant Scales
 
@@ -99,7 +100,7 @@ cerebroViz(cerebroEx, divData = TRUE, timePoint = 11, filePrefix = 'divergent')
 
 ***
 ***
-<p align="right"> <a href="#top" >Back to top</a> </p>
+<p align="right"> [Back to top](#top)</p>
 
 ## Clamping Outliers {#clamp}
 
@@ -130,7 +131,7 @@ cerebroViz(ex1_out, clamp = 3, timePoint = 11, filePrefix = 'outlier_clamped')
 
 ***
 ***
-<p align="right"> <a href="#top" >Back to top</a> </p>
+<p align="right"> [Back to top](#top)</p>
 
 # Customizing cerebroViz's Appearance
 
@@ -146,7 +147,7 @@ cerebroViz(ex1, naHatch = TRUE, filePrefix = 'cross_hatch')
 <img class="svg" src="cross_hatch_outer_1.svg"><img class="svg" src="cross_hatch_slice_1.svg">
 
 ***
-<p align="right"> <a href="#top" >Back to top</a> </p>
+<p align="right"> [Back to top](#top)</p>
 
 ### Custom color palettes 
 The `palette = ` argument of `cerebroViz()` allows a custom color palette to be set for the vizulaization. To define a new palette, we recommend passing the `RColorBrewer::brewer.pal()` function to `palette = `.  In fact, the default palettes for `cerebroViz()` use `brewer.pal()`!
@@ -169,7 +170,7 @@ cerebroViz(cerebroEx, palette = brewer.pal(11, "BrBG"), divData = TRUE, timePoin
 To see a list of palettes available from RColorBrewer, use `RColorBrewer::display.brewer.all()`. More information about `brewer.pal()` can be read in the documentation for RColorBrewer.
 
 ***
-<p align="right"> <a href="#top" >Back to top</a> </p>
+<p align="right"> [Back to top](#top)</p>
 
 ### Advanced custom colors
 
@@ -195,7 +196,7 @@ cerebroViz(cerebroEx, secPalette = c("darkgrey", "white", "lightgrey"), timePoin
 
 ***
 ***
-<p align="right"> <a href="#top" >Back to top</a> </p>
+<p align="right"> [Back to top](#top)</p>
 
 # Generating a heatmap with cerebroScale
 Because it is impractical to interpret many cerebroViz diagrams simultaneously, it often makes sense to also visualize the data as a heatmap. In order to account for the custom scaling `cerebroViz()` can perform thanks to `clamp =` and `divData = `, the convenience function `cerebroScale()` is included. 
@@ -222,8 +223,8 @@ Note that both `divData = ` and `clamp = ` are required arguments for `cerebroSc
 
 Using the `heatmap()` function from the {stats} package is the quickest way to generate a heatmap corresponding to a dataset which had been visualized with cerebroViz. Color schemes for `heatmap()` are specified with the `col = ` argument, and can accept `RColorBrewer::brewer.pal()` as input. If using a default `cerebroViz()` color palette:
 
-cerebroViz scale                        | RColorBrewer palette
---------------------------------------- | --------------------
+cerebroViz scale   | RColorBrewer palette
+------------------ | --------------------
 `cerebroViz(x, divData = FALSE)` | `brewr.pal(9, "YlOrRd"")`
 `cerebroViz(x, divData = TRUE)`  | `rev(brewr.pal(11, "RdYlBu"))`
 
@@ -239,7 +240,7 @@ cerebroViz(cerebroEx, clamp = NULL, divData = TRUE, filePrefix = "scaled")
 <img class="svg" src="scaled_outer_1.svg"> <img class="svg" src="scaled_slice_1.svg"> 
 ***
 ***
-<p align="right"> <a href="#top" >Back to top</a> </p>
+<p align="right"> [Back to top](#top)</p>
 
 # Brain Regions in cerebroViz {#regions}
 Cerebroviz provides 30 regions to which brain data can be mapped. To view a data frame containing mapping of cerebroViz's regions to those of several popular databases:
@@ -275,19 +276,35 @@ cerebroViz(cerebroEx, customNames = cnm, filePrefix = "custom_name")
 ***
 The data are now properly mapped to the corresponding regions. Note that both the "missing_name" and "custom_name" images have the same scale. cerebroViz uses all data in the supplied matrix to calculate its color scale, even those which cannot be mapped to regions in the output images. 
 
+```{r, include=FALSE}
+data("cerebroEx")
+cerebroEx
+```
+
 ***
 ***
-<p align="right"> <a href="#top" >Back to top</a> </p>
+<p align="right"> [Back to top](#top)</p>
 
 # Make an animated gif of cerebroViz diagrams
 
-cerebroViz diagrams can quickly and easily be converted into animated gifs to hilight temporal changes with the **command-line** tool <a haref="http://www.imagemagick.org/script/index.php">Imagemagick</a>. Imagemagick is a free image manipulation suite available for Windows, Mac and Linux distributions. 
+cerebroViz diagrams can be quickly and easily converted into animated gifs to highlight temporal changes with the **command-line** tool [Imagemagick](http://www.imagemagick.org/script/index.php). Imagemagick is a free image manipulation suite available for Windows, Mac and Linux distributions. 
 
-To convert the SVGs generated by `cerebroViz()`, enter the directory containing them and run the below command, where `-delay n` is the number of miliseconds between frames and `-loop n` the number of times the animation should loop (0 = infinite).
+When generating SVGs which will be animated with `cerebroViz()`, it is reccomended to use the `figLabel = TRUE` argument. This will print the column name for the provided matrix on the corresponding SVG:
+
+```{r, warning=FALSE}
+library(cerebroViz)
+dir.create("gif_directory")
+cerebroViz(cerebroEx, timePoint = c(1, 5, 9), divData = TRUE,  filePrefix = "gif_directory/gif", figLabel = TRUE)
+
+```
+
+To convert the SVGs generated by `cerebroViz()`, enter the directory containing them in the shell, and run the below command, where `-delay n` is the number of miliseconds between frames and `-loop n` the number of times the animation should loop (0 = infinite).
 
 ```{bash}
-cd custom_directory
-convert -delay 150 -loop 0 *_slice_*.svg animated_slice.gif
-convert -delay 150 -loop 0 *_outer_*.svg animated_outer.gif
+cd gif_directory
+convert -delay 200 -loop 0 gif_slice_1.svg gif_slice_5.svg gif_slice_9.svg animated_slice.gif
 ```
-<img class="gif" src="./custom_directory/animated_outer.gif"><img class="gif" src="./custom_directory/animated_slice.gif">
+<img class="gif" src="./gif_directory/animated_slice.gif">
+***
+***
+<p align="right"> [Back to top](#top)</p>
