@@ -20,8 +20,8 @@
 #' @import RColorBrewer
 #' @export
 #' @examples
-#' exdata = data(cerebroEx)
-#' cerebroViz(exdata)
+#' data(cerebroEx)
+#' cerebroViz(cerebroEx)
 cerebroViz <- function(x, filePrefix = "cerebroViz_output", palette = NULL,
     timePoint = 1, divData = FALSE, secPalette = c("white", "black", "white"),
     clamp = NULL, naHatch = FALSE, legend = TRUE, customNames = NULL, figLabel = FALSE) {
@@ -32,7 +32,7 @@ cerebroViz <- function(x, filePrefix = "cerebroViz_output", palette = NULL,
     require(RColorBrewer)
 
     if (is.null(palette) & divData == FALSE) {
-        palette <- brewer.pal(n = 9, name = "YlOrRd")
+        palette <- brewer.pal(n = 9, name = "RdPu")
     }
 
     if (is.null(palette) & divData == TRUE) {
