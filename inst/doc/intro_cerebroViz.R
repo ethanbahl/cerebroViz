@@ -52,12 +52,12 @@ cerebroViz(ex1, naHatch = TRUE, filePrefix = 'cross_hatch')
 library(cerebroViz)
 library(RColorBrewer)
 
-cerebroViz(cerebroEx, palette = brewer.pal(11, "BrBG"), divData = TRUE, timePoint = 11, filePrefix = "brewer")
+cerebroViz(cerebroEx, palette = rev(brewer.pal(11, "PiYG")), divData = TRUE, timePoint = 11, filePrefix = "brewer")
 
 ## ---- echo=TRUE, warning=FALSE-------------------------------------------
 library(cerebroViz)
 
-cerebroViz(cerebroEx, palette = c("coral", "antiquewhite", "cornflowerblue"), timePoint = 11, filePrefix = "custom_scale")
+cerebroViz(cerebroEx, palette = c("cornflowerblue", "antiquewhite", "coral"), timePoint = 11, filePrefix = "custom_scale")
 
 ## ---- echo=TRUE, warning=FALSE-------------------------------------------
 library(cerebroViz)
@@ -93,12 +93,12 @@ knitr::kable(regionMap)
 ## ---- echo=TRUE, warning=TRUE--------------------------------------------
 rownames(cerebroEx)[c(3, 14)]
 rownames(cerebroEx)[c(3, 14)] <- c('CBC', 'MD')
-cerebroViz(cerebroEx, filePrefix = "missing_name")
+cerebroViz(cerebroEx, filePrefix = "missing_name", timePoint = 9)
 
 ## ---- echo=TRUE, warning=FALSE-------------------------------------------
 matrix(c("CB", "THA", "CBC", "MD"), ncol=2 ) -> cnm
 cnm
-cerebroViz(cerebroEx, customNames = cnm, filePrefix = "custom_name")
+cerebroViz(cerebroEx, customNames = cnm, filePrefix = "custom_name", timePoint = 9)
 
 ## ---- include=FALSE------------------------------------------------------
 data("cerebroEx")
