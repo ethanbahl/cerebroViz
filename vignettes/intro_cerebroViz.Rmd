@@ -150,12 +150,12 @@ cerebroViz(ex1, naHatch = TRUE, filePrefix = 'cross_hatch')
 <p align="right"> [Back to top](#top)</p>
 
 ### Custom color palettes 
-The `palette = ` argument of `cerebroViz()` allows a custom color palette to be set for the vizulaization. To define a new palette, we recommend passing the `RColorBrewer::brewer.pal()` function to `palette = `.  In fact, the default palettes for `cerebroViz()` use `brewer.pal()`!
+The `palette = ` argument of `cerebroViz()` allows a custom color palette to be set for the vizulaization. To define a new palette, we recommend passing the `RColorBrewer::brewer.pal()` function to `palette = `.  In fact, the default palettes for `cerebroViz()` use `brewer.pal()`! 
 
-cerebroViz scale                        | RColorBrewer palette
---------------------------------------- | --------------------
+cerebroViz scale                 | RColorBrewer palette
+---------------------------------| --------------------------------
 `cerebroViz(x, divData = FALSE)` | `brewr.pal(9, "YlOrRd")`
-`cerebroViz(x, divData = TRUE)`  | `rev(brewr.pal(11, "RdYlBu"))`
+`cerebroViz(x, divData = TRUE)`  | `rev(brewr.pal(11, "RdYlBu"))`[*](#note)
 
 `RColorBrewer::brewer.pal()` takes 2 arguments: `n`, the number of colors in the palette; and a `name` corresponding to the palette to use.  An odd number of colors are reccomended whever `divData = TRUE`, ensuring the median is assigned to a known color. 
 
@@ -163,11 +163,15 @@ cerebroViz scale                        | RColorBrewer palette
 library(cerebroViz)
 library(RColorBrewer)
 
-cerebroViz(cerebroEx, palette = brewer.pal(11, "BrBG"), divData = TRUE, timePoint = 11, filePrefix = "brewer")
+cerebroViz(cerebroEx, palette = rev(brewer.pal(11, "PiYG")), divData = TRUE, timePoint = 11, filePrefix = "brewer")
 ```
 <img class="svg" src="brewer_outer_11.svg"><img class="svg" src="brewer_slice_11.svg">
 
 To see a list of palettes available from RColorBrewer, use `RColorBrewer::display.brewer.all()`. More information about `brewer.pal()` can be read in the documentation for RColorBrewer.
+
+
+##### {#note} 
+\* Note that for `divData = TRUE`, the call to `brewer.pal()` is wrapped in `rev()` so the "cooler" color corresponds to the low end of the scale and the "warmer" to high values.
 
 ***
 <p align="right"> [Back to top](#top)</p>
@@ -179,7 +183,7 @@ To see a list of palettes available from RColorBrewer, use `RColorBrewer::displa
 ```{r, echo=TRUE, warning=FALSE}
 library(cerebroViz)
 
-cerebroViz(cerebroEx, palette = c("coral", "antiquewhite", "cornflowerblue"), timePoint = 11, filePrefix = "custom_scale")
+cerebroViz(cerebroEx, palette = c("cornflowerblue", "antiquewhite", "coral"), timePoint = 11, filePrefix = "custom_scale")
 ```
 <img class="svg" src="custom_scale_outer_11.svg"><img class="svg" src="custom_scale_slice_11.svg">
 
@@ -253,25 +257,28 @@ Cerebroviz provides 30 regions to which brain data can be mapped. To view a data
 knitr::kable(regionMap)
 ```
 
-Because may databases utilize different abbreviation for analogous regions, users are encouraged to name the rows of their data using the cerebroViz conventions described in the above table. If this is not possible,  a matrix with 2 columns, where [,1] contains cerebroViz convention names and [,2] contains the corresponding custom name can be passed to the `customNames = ` argument of cerebroViz. The names cerebroViz uses by convention are reserved, and my not be assigned to custom regions in this way. 
+<img class="label" src="labled_lobe.svg"><img class="label" src="labled_slice.svg">
+<img class="label" src="labled_lobe_super.svg">
+
+Because many databases utilize different abbreviation for analogous regions, users are encouraged to name the rows of their data using the cerebroViz conventions described in the above table. If this is not possible,  a matrix with 2 columns, where [,1] contains cerebroViz convention names and [,2] contains the corresponding custom name can be passed to the `customNames = ` argument of cerebroViz. The names cerebroViz uses by convention are reserved, and my not be assigned to custom regions in this way. 
 
 ## Custom Regions Example
 For example, Brainspan (from which `cerebroEx` was taken), uses the abbreviation CBC instead of CB, and MD instead of THA. Recreating this original nomenclature throws an error:
 ```{r, echo=TRUE, warning=TRUE}
 rownames(cerebroEx)[c(3, 14)]
 rownames(cerebroEx)[c(3, 14)] <- c('CBC', 'MD')
-cerebroViz(cerebroEx, filePrefix = "missing_name")
+cerebroViz(cerebroEx, filePrefix = "missing_name", timePoint = 9)
 ```
-<img class="svg" src="missing_name_outer_1.svg"><img class="svg" src="missing_name_slice_1.svg">  
+<img class="svg" src="missing_name_outer_9.svg"><img class="svg" src="missing_name_slice_9.svg">  
 
 ***
 To map these regions to the custom names: create a 2 column matrix where [,1] contains cerebroViz convention names and [,2] contains the corresponding custom name, then pass it to the `customNames = ` argument of `cerebroViz()`.
 ```{r, echo=TRUE, warning=FALSE}
 matrix(c("CB", "THA", "CBC", "MD"), ncol=2 ) -> cnm
 cnm
-cerebroViz(cerebroEx, customNames = cnm, filePrefix = "custom_name")
+cerebroViz(cerebroEx, customNames = cnm, filePrefix = "custom_name", timePoint = 9)
 ```
-<img class="svg" src="custom_name_outer_1.svg"><img class="svg" src="custom_name_slice_1.svg"> 
+<img class="svg" src="custom_name_outer_9.svg"><img class="svg" src="custom_name_slice_9.svg"> 
 
 ***
 The data are now properly mapped to the corresponding regions. Note that both the "missing_name" and "custom_name" images have the same scale. cerebroViz uses all data in the supplied matrix to calculate its color scale, even those which cannot be mapped to regions in the output images. 
