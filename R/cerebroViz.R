@@ -12,6 +12,7 @@
 #' @param legend logical indicating if the legend bar is displayed
 #' @param customNames dataframe or matrix with 2 columns. The first column for cerebroViz convention names, the second column for custom user names. Cells in input cannot be factors.
 #' @param figLabel logical indicating if figure label should be added to the output.
+#' @param regLabel logical indicating if region labels should be added to the output.
 #' @keywords cerebroViz
 #' @import XML
 #' @import gplots
@@ -24,7 +25,7 @@
 #' cerebroViz(cerebroEx)
 cerebroViz <- function(x, filePrefix = "cerebroViz_output", palette = NULL,
     timePoint = 1, divData = FALSE, secPalette = c("white", "black", "white"),
-    clamp = NULL, naHatch = FALSE, legend = TRUE, customNames = NULL, figLabel = FALSE) {
+    clamp = NULL, naHatch = FALSE, legend = TRUE, customNames = NULL, figLabel = FALSE, regLabel = FALSE) {
     require(XML)
     require(gplots)
     require(scales)
@@ -77,6 +78,8 @@ cerebroViz <- function(x, filePrefix = "cerebroViz_output", palette = NULL,
                 1]
         }
     }
+
+    inpReg <- rownames(x)
 
     # creating the vector for 'parent' regions (regions that encompass
     # others) and a warning of overshadowing.
@@ -134,9 +137,7 @@ cerebroViz <- function(x, filePrefix = "cerebroViz_output", palette = NULL,
         cXml <- maskRegions(cXml, supReg, lupiter)
         cXml <- editLegend(cXml, palette, divData, clamp, legend, xmin,
             xmed, xmad, xmax)
-        if (figLabel==TRUE) {
-            cXml <- editLabel(cXml, timePoint, figLabel, x, indA)
-        }
+        cXml <- editLabel(cXml, timePoint, figLabel, x, indA, regLabel, inpReg)
         oXml <- cXml[1][[1]]
         sXml <- cXml[2][[1]]
         saveXML(oXml, paste(filePrefix, "_outer_", timePoint[indA], ".svg",
@@ -402,22 +403,44 @@ maskRegions <- function(cXml, supReg, lupiter) {
 #'
 #' for each xml, get label text node a fill with column names or timePoint.
 #' @param cXml list containing the xml object for each SVG.
+#' @param timePoint
+#' @param figLabel
+#' @param x
+#' @param indA
+#' @param regLabel
+#' @param inpReg
 #' @keywords internal
 #' @examples
-#' editLabel(cXml, timePoint, figLabel, x)
-editLabel <- function(cXml, timePoint, figLabel, x, indA) {
-  if (!is.null(colnames(x))) {
-      for (indB in 1:length(cXml)) {
-          node <- getNodeSet(cXml[indB][[1]], "//*[@id='labelText']")[1]
-          nv <- paste("\n", colnames(x)[timePoint[indA]], "\n", sep= "")
-          xmlValue(node[[1]]) <- nv
-      }
-  } else {
-      for (indB in 1:length(cXml)) {
-          node <- getNodeSet(cXml[indB][[1]], "//*[@id='labelText']")[1]
-          nv <- paste("\n", timePoint[indA], "\n", sep= "")
-          xmlValue(node[[1]]) <- nv
-      }
-  }
+#' editLabel(cXml, timePoint, figLabel, x, indA, regLabel, inpReg)
+editLabel <- function(cXml, timePoint, figLabel, x, indA, regLabel, inpReg) {
+    if (figLabel == TRUE) {
+        if (!is.null(colnames(x))) {
+            for (indB in 1:length(cXml)) {
+                node <- getNodeSet(cXml[indB][[1]], "//*[@id='labelText']")[1]
+                nv <- paste("\n", colnames(x)[timePoint[indA]], "\n", sep = "")
+                xmlValue(node[[1]]) <- nv
+            }
+        } else {
+            for (indB in 1:length(cXml)) {
+                node <- getNodeSet(cXml[indB][[1]], "//*[@id='labelText']")[1]
+                nv <- paste("\n", timePoint[indA], "\n", sep = "")
+                xmlValue(node[[1]]) <- nv
+            }
+        }
+    }
+    if (regLabel == TRUE) {
+        labClass <- paste(inpReg, "_lab", sep="")
+        for (indB in 1:length(cXml)) {
+            for (indC in 1:length(labClass)) {
+                node <- getNodeSet(cXml[indB][[1]], paste("//*[@class='", labClass[indC],"']", sep=""))
+                if (length(node) == 2) {
+                    for (indD in 1:length(node)) {
+                        removeAttributes(node[[indD]], "opacity")
+                        addAttributes(node[[indD]], opacity = "1")
+                    }
+                }
+            }
+        }
+    }
     return(cXml)
 }

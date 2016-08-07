@@ -192,4 +192,295 @@
             <use xlink:href="#glyph0-1" x="120.4502" y="216.97656" id="use457" width="100%" height="100%"/>
         </g>
     </g>
+    <g id="super_labels">
+
+      <text
+         x="584.72516"
+         y="-12.096825"
+         id="FL_label"
+         class="FL_lab"
+         opacity="0"
+         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+         FL</text>
+      <path
+         d="M 584,-9 578,-17 422.42377,96.643286 z"
+         id="FL_line"
+         class="FL_lab"
+         opacity="0"
+         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+
+      <text
+         x="-18.250366"
+         y="137.91014"
+         id="OL_label"
+         class="OL_lab"
+         opacity="0"
+         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+         OL</text>
+      <path
+         d="m 20.797498,140.50203 -9.075458,4.19954 42.161399,79.20741 z"
+         id="OL_line"
+         class="OL_lab"
+         opacity="0"
+         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+
+      <text
+         x="20.423429"
+         y="0"
+         id="PL_label"
+         class="PL_lab"
+         opacity="0"
+         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+         PL</text>
+      <path
+         d="M 58.530228,-0.97988723 51.214148,5.8373688 176.48857,132.94388 z"
+         id="PL_line"
+         class="PL_lab"
+         opacity="0"
+         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+
+      <text
+         x="522.5177"
+         y="422.58041"
+         id="TL_label"
+         class="TL_lab"
+         opacity="0"
+         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+         TL</text>
+      <path
+         d="m 515.58833,407.85559 6.01616,-7.98786 -159.23074,-113.66744 z"
+         id="TL_line"
+         class="TL_lab"
+         opacity="0"
+         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+
+      <text
+         x="346"
+         y="461"
+         id="BS_label"
+         class="BS_lab"
+         opacity="0"
+         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+         BS</text>
+      <path
+         d="m 341.49075,456.48043 0.80946,-9.96718 -87.70032,-2.10583 z"
+         id="BS_line"
+         class="BS_lab"
+         opacity="0"
+         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+
+      <text
+         x="45"
+         y="480"
+         id="CB_label"
+         class="CB_lab"
+         opacity="0"
+         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+         CB</text>
+      <path
+         d="m 80,460 5,8 110,-87 z"
+         id="CB_line"
+         class="CB_lab"
+         opacity="0"
+         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+    </g>
+
+
+    <g
+       id="labels">
+      <text
+         x="447.71619"
+         y="0"
+         id="M1C_label"
+         class="M1C_lab"
+         opacity="0"
+         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+         M1C</text>
+      <path
+         d="M 448.74772,5.120444 440.72568,-0.85005599 354.71736,123.08634 z"
+         id="M1C_line"
+         class="M1C_lab"
+         opacity="0"
+         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+
+      <text
+         x="349"
+         y="435"
+         id="PON_label"
+         class="PON_lab"
+         opacity="0"
+         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+         PON</text>
+      <path
+         d="m 345,425 3,-10 -60,-20 z"
+         id="PON_line"
+         class="PON_lab"
+         opacity="0"
+         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+
+      <text
+         x="270"
+         y="565"
+         id="MED_label"
+         class="MED_lab"
+         opacity="0"
+         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+         MED</text>
+      <path
+         d="m 266.54718,547.41914 7.96576,-6.0454 -48.33321,-55.41579 z"
+         id="MED_line"
+         class="MED_lab"
+         opacity="0"
+         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+
+      <text
+         x="232"
+         y="-16"
+         id="S1C_label"
+         class="S1C_lab"
+         opacity="0"
+         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+         S1C</text>
+      <path
+         d="m 278.70909,-16.017243 -9.41668,3.365438 44.25621,108.974365 z"
+         id="S1C_line"
+         class="S1C_lab"
+         opacity="0"
+         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+
+      <text
+         x="560"
+         y="98.443771"
+         id="VFC_label"
+         class="VFC_lab"
+         opacity="0"
+         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+         VFC</text>
+      <path
+         d="M 568.71391,102.61416 559.23177,99.437822 517.86128,238.6802 z"
+         id="VFC_line"
+         class="VFC_lab"
+         opacity="0"
+         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+
+      <text
+         x="555"
+         y="38"
+         id="DFC_label"
+         class="DFC_lab"
+         opacity="0"
+         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+         DFC</text>
+      <path
+         d="M 553.52079,40.310547 545.84665,33.899023 465.45747,137.9176 z"
+         id="DFC_line"
+         class="DFC_lab"
+         opacity="0"
+         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+
+      <text
+         x="-6"
+         y="34"
+         id="STC_label"
+         class="STC_lab"
+         opacity="0"
+         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+         STC</text>
+      <path
+         d="M 49.395014,28.885751 42.47585,36.105527 228.15723,207.13017 z"
+         id="STC_line"
+         class="STC_lab"
+         opacity="0"
+         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+
+      <text
+         x="555"
+         y="382"
+         id="OFC_label"
+         class="OFC_lab"
+         opacity="0"
+         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+         OFC</text>
+      <path
+         d="m 548.17374,368.35536 6.7943,-7.3374 -66.76929,-55.01269 z"
+         id="OFC_line"
+         class="OFC_lab"
+         opacity="0"
+         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+
+      <text
+         x="480"
+         y="453"
+         id="ITC_label"
+         class="ITC_lab"
+         opacity="0"
+         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+         ITC</text>
+      <path
+         d="m 471.85013,441.73265 5.0572,-8.62698 -117.22372,-62.92158 z"
+         id="ITC_line"
+         class="ITC_lab"
+         opacity="0"
+         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+
+      <text
+         x="-2"
+         y="335"
+         id="V1C_label"
+         class="V1C_lab"
+         opacity="0"
+         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+         V1C</text>
+      <path
+         d="m 0.771868,305.19551 8.7716906,4.80182 26.7959764,-59.36212 z"
+         id="V1C_line"
+         class="V1C_lab"
+         opacity="0"
+         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+
+      <text
+         x="136"
+         y="-5"
+         id="IPC_label"
+         class="IPC_lab"
+         opacity="0"
+         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+         IPC</text>
+      <path
+         d="m 180.03443,-5.6926073 -9.06332,4.225644 64.0174,125.4745533 z"
+         id="IPC_line"
+         class="IPC_lab"
+         opacity="0"
+         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+
+      <text
+         x="40"
+         y="-3"
+         id="A1C_label"
+         class="A1C_lab"
+         opacity="0"
+         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+         A1C</text>
+      <path
+         d="M 92.421639,-5.9978833 85.145109,0.86157009 269.68477,189.33264 z"
+         id="A1C_line"
+         class="A1C_lab"
+         opacity="0"
+         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+
+      <text
+         x="0"
+         y="92"
+         id="ANG_label"
+         class="ANG_lab"
+         opacity="0"
+         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+         ANG</text>
+      <path
+         d="M 61.94895,86.873807 55.20141,94.254233 157.9559,181.42264 z"
+         id="ANG_line"
+         class="ANG_lab"
+         opacity="0"
+         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+    </g>
 </svg>
