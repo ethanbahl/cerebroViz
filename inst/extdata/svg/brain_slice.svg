@@ -346,20 +346,6 @@
          opacity="0"
          style="fill:#000000;fill-rule:evenodd;stroke:none" />
 
-      <text
-         x="567"
-         y="105"
-         id="PUT_label"
-         class="PUT_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         PUT</text>
-      <path
-         d="M 565.16696,106.74575 557.8375,99.942888 350.07498,331.13785 z"
-         id="PUT_line"
-         class="PUT_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
 
       <text
          x="357"
@@ -406,6 +392,7 @@
          opacity="0"
          style="fill:#000000;fill-rule:evenodd;stroke:none" />
 
+<g id="STR_children" opacity="1">
       <text
          x="172"
          y="40"
@@ -420,6 +407,22 @@
          class="CAU_lab"
          opacity="0"
          style="fill:#000000;fill-rule:evenodd;stroke:none" />
+
+               <text
+                  x="567"
+                  y="105"
+                  id="PUT_label"
+                  class="PUT_lab"
+                  opacity="0"
+                  style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+                  PUT</text>
+               <path
+                  d="M 565.16696,106.74575 557.8375,99.942888 350.07498,331.13785 z"
+                  id="PUT_line"
+                  class="PUT_lab"
+                  opacity="0"
+                  style="fill:#000000;fill-rule:evenodd;stroke:none" />
+      </g>
 
       <text
          x="585"

@@ -286,8 +286,7 @@
     </g>
 
 
-    <g
-       id="labels">
+    <g id="FL_children" opacity="1">
       <text
          x="447.71619"
          y="0"
@@ -303,6 +302,53 @@
          opacity="0"
          style="fill:#000000;fill-rule:evenodd;stroke:none" />
 
+         <text
+            x="560"
+            y="98.443771"
+            id="VFC_label"
+            class="VFC_lab"
+            opacity="0"
+            style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+            VFC</text>
+         <path
+            d="M 568.71391,102.61416 559.23177,99.437822 517.86128,238.6802 z"
+            id="VFC_line"
+            class="VFC_lab"
+            opacity="0"
+            style="fill:#000000;fill-rule:evenodd;stroke:none" />
+
+         <text
+            x="555"
+            y="38"
+            id="DFC_label"
+            class="DFC_lab"
+            opacity="0"
+            style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+            DFC</text>
+         <path
+            d="M 553.52079,40.310547 545.84665,33.899023 465.45747,137.9176 z"
+            id="DFC_line"
+            class="DFC_lab"
+            opacity="0"
+            style="fill:#000000;fill-rule:evenodd;stroke:none" />
+
+         <text
+            x="555"
+            y="382"
+            id="OFC_label"
+            class="OFC_lab"
+            opacity="0"
+            style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+            OFC</text>
+         <path
+            d="m 548.17374,368.35536 6.7943,-7.3374 -66.76929,-55.01269 z"
+            id="OFC_line"
+            class="OFC_lab"
+            opacity="0"
+            style="fill:#000000;fill-rule:evenodd;stroke:none" />
+      </g>
+
+<g id="BS_children" opacity="1">
       <text
          x="349"
          y="435"
@@ -332,6 +378,23 @@
          class="MED_lab"
          opacity="0"
          style="fill:#000000;fill-rule:evenodd;stroke:none" />
+</g>
+
+<g id="PL_children" opacity="1">
+  <text
+     x="136"
+     y="-5"
+     id="IPC_label"
+     class="IPC_lab"
+     opacity="0"
+     style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+     IPC</text>
+  <path
+     d="m 180.03443,-5.6926073 -9.06332,4.225644 64.0174,125.4745533 z"
+     id="IPC_line"
+     class="IPC_lab"
+     opacity="0"
+     style="fill:#000000;fill-rule:evenodd;stroke:none" />
 
       <text
          x="232"
@@ -347,82 +410,9 @@
          class="S1C_lab"
          opacity="0"
          style="fill:#000000;fill-rule:evenodd;stroke:none" />
+</g>
 
-      <text
-         x="560"
-         y="98.443771"
-         id="VFC_label"
-         class="VFC_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         VFC</text>
-      <path
-         d="M 568.71391,102.61416 559.23177,99.437822 517.86128,238.6802 z"
-         id="VFC_line"
-         class="VFC_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
-
-      <text
-         x="555"
-         y="38"
-         id="DFC_label"
-         class="DFC_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         DFC</text>
-      <path
-         d="M 553.52079,40.310547 545.84665,33.899023 465.45747,137.9176 z"
-         id="DFC_line"
-         class="DFC_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
-
-      <text
-         x="-6"
-         y="34"
-         id="STC_label"
-         class="STC_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         STC</text>
-      <path
-         d="M 49.395014,28.885751 42.47585,36.105527 228.15723,207.13017 z"
-         id="STC_line"
-         class="STC_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
-
-      <text
-         x="555"
-         y="382"
-         id="OFC_label"
-         class="OFC_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         OFC</text>
-      <path
-         d="m 548.17374,368.35536 6.7943,-7.3374 -66.76929,-55.01269 z"
-         id="OFC_line"
-         class="OFC_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
-
-      <text
-         x="480"
-         y="453"
-         id="ITC_label"
-         class="ITC_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         ITC</text>
-      <path
-         d="m 471.85013,441.73265 5.0572,-8.62698 -117.22372,-62.92158 z"
-         id="ITC_line"
-         class="ITC_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
-
+<g id="OL_children" opacity="1">
       <text
          x="-2"
          y="335"
@@ -437,22 +427,10 @@
          class="V1C_lab"
          opacity="0"
          style="fill:#000000;fill-rule:evenodd;stroke:none" />
+</g>
 
-      <text
-         x="136"
-         y="-5"
-         id="IPC_label"
-         class="IPC_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         IPC</text>
-      <path
-         d="m 180.03443,-5.6926073 -9.06332,4.225644 64.0174,125.4745533 z"
-         id="IPC_line"
-         class="IPC_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
 
+    <g id="TL_children" opacity="1">
       <text
          x="40"
          y="-3"
@@ -482,5 +460,35 @@
          class="ANG_lab"
          opacity="0"
          style="fill:#000000;fill-rule:evenodd;stroke:none" />
-    </g>
+
+      <text
+         x="480"
+         y="453"
+         id="ITC_label"
+         class="ITC_lab"
+         opacity="0"
+         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+         ITC</text>
+      <path
+         d="m 471.85013,441.73265 5.0572,-8.62698 -117.22372,-62.92158 z"
+         id="ITC_line"
+         class="ITC_lab"
+         opacity="0"
+         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+
+      <text
+         x="-6"
+         y="34"
+         id="STC_label"
+         class="STC_lab"
+         opacity="0"
+         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+         STC</text>
+      <path
+         d="M 49.395014,28.885751 42.47585,36.105527 228.15723,207.13017 z"
+         id="STC_line"
+         class="STC_lab"
+         opacity="0"
+         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+</g>
 </svg>

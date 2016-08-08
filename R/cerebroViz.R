@@ -440,6 +440,36 @@ editLabel <- function(cXml, timePoint, figLabel, x, indA, regLabel, inpReg) {
                     }
                 }
             }
+            if ("STR_lab" %in% labClass & indB == 2) {
+                node <- getNodeSet(cXml[indB][[1]], "//*[@id='STR_children']")[[1]]
+                removeAttributes(node, "opacity")
+                addAttributes(node, opacity = "0")
+            }
+            if ("FL_lab" %in% labClass & indB == 1) {
+                node <- getNodeSet(cXml[indB][[1]], "//*[@id='FL_children']")[[1]]
+                removeAttributes(node, "opacity")
+                addAttributes(node, opacity = "0")
+            }
+            if ("PL_lab" %in% labClass & indB == 1) {
+                node <- getNodeSet(cXml[indB][[1]], "//*[@id='PL_children']")[[1]]
+                removeAttributes(node, "opacity")
+                addAttributes(node, opacity = "0")
+            }
+            if ("OL_lab" %in% labClass & indB == 1) {
+                node <- getNodeSet(cXml[indB][[1]], "//*[@id='OL_children']")[[1]]
+                removeAttributes(node, "opacity")
+                addAttributes(node, opacity = "0")
+            }
+            if ("TL_lab" %in% labClass & indB == 1) {
+                node <- getNodeSet(cXml[indB][[1]], "//*[@id='TL_children']")[[1]]
+                removeAttributes(node, "opacity")
+                addAttributes(node, opacity = "0")
+            }
+            if ("BS_lab" %in% labClass & indB == 1) {
+                node <- getNodeSet(cXml[indB][[1]], "//*[@id='BS_children']")[[1]]
+                removeAttributes(node, "opacity")
+                addAttributes(node, opacity = "0")
+            }
         }
     }
     return(cXml)
