@@ -4,7 +4,7 @@
 \alias{editLabel}
 \title{a function used by cerebroViz() to add a figure label}
 \usage{
-editLabel(cXml, timePoint, figLabel, x, indA)
+editLabel(cXml, timePoint, figLabel, x, indA, regLabel, inpReg)
 }
 \arguments{
 \item{cXml}{list containing the xml object for each SVG.}
@@ -13,7 +13,7 @@ editLabel(cXml, timePoint, figLabel, x, indA)
 for each xml, get label text node a fill with column names or timePoint.
 }
 \examples{
-editLabel(cXml, timePoint, figLabel, x)
+editLabel(cXml, timePoint, figLabel, x, indA, regLabel, inpReg)
 }
 \keyword{internal}
 
