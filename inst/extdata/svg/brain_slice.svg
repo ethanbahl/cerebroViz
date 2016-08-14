@@ -180,308 +180,87 @@
             <use xlink:href="#glyph0-1" x="120.4502" y="216.97656" id="use457" width="100%" height="100%"/>
         </g>
     </g>
-    <g id="lables">
-      <text
-         x="120"
-         y="530"
-         id="HIP_label"
-         class="HIP_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         HIP</text>
-      <path
-         d="m 161.70926,510.01471 6.96852,7.17216 149.75716,-152.47648 z"
-         id="HIP_line"
-         class="HIP_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+    <g id="labels">
+        <text x="120" y="530" id="HIP_label" class="HIP_lab" opacity="0" style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+            HIP</text>
+        <path d="m 161.70926,510.01471 6.96852,7.17216 149.75716,-152.47648 z" id="HIP_line" class="HIP_lab" opacity="0" style="fill:#000000;fill-rule:evenodd;stroke:none"/>
 
-      <text
-         x="80"
-         y="83.995094"
-         id="IPC_label"
-         class="IPC_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         IPC</text>
-      <path
-         d="m 126.83122,81.159842 -7.09764,7.044402 119.60129,113.407216 z"
-         id="IPC_line"
-         class="IPC_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+        <text x="80" y="83.995094" id="IPC_label" class="IPC_lab" opacity="0" style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+            IPC</text>
+        <path d="m 126.83122,81.159842 -7.09764,7.044402 119.60129,113.407216 z" id="IPC_line" class="IPC_lab" opacity="0" style="fill:#000000;fill-rule:evenodd;stroke:none"/>
 
-      <text
-         x="302"
-         y="27.591291"
-         id="S1C_label"
-         class="S1C_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         S1C</text>
-      <path
-         d="m 310.7944,32.142354 -9.93632,-1.12671 -7.14192,107.360776 z"
-         id="S1C_line"
-         class="S1C_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+        <text x="302" y="27.591291" id="S1C_label" class="S1C_lab" opacity="0" style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+            S1C</text>
+        <path d="m 310.7944,32.142354 -9.93632,-1.12671 -7.14192,107.360776 z" id="S1C_line" class="S1C_lab" opacity="0" style="fill:#000000;fill-rule:evenodd;stroke:none"/>
 
-      <text
-         x="522"
-         y="65"
-         id="CNG_label"
-         class="CNG_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         CNG</text>
-      <path
-         d="m 524.47846,69.204904 -7.75902,-6.30854 -93.47689,122.895086 z"
-         id="CNG_line"
-         class="CNG_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+        <text x="522" y="65" id="CNG_label" class="CNG_lab" opacity="0" style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+            CNG</text>
+        <path d="m 524.47846,69.204904 -7.75902,-6.30854 -93.47689,122.895086 z" id="CNG_line" class="CNG_lab" opacity="0" style="fill:#000000;fill-rule:evenodd;stroke:none"/>
 
-      <text
-         x="11"
-         y="475"
-         id="CB_label"
-         class="CB_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         CB</text>
-      <path
-         d="m 45.369928,456.04236 5.520488,8.33812 78.693084,-58.09755 z"
-         id="CB_line"
-         class="CB_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+        <text x="11" y="475" id="CB_label" class="CB_lab" opacity="0" style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+            CB</text>
+        <path d="m 45.369928,456.04236 5.520488,8.33812 78.693084,-58.09755 z" id="CB_line" class="CB_lab" opacity="0" style="fill:#000000;fill-rule:evenodd;stroke:none"/>
 
-      <text
-         x="46"
-         y="523"
-         id="SN_label"
-         class="SN_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         SN</text>
-      <path
-         d="m 77.814821,501.83788 8.28741,7.03263 178.100799,-149.51023 z"
-         id="SN_line"
-         class="SN_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+        <text x="46" y="523" id="SN_label" class="SN_lab" opacity="0" style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+            SN</text>
+        <path d="m 77.814821,501.83788 8.28741,7.03263 178.100799,-149.51023 z" id="SN_line" class="SN_lab" opacity="0" style="fill:#000000;fill-rule:evenodd;stroke:none"/>
 
-      <text
-         x="94"
-         y="590"
-         id="MED_label"
-         class="MED_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         MED</text>
-      <path
-         d="m 225,525 -67.031,55.89368 -6.47686,-7.61908 z"
-         id="MED_line"
-         class="MED_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+        <text x="94" y="590" id="MED_label" class="MED_lab" opacity="0" style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+            MED</text>
+        <path d="m 225,525 -67.031,55.89368 -6.47686,-7.61908 z" id="MED_line" class="MED_lab" opacity="0" style="fill:#000000;fill-rule:evenodd;stroke:none"/>
 
-      <text
-         x="278"
-         y="597"
-         id="PON_label"
-         class="PON_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         PON</text>
-      <path
-         d="m 295,460 -15.67345,114.74949 9.84034,0 z"
-         id="PON_line"
-         class="PON_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+        <text x="278" y="597" id="PON_label" class="PON_lab" opacity="0" style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+            PON</text>
+        <path d="m 295,460 -15.67345,114.74949 9.84034,0 z" id="PON_line" class="PON_lab" opacity="0" style="fill:#000000;fill-rule:evenodd;stroke:none"/>
 
-      <text
-         x="593"
-         y="463"
-         id="ITC_label"
-         class="ITC_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         ITC</text>
-      <path
-         d="m 587.89556,457.43611 1.88024,-9.82164 -116.64808,-17.24003 z"
-         id="ITC_line"
-         class="ITC_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+        <text x="593" y="463" id="ITC_label" class="ITC_lab" opacity="0" style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+            ITC</text>
+        <path d="m 587.89556,457.43611 1.88024,-9.82164 -116.64808,-17.24003 z" id="ITC_line" class="ITC_lab" opacity="0" style="fill:#000000;fill-rule:evenodd;stroke:none"/>
 
-      <text
-         x="511"
-         y="483"
-         id="HTH_label"
-         class="HTH_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         HTH</text>
-      <path
-         d="m 372.81625,360.77788 129.5236,111.11719 6.28602,-7.77726 z"
-         id="HTH_line"
-         class="HTH_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+        <text x="511" y="483" id="HTH_label" class="HTH_lab" opacity="0" style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+            HTH</text>
+        <path d="m 372.81625,360.77788 129.5236,111.11719 6.28602,-7.77726 z" id="HTH_line" class="HTH_lab" opacity="0" style="fill:#000000;fill-rule:evenodd;stroke:none"/>
 
-      <text
-         x="585"
-         y="133"
-         id="MFC_label"
-         class="MFC_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         MFC</text>
-      <path
-         d="m 592.98987,139.0952 -9.65446,-2.60604 -37.48773,158.0649 z"
-         id="MFC_line"
-         class="MFC_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+        <text x="585" y="133" id="MFC_label" class="MFC_lab" opacity="0" style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+            MFC</text>
+        <path d="m 592.98987,139.0952 -9.65446,-2.60604 -37.48773,158.0649 z" id="MFC_line" class="MFC_lab" opacity="0" style="fill:#000000;fill-rule:evenodd;stroke:none"/>
 
+        <text x="357" y="501" id="AMY_label" class="AMY_lab" opacity="0" style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+            AMY</text>
+        <path d="m 343.17622,366.71039 15.67345,114.74949 9.84034,-1.7798 z" id="AMY_line" class="AMY_lab" opacity="0" style="fill:#000000;fill-rule:evenodd;stroke:none"/>
 
-      <text
-         x="357"
-         y="501"
-         id="AMY_label"
-         class="AMY_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         AMY</text>
-      <path
-         d="m 343.17622,366.71039 15.67345,114.74949 9.84034,-1.7798 z"
-         id="AMY_line"
-         class="AMY_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+        <text x="22" y="130" id="THA_label" class="THA_lab" opacity="0" style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+            THA</text>
+        <path d="m 80.872422,125.34806 -6.165286,7.87332 245.705314,186.05146 z" id="THA_line" class="THA_lab" opacity="0" style="fill:#000000;fill-rule:evenodd;stroke:none"/>
 
-      <text
-         x="22"
-         y="130"
-         id="THA_label"
-         class="THA_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         THA</text>
-      <path
-         d="m 80.872422,125.34806 -6.165286,7.87332 245.705314,186.05146 z"
-         id="THA_line"
-         class="THA_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+        <text x="18" y="177" id="V1C_label" class="V1C_lab" opacity="0" style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+            V1C</text>
+        <path d="m 68.208266,178.82091 -9.402234,3.40558 54.957458,137.04635 z" id="V1C_line" class="V1C_lab" opacity="0" style="fill:#000000;fill-rule:evenodd;stroke:none"/>
 
-      <text
-         x="18"
-         y="177"
-         id="V1C_label"
-         class="V1C_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         V1C</text>
-      <path
-         d="m 68.208266,178.82091 -9.402234,3.40558 54.957458,137.04635 z"
-         id="V1C_line"
-         class="V1C_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+        <g id="STR_children" opacity="1">
+            <text x="172" y="40" id="CAU_label" class="CAU_lab" opacity="0" style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+                CAU</text>
+            <path d="m 226.80152,41.201373 -9.11074,4.122428 115.57543,243.297759 z" id="CAU_line" class="CAU_lab" opacity="0" style="fill:#000000;fill-rule:evenodd;stroke:none"/>
 
-<g id="STR_children" opacity="1">
-      <text
-         x="172"
-         y="40"
-         id="CAU_label"
-         class="CAU_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         CAU</text>
-      <path
-         d="m 226.80152,41.201373 -9.11074,4.122428 115.57543,243.297759 z"
-         id="CAU_line"
-         class="CAU_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+            <text x="567" y="105" id="PUT_label" class="PUT_lab" opacity="0" style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+                PUT</text>
+            <path d="M 565.16696,106.74575 557.8375,99.942888 350.07498,331.13785 z" id="PUT_line" class="PUT_lab" opacity="0" style="fill:#000000;fill-rule:evenodd;stroke:none"/>
+        </g>
 
-               <text
-                  x="567"
-                  y="105"
-                  id="PUT_label"
-                  class="PUT_lab"
-                  opacity="0"
-                  style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-                  PUT</text>
-               <path
-                  d="M 565.16696,106.74575 557.8375,99.942888 350.07498,331.13785 z"
-                  id="PUT_line"
-                  class="PUT_lab"
-                  opacity="0"
-                  style="fill:#000000;fill-rule:evenodd;stroke:none" />
-      </g>
+        <text x="585" y="416" id="OFC_label" class="OFC_lab" opacity="0" style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+            OFC</text>
+        <path d="m 581.14456,405.76483 5.2212,-8.52872 -64.24811,-33.46947 z" id="OFC_line" class="OFC_lab" opacity="0" style="fill:#000000;fill-rule:evenodd;stroke:none"/>
 
-      <text
-         x="585"
-         y="416"
-         id="OFC_label"
-         class="OFC_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         OFC</text>
-      <path
-         d="m 581.14456,405.76483 5.2212,-8.52872 -64.24811,-33.46947 z"
-         id="OFC_line"
-         class="OFC_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+        <text x="440" y="501" id="PIT_label" class="PIT_lab" opacity="0" style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+            PIT</text>
+        <path d="m 395.55753,415.18168 40.2473,69.18405 8.31276,-5.5586 z" id="PIT_line" class="PIT_lab" opacity="0" style="fill:#000000;fill-rule:evenodd;stroke:none"/>
 
-      <text
-         x="440"
-         y="501"
-         id="PIT_label"
-         class="PIT_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         PIT</text>
-      <path
-         d="m 395.55753,415.18168 40.2473,69.18405 8.31276,-5.5586 z"
-         id="PIT_line"
-         class="PIT_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+        <text x="402" y="35.501297" id="M1C_label" class="M1C_lab" opacity="0" style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+            M1C</text>
+        <path d="m 406.2043,40.400891 -8.54694,-5.191308 -50.28737,92.424377 z" id="M1C_line" class="M1C_lab" opacity="0" style="fill:#000000;fill-rule:evenodd;stroke:none"/>
 
-      <text
-         x="402"
-         y="35.501297"
-         id="M1C_label"
-         class="M1C_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         M1C</text>
-      <path
-         d="m 406.2043,40.400891 -8.54694,-5.191308 -50.28737,92.424377 z"
-         id="M1C_line"
-         class="M1C_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
-
-      <text
-         x="567"
-         y="105"
-         id="STR_label"
-         class="STR_lab"
-         opacity="0"
-         style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
-         STR</text>
-      <path
-         d="m 566.47403,107.68927 -7.0705,-7.07164 -178.50653,185.5481 z"
-         id="STR_line"
-         class="STR_lab"
-         opacity="0"
-         style="fill:#000000;fill-rule:evenodd;stroke:none" />
+        <text x="567" y="105" id="STR_label" class="STR_lab" opacity="0" style="font-size:25px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;stroke:none;font-family:Sans">
+            STR</text>
+        <path d="m 566.47403,107.68927 -7.0705,-7.07164 -178.50653,185.5481 z" id="STR_line" class="STR_lab" opacity="0" style="fill:#000000;fill-rule:evenodd;stroke:none"/>
     </g>
 </svg>
