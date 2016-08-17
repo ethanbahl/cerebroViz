@@ -316,9 +316,9 @@ editPal <- function(lupiter, cXml, hexVec, naHatch) {
     return(cXml)
 }
 
-#' a function used by cerebroViz() to edit the legend.
+#' A function used by cerebroViz() to edit the legend.
 #'
-#' for each xml, map the appropriate colors to the legend
+#' For each xml, map the appropriate colors to the legend.
 #' @param cXml list containing the xml object for each SVG.
 #' @param palette character vector of color values to use in the visualization. Accepts color names, hex values, and RGB values. For sequential data, it is recommended to use two colors, or a sequence of colors in a gradient. For divergent data, it is recommended to use three colors with a neutral color in the middle.
 #' @param divData logical indicating if input data is divergent in nature. Default assumes data is sequential.
@@ -365,9 +365,9 @@ editLegend <- function(cXml, palette, divData, clamp, legend, xmin, xmed,
     return(cXml)
 }
 
-#' a function used by cerebroViz() to lower opacity for superior regions when data is not provided
+#' A function used by cerebroViz() to lower opacity for superior regions when data is not provided.
 #'
-#' for each missing superior region, set opacity to 0.
+#' For each missing superior region, set opacity to 0.
 #' @param cXml list containing the xml object for each SVG.
 #' @param supReg regions that encompass other brain regions, specified within cerebroViz().
 #' @param lupiter hex gradient indices for current iteration (timePoint) in the loop, specified within cerebroViz().
@@ -399,16 +399,16 @@ maskRegions <- function(cXml, supReg, lupiter) {
     return(cXml)
 }
 
-#' a function used by cerebroViz() to add a figure label
+#' A function used by cerebroViz() to add a figure label.
 #'
-#' for each xml, get label text node a fill with column names or timePoint.
+#' For each xml, get label text node a fill with column names or timePoint.
 #' @param cXml list containing the xml object for each SVG.
-#' @param timePoint
-#' @param figLabel
-#' @param x
-#' @param indA
-#' @param regLabel
-#' @param inpReg
+#' @param timePoint a numeric vector of columns in 'x' to visualize.
+#' @param figLabel logical indicating if figure label should be added to the output.
+#' @param x matrix containing input data. Row names should reflect the appropriate brain regions. Column names may represent different time points or samples and do not require naming.
+#' @param indA level 'A' for loop index.
+#' @param regLabel logical indicating if region labels should be added to the output.
+#' @param inpReg names of input regions.
 #' @keywords internal
 #' @examples
 #' editLabel(cXml, timePoint, figLabel, x, indA, regLabel, inpReg)
