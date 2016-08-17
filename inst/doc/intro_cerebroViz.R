@@ -46,23 +46,38 @@ cerebroViz(ex1_out, clamp = 3, timePoint = 11, filePrefix = 'outlier_clamped')
 ## ---- echo=TRUE, warning=FALSE-------------------------------------------
 cerebroEx -> ex1
 
-cerebroViz(ex1, naHatch = TRUE, filePrefix = 'cross_hatch')
+cerebroViz(ex1, regLabel = TRUE, filePrefix = 'regLabel')
+
+## ---- echo=TRUE, warning=FALSE-------------------------------------------
+cerebroEx -> ex1
+
+cerebroViz(ex1, figLabel = TRUE, timePoint = c(5, 9), filePrefix = 'figLabel')
+
+## ---- echo=TRUE, warning=FALSE-------------------------------------------
+cerebroEx -> ex1
+
+cerebroViz(ex1, naHatch = TRUE, filePrefix = 'naHatch')
+
+## ---- echo=TRUE, warning=FALSE-------------------------------------------
+cerebroEx -> ex1
+
+cerebroViz(ex1, legend = FALSE, filePrefix = 'legend')
 
 ## ---- echo=TRUE, warning=FALSE-------------------------------------------
 library(cerebroViz)
 library(RColorBrewer)
 
-cerebroViz(cerebroEx, palette = rev(brewer.pal(11, "PiYG")), divData = TRUE, timePoint = 11, filePrefix = "brewer")
+cerebroViz(cerebroEx, palette = rev(brewer.pal(11, "PiYG")), divData = TRUE, timePoint = 11, filePrefix = "palette")
 
 ## ---- echo=TRUE, warning=FALSE-------------------------------------------
 library(cerebroViz)
 
-cerebroViz(cerebroEx, palette = c("cornflowerblue", "antiquewhite", "coral"), timePoint = 11, filePrefix = "custom_scale")
+cerebroViz(cerebroEx, palette = c("cornflowerblue", "antiquewhite", "coral"), timePoint = 11, filePrefix = "custom_palette")
 
 ## ---- echo=TRUE, warning=FALSE-------------------------------------------
 library(cerebroViz)
 
-cerebroViz(cerebroEx, secPalette = c("darkgrey", "white", "lightgrey"), timePoint = 11, filePrefix = "custom_background")
+cerebroViz(cerebroEx, secPalette = c("darkgrey", "white", "lightgrey"), timePoint = 11, filePrefix = "secPalette")
 
 ## ---- echo=TRUE,warning=FALSE--------------------------------------------
 head(cerebroEx)[,c(1:7)]
@@ -107,6 +122,6 @@ cerebroEx
 ## ---- warning=FALSE------------------------------------------------------
 library(cerebroViz)
 dir.create("gif_directory")
-cerebroViz(cerebroEx, timePoint = c(1, 5, 9), divData = TRUE,  filePrefix = "gif_directory/gif", figLabel = TRUE)
+cerebroViz(cerebroEx2, timePoint = c(1:50), divData = TRUE,  filePrefix = "gif_directory/gif", figLabel = TRUE)
 
 
