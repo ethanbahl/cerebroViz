@@ -17,7 +17,7 @@ vignette(topic="intro_cerebroViz", package="cerebroViz")
 ```
 
 # cerebroViz Basics
-cerebroViz is a tool for visualizing spatiotemporal data in the brain. As input, it requires a matrix with rows corresponding to brain regions and columns corresponding to time points. You can learn more about the 30 regions which cerebroViz recognizes in the <a href="#regions">Brain Regions in cerebroViz</a> section.  
+cerebroViz is a tool for visualizing spatiotemporal data in the brain. As input, it requires a matrix with rows corresponding to brain regions and columns corresponding to time points. You can learn more about the 30 regions which cerebroViz recognizes in the 'Brain Regions in cerebroViz' section below.  
 
 cerebroViz includes an example matrix, `cerebroEx`, which is gene expression data for the POGZ gene taken from the Brainspan developmental transcriptome[^1].
   
