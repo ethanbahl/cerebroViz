@@ -2,18 +2,29 @@
 % Please edit documentation in R/cerebroViz.R
 \name{editLabel}
 \alias{editLabel}
-\title{a function used by cerebroViz() to add a figure label}
+\title{A function used by cerebroViz() to add a figure label.}
 \usage{
 editLabel(cXml, timePoint, figLabel, x, indA, regLabel, inpReg)
 }
 \arguments{
 \item{cXml}{list containing the xml object for each SVG.}
+
+\item{timePoint}{a numeric vector of columns in 'x' to visualize.}
+
+\item{figLabel}{logical indicating if figure label should be added to the output.}
+
+\item{x}{matrix containing input data. Row names should reflect the appropriate brain regions. Column names may represent different time points or samples and do not require naming.}
+
+\item{indA}{level 'A' for loop index.}
+
+\item{regLabel}{logical indicating if region labels should be added to the output.}
+
+\item{inpReg}{names of input regions.}
 }
 \description{
-for each xml, get label text node a fill with column names or timePoint.
+For each xml, get label text node a fill with column names or timePoint.
 }
 \examples{
 editLabel(cXml, timePoint, figLabel, x, indA, regLabel, inpReg)
 }
 \keyword{internal}
-
