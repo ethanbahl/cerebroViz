@@ -15,7 +15,6 @@
 #' @param regLabel logical indicating if region labels should be added to the output.
 #' @keywords cerebroViz
 #' @import XML
-#' @import scales
 #' @export
 #' @examples
 #' data(cerebroEx)
@@ -24,8 +23,6 @@ cerebroViz <- function(x, filePrefix = "cerebroViz_output", palette = NULL,
     timePoint = 1, divData = FALSE, secPalette = c("white", "black", "white"),
     clamp = NULL, naHatch = FALSE, legend = TRUE, customNames = NULL, figLabel = FALSE, regLabel = FALSE) {
     require(XML)
-    require(gplots)
-    require(scales)
 
     if (is.null(palette) & divData == FALSE) {
         palette <- c("#FFF7F3", "#FDE0DD", "#FCC5C0", "#FA9FB5", "#F768A1", "#DD3497", "#AE017E", "#7A0177", "#49006A")
@@ -485,4 +482,21 @@ col2hex <- function(cname)
         green=colMat[2,]/255,
         blue=colMat[3,]/255
         )
+  }
+
+  #' A function from the 'gplots' package used by cerebroViz() to convert color values to hex values.
+  #'
+  #' For each input color, convert to a hex value.
+  #' @param resc_inp numeric vector of values to manipulate.
+  #' @param to output range (numeric vector of length two).
+  #' @param from input range (numeric vector of length two).  If not given, is calculated from the range of ‘resc_inp’.
+  #' @keywords internal
+  #' @examples
+  #' rescale(1:100)
+rescale <- function (resc_inp, to = c(0, 1), from = range(resc_inp, na.rm = TRUE, finite = TRUE))
+  {
+    if (zero_range(from) || zero_range(to)) {
+        return(ifelse(is.na(resc_inp), NA, mean(to)))
+    }
+    (resc_inp - from[1])/diff(from) * diff(to) + to[1]
   }
