@@ -28,3 +28,4 @@ For each xml, get label text node a fill with column names or timePoint.
 editLabel(cXml, timePoint, figLabel, x, indA, regLabel, inpReg)
 }
 \keyword{internal}
+
