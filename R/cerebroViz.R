@@ -15,7 +15,6 @@
 #' @param regLabel logical indicating if region labels should be added to the output.
 #' @keywords cerebroViz
 #' @import XML
-#' @import gplots
 #' @import scales
 #' @export
 #' @examples
@@ -470,3 +469,20 @@ editLabel <- function(cXml, timePoint, figLabel, x, indA, regLabel, inpReg) {
     }
     return(cXml)
 }
+
+#' A function from the 'gplots' package used by cerebroViz() to convert color values to hex values.
+#'
+#' For each input color, convert to a hex value.
+#' @param cname color name or value.
+#' @keywords internal
+#' @examples
+#' col2hex(cname = "red")
+col2hex <- function(cname)
+  {
+    colMat <- col2rgb(cname)
+    rgb(
+        red=colMat[1,]/255,
+        green=colMat[2,]/255,
+        blue=colMat[3,]/255
+        )
+  }

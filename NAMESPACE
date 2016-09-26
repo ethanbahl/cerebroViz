@@ -3,5 +3,4 @@
 export(cerebroScale)
 export(cerebroViz)
 import(XML)
-import(gplots)
 import(scales)
