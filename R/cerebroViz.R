@@ -17,8 +17,6 @@
 #' @import XML
 #' @import gplots
 #' @import scales
-#' @import grDevices
-#' @import RColorBrewer
 #' @export
 #' @examples
 #' data(cerebroEx)
@@ -29,15 +27,13 @@ cerebroViz <- function(x, filePrefix = "cerebroViz_output", palette = NULL,
     require(XML)
     require(gplots)
     require(scales)
-    require(grDevices)
-    require(RColorBrewer)
 
     if (is.null(palette) & divData == FALSE) {
-        palette <- brewer.pal(n = 9, name = "RdPu")
+        palette <- c("#FFF7F3", "#FDE0DD", "#FCC5C0", "#FA9FB5", "#F768A1", "#DD3497", "#AE017E", "#7A0177", "#49006A")
     }
 
     if (is.null(palette) & divData == TRUE) {
-        palette <- rev(brewer.pal(n = 11, name = "RdYlBu"))
+        palette <- c("#313695", "#4575B4", "#74ADD1", "#ABD9E9", "#E0F3F8", "#FFFFBF", "#FEE090", "#FDAE61", "#F46D43", "#D73027", "#A50026")
     }
 
     regions <- c("A1C", "AMY", "ANG", "BS", "CAU", "CB", "CNG", "DFC",
