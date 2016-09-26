@@ -2,7 +2,7 @@
 % Please edit documentation in R/cerebroViz.R
 \name{editLegend}
 \alias{editLegend}
-\title{a function used by cerebroViz() to edit the legend.}
+\title{A function used by cerebroViz() to edit the legend.}
 \usage{
 editLegend(cXml, palette, divData, clamp, legend, xmin, xmed, xmad, xmax)
 }
@@ -26,7 +26,7 @@ editLegend(cXml, palette, divData, clamp, legend, xmin, xmed, xmad, xmax)
 \item{xmax}{maximum of input data.}
 }
 \description{
-for each xml, map the appropriate colors to the legend
+For each xml, map the appropriate colors to the legend.
 }
 \examples{
 editLegend(cXml, palette, divData, clamp, legend, xmin, xmed, xmad, xmax)
