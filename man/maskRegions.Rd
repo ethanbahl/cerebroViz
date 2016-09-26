@@ -2,7 +2,7 @@
 % Please edit documentation in R/cerebroViz.R
 \name{maskRegions}
 \alias{maskRegions}
-\title{a function used by cerebroViz() to lower opacity for superior regions when data is not provided}
+\title{A function used by cerebroViz() to lower opacity for superior regions when data is not provided.}
 \usage{
 maskRegions(cXml, supReg, lupiter)
 }
@@ -14,10 +14,9 @@ maskRegions(cXml, supReg, lupiter)
 \item{lupiter}{hex gradient indices for current iteration (timePoint) in the loop, specified within cerebroViz().}
 }
 \description{
-for each missing superior region, set opacity to 0.
+For each missing superior region, set opacity to 0.
 }
 \examples{
 maskRegions(cXml, supReg, lupiter)
 }
 \keyword{internal}
-
