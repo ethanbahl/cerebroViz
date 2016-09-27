@@ -2,7 +2,7 @@
 % Please edit documentation in R/cerebroViz.R
 \name{rescale}
 \alias{rescale}
-\title{A function from the 'gplots' package used by cerebroViz() to convert color values to hex values.}
+\title{A function from the 'scales' package used by cerebroViz() to scale input data.}
 \usage{
 rescale(resc_inp, to = c(0, 1), from = range(resc_inp, na.rm = TRUE, finite
   = TRUE))

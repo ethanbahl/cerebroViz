@@ -484,7 +484,34 @@ col2hex <- function(cname)
         )
   }
 
-  #' A function from the 'gplots' package used by cerebroViz() to convert color values to hex values.
+  #' A function from the 'scales' package used by the internal scales() to determine if range of vector is close to zero, with a specified tolerance.
+  #'
+  #' The machine epsilon is the difference between 1.0 and the next number that can be represented by the machine. By default, this function uses epsilon * 1000 as the tolerance. First it scales the values so that they have a mean of 1, and then it checks if the difference between them is larger than the tolerance.
+  #' @param x numeric vector of length 2.
+  #' @param tol A value specifying the tolerance.
+  #' @keywords internal
+  #' @examples
+  #' eps <- .Machine$double.eps
+  #' zero_range(c(1, 1 + eps))       # TRUE
+  zero_range <- function (x, tol = 1000 * .Machine$double.eps) 
+  {
+      if (length(x) == 1)
+          return(TRUE)
+      if (length(x) != 2)
+          stop("x must be length 1 or 2")
+      if (any(is.na(x)))
+          return(NA)
+      if (x[1] == x[2])
+          return(TRUE)
+      if (all(is.infinite(x)))
+          return(FALSE)
+      m <- min(abs(x))
+      if (m == 0)
+          return(FALSE)
+      abs((x[1] - x[2])/m) < tol
+  }
+
+  #' A function from the 'scales' package used by cerebroViz() to scale input data.
   #'
   #' For each input color, convert to a hex value.
   #' @param resc_inp numeric vector of values to manipulate.
