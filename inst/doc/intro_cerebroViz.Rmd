@@ -107,7 +107,7 @@ cerebroViz(cerebroEx, divData = TRUE, timePoint = 11, filePrefix = 'divergent')
 The removal of outliers from data is crucial to producing interpretable visualizations. For example, if we set the data for the cerebellum in our example data `cerebroEx` to an extremely high value: 
 
 ```{r, echo=TRUE, warning=FALSE}
-cerebroEx -> ex1_out
+ex1_out <- cerebroEx
 
 ex1_out["CB",11] <- 55
 ```
@@ -128,6 +128,22 @@ cerebroViz(ex1_out, clamp = 3, timePoint = 11, filePrefix = 'outlier_clamped')
 ```
 <img class="svg" src="outlier_clamped_outer_11.svg"><img class="svg" src="outlier_clamped_slice_11.svg">
 
+***
+***
+<p align="right"> [Back to top](#top)</p>
+
+## Comparisons
+
+It is often useful to compare observations across corresponding time points, such as with gene or isoform expression. So long as the data are collected in comparable units, like RPKM, they can be compared by subtracting the matricies from one another and visualized with `cerebroViz()`.
+
+```{r, echo=TRUE, warning=FALSE}
+ex_dif <- cerebroEx[,1:3] - cerebroEx2[,1:3]
+
+cerebroViz(ex_dif, filePrefix = 'ex_dif')
+```
+<img class="svg" src="ex_dif_outer_1.svg"><img class="svg" src="ex_dif_slice_1.svg">
+
+In these diagrams, a positive value indicates higher expression in `cerebroEx` relative to `cerebroEx2`, while a negative value corresponds to higher expression of `cerebroEx2`. In this case, it appears  `cerebroEx` is always higher. 
 
 ***
 ***

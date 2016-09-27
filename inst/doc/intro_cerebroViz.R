@@ -33,7 +33,7 @@ summary(as.vector(cerebroEx))
 cerebroViz(cerebroEx, divData = TRUE, timePoint = 11, filePrefix = 'divergent')
 
 ## ---- echo=TRUE, warning=FALSE-------------------------------------------
-cerebroEx -> ex1_out
+ex1_out <- cerebroEx
 
 ex1_out["CB",11] <- 55
 
@@ -42,6 +42,11 @@ cerebroViz(ex1_out, timePoint = 11, filePrefix = 'outlier')
 
 ## ---- echo=TRUE, warning=FALSE-------------------------------------------
 cerebroViz(ex1_out, clamp = 3, timePoint = 11, filePrefix = 'outlier_clamped')
+
+## ---- echo=TRUE, warning=FALSE-------------------------------------------
+ex_dif <- cerebroEx[,1:3] - cerebroEx2[,1:3]
+
+cerebroViz(ex_dif, filePrefix = 'ex_dif')
 
 ## ---- echo=TRUE, warning=FALSE-------------------------------------------
 cerebroEx -> ex1
