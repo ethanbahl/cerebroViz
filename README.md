@@ -3,13 +3,18 @@ cerebroViz is a data mapping tool for visualizing spatiotemporal
     data in the brain. The user inputs a matrix of data and the tool outputs
     publication quality SVG diagrams with color mapping reflective of the input
     data. cerebroViz supports 30 brain regions used by BrainSpan, GTEx, Roadmap
-    Epigenomics, and more.
+    Epigenomics, and more. cerebroViz depends on R (>= 3.3.0) and XML (>= 3.98-1.4).
 
 # cerebroViz Installation
 cerebroViz can be downloaded directly through the repository on GitHub or within R with the following commands.
 ```
 library(devtools)
 install_github("ethanbahl/cerebroViz")
+```
+Alternatively, cerebroViz may be installed from source. If you do not have the 'XML' package installed, you will need to do that first.
+```
+install.packages("XML")
+install.packages("path_to_downloaded_tarball")
 ```
 The vignette can be accessed in R with the following command.
 ```
