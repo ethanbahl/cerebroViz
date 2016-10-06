@@ -11,7 +11,7 @@ cerebroViz can be downloaded directly through the repository on GitHub or within
 library(devtools)
 install_github("ethanbahl/cerebroViz")
 ```
-Alternatively, cerebroViz may be installed from source. If you do not have the 'XML' package installed, you will need to do that first.
+Alternatively, cerebroViz may be installed from source in the release folder of the GitHub repo at https://github.com/ethanbahl/cerebroViz/tree/master/release. If you do not have the 'XML' package installed, you will need to do that first before installing the source tarball.
 ```
 install.packages("XML")
 install.packages("path_to_downloaded_tarball")
