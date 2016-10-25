@@ -16,6 +16,7 @@ Alternatively, cerebroViz may be installed from source in the release folder of 
 install.packages("XML")
 install.packages("path_to_downloaded_tarball")
 ```
+# cerebroViz Tutorial
 The vignette can be accessed in R with the following command.
 ```
 vignette(topic="intro_cerebroViz", package="cerebroViz")
