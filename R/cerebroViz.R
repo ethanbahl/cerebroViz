@@ -137,7 +137,18 @@ cerebroViz <- function(x, filePrefix = "cerebroViz_output", palette = NULL,
         saveXML(sXml, paste(filePrefix, "_slice_", timePoint[indA], ".svg",
             sep = ""))
     }
-    message(paste("Success! Your diagrams have been saved to ", getwd(), sep=""))
+    
+    if (filePrefix == "cerebroViz_output") {
+        print(paste("Success! Your diagrams have been saved to ", getwd(), sep=""))
+    }
+
+    if (filePrefix != "cerebroViz_output" & length(unlist(strsplit(filePrefix, split="\\/"))) > 1) {
+        print(paste("Success! Your diagrams have been saved to ", filePrefix, sep=""))
+    }
+
+    if (filePrefix != "cerebroViz_output" & length(unlist(strsplit(filePrefix, split="\\/"))) == 1) {
+        print(paste("Success! Your diagrams have been saved to ", getwd(), sep=""))
+    }
 }
 
 #' A function to scale sequential and divergent data to a 0:1 range
