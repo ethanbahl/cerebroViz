@@ -139,15 +139,15 @@ cerebroViz <- function(x, filePrefix = "cerebroViz_output", palette = NULL,
     }
     
     if (filePrefix == "cerebroViz_output") {
-        print(paste("Success! Your diagrams have been saved to ", getwd(), sep=""))
+        message(paste("Success! Your diagrams have been saved to ", getwd(), sep=""))
     }
 
     if (filePrefix != "cerebroViz_output" & length(unlist(strsplit(filePrefix, split="\\/"))) > 1) {
-        print(paste("Success! Your diagrams have been saved to ", filePrefix, sep=""))
+        message(paste("Success! Your diagrams have been saved to ", filePrefix, sep=""))
     }
 
     if (filePrefix != "cerebroViz_output" & length(unlist(strsplit(filePrefix, split="\\/"))) == 1) {
-        print(paste("Success! Your diagrams have been saved to ", getwd(), sep=""))
+        message(paste("Success! Your diagrams have been saved to ", getwd(), sep=""))
     }
 }
 
