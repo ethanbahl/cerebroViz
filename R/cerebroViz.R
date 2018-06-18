@@ -21,7 +21,7 @@
 #' cerebroViz(cerebroEx)
 cerebroViz <- function(x, filePrefix = "cerebroViz_output", palette = NULL,
     timePoint = 1, divData = FALSE, secPalette = c("white", "black", "white"),
-    clamp = NULL, naHatch = FALSE, legend = TRUE, customNames = NULL, figLabel = FALSE, regLabel = FALSE) {
+    clamp = NULL, naHatch = FALSE, legend = TRUE, customNames = NULL, figLabel = FALSE, regLabel = FALSE, center_zero=FALSE) {
     require(XML)
 
     if (is.null(palette) & divData == FALSE) {
@@ -104,7 +104,7 @@ cerebroViz <- function(x, filePrefix = "cerebroViz_output", palette = NULL,
     rownames(naMatrix) <- regions[which(regions %in% rownames(x) == FALSE)]
     dataMatrix <- rbind(x, naMatrix)
     dataMatrix <- as.matrix(dataMatrix[order(rownames(dataMatrix)), ])
-    xScaled <- cerebroScale(dataMatrix, clamp, divData)
+    xScaled <- cerebroScale(dataMatrix, clamp, divData, center_zero)
     hexInd <- round(xScaled * 200 + 1)
     f <- colorRampPalette(palette)
     hexVec <- f(201)
@@ -128,7 +128,7 @@ cerebroViz <- function(x, filePrefix = "cerebroViz_output", palette = NULL,
         cXml <- editPal(lupiter, cXml, hexVec, naHatch)
         cXml <- maskRegions(cXml, supReg, lupiter)
         cXml <- editLegend(cXml, palette, divData, clamp, legend, xmin,
-            xmed, xmad, xmax)
+            xmed, xmad, xmax, center_zero)
         cXml <- editLabel(cXml, timePoint, figLabel, x, indA, regLabel, inpReg)
         oXml <- cXml[1][[1]]
         sXml <- cXml[2][[1]]
@@ -162,7 +162,7 @@ cerebroViz <- function(x, filePrefix = "cerebroViz_output", palette = NULL,
 #' @examples
 #' cerebroScale(x, clamp = NULL, divData=FALSE)
 # cerebroScale
-cerebroScale <- function(x, clamp, divData) {
+cerebroScale <- function(x, clamp, divData, center_zero) {
     xmed <- median(x, na.rm = TRUE)
     xmad <- mad(x, constant = 1, na.rm = TRUE)
     xmin <- min(x, na.rm = TRUE)
@@ -185,7 +185,7 @@ cerebroScale <- function(x, clamp, divData) {
             sep = ""))
     }
 
-    if (divData == TRUE) {
+    if (divData == TRUE & center_zero == FALSE) {
         abvMed <- x[x >= xmed & x <= (xmed + outlrs) & !is.na(x)]
         belMed <- x[x <= xmed & x >= (xmed - outlrs) & !is.na(x)]
         if (length(which(!is.na(x)))%%2 == 0) {
@@ -207,6 +207,29 @@ cerebroScale <- function(x, clamp, divData) {
             fillMatrix[x > (xmed + outlrs) & !is.na(x)] <- 1
             xScaled <- fillMatrix
         }
+    }
+    if (divData == TRUE & center_zero == TRUE) {
+      abvMed <- x[x >= 0 & x <= (0 + outlrs) & !is.na(x)]
+      belMed <- x[x <= 0 & x >= (0 - outlrs) & !is.na(x)]
+      if (length(which(!is.na(x)))%%2 == 0) {
+        # imputing median if even number of data points
+        rightsc <- rescale(c(0, abvMed), c(0.5, 1))[-1]
+        fillMatrix[x >= 0 & x <= (0 + outlrs) & !is.na(x)] <- rightsc
+        leftsc <- rescale(c(0, belMed), c(0, 0.5))[-1]
+        fillMatrix[x <= 0 & x >= (0 - outlrs) & !is.na(x)] <- leftsc
+        fillMatrix[x < (0 - outlrs) & !is.na(x)] <- 0
+        fillMatrix[x > (0 + outlrs) & !is.na(x)] <- 1
+        xScaled <- fillMatrix
+      }
+      if ((length(which(!is.na(x))))%%2 == 1) {
+        rightsc <- rescale(abvMed, c(0.5, 1))
+        fillMatrix[x >= 0 & x <= (0 + outlrs) & !is.na(x)] <- rightsc
+        leftsc <- rescale(belMed, c(0, 0.5))
+        fillMatrix[x <= 0 & x >= (0 - outlrs) & !is.na(x)] <- leftsc
+        fillMatrix[x < (0 - outlrs) & !is.na(x)] <- 0
+        fillMatrix[x > (0 + outlrs) & !is.na(x)] <- 1
+        xScaled <- fillMatrix
+      }
     }
     if (divData == FALSE) {
         nonoutlrs <- x[x >= (xmed - outlrs) & x <= (xmed + outlrs) & !is.na(x)]
@@ -335,10 +358,11 @@ editPal <- function(lupiter, cXml, hexVec, naHatch) {
 #' @examples
 #' editLegend(cXml, palette, divData, clamp, legend, xmin, xmed, xmad, xmax)
 editLegend <- function(cXml, palette, divData, clamp, legend, xmin, xmed,
-    xmad, xmax) {
+    xmad, xmax, center_zero) {
     labmin <- round(max(xmin, (xmed - (clamp * xmad))), 3)
     labmax <- round(min(xmax, (xmed + (clamp * xmad))), 3)
-    labmed <- round(xmed, 3)
+    if(center_zero == F){labmed <- round(xmed, 3)}
+    else{labmed <- 0}
     labels <- c(labmin, labmed, labmax)
     stopoffset <- paste(as.character(seq(0, 100, (100/(length(palette) -
         1)))), "%", sep = "")
