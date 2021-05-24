@@ -6,7 +6,7 @@ cerebroViz is a data mapping tool for visualizing spatiotemporal
     Epigenomics, and more. cerebroViz depends on R (>= 3.3.0) and XML (>= 3.98-1.4).
 
 ## Publication
-The publication _cerebroViz: an R package for anatomical visualization of spatiotemporal brain data_ can be found here: https://pubmed.ncbi.nlm.nih.gov/28011779/
+The publication, _'cerebroViz: an R package for anatomical visualization of spatiotemporal brain data'_ can be found here: https://pubmed.ncbi.nlm.nih.gov/28011779/
 
 # cerebroViz Installation
 cerebroViz can be downloaded directly through the repository on GitHub or within R with the following commands.
