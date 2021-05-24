@@ -5,6 +5,9 @@ cerebroViz is a data mapping tool for visualizing spatiotemporal
     data. cerebroViz supports 30 brain regions used by BrainSpan, GTEx, Roadmap
     Epigenomics, and more. cerebroViz depends on R (>= 3.3.0) and XML (>= 3.98-1.4).
 
+## Publication
+The publication _cerebroViz: an R package for anatomical visualization of spatiotemporal brain data_ can be found here: https://pubmed.ncbi.nlm.nih.gov/28011779/
+
 # cerebroViz Installation
 cerebroViz can be downloaded directly through the repository on GitHub or within R with the following commands.
 ```
