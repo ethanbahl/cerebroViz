@@ -37,7 +37,7 @@ cerebroViz <- function(x, filePrefix = "cerebroViz_output", palette = NULL,
         "PL", "PIT", "PUT", "PON", "S1C", "SN", "STC", "STR", "TL", "THA",
         "V1C", "VFC")
 
-    if (class(x) != "matrix")
+    if (!any(class(x) %in% "matrix"))
         stop("'x' must be of class 'matrix'.")
     if (sum(is.na(rownames(x))) > 0)
         stop("Row names of 'x' must be valid.")
